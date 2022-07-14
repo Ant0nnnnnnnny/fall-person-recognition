@@ -2,7 +2,11 @@ import wget
 import logging
 url_0 = 'http://fenix.univ.rzeszow.pl/~mkepski/ds/data/fall-'
 url_1 = '-cam0-rgb.zip'  # 目标路由，下载的资源是图片
+<<<<<<< Updated upstream
 path = 'dataset/'  # 保存的路径
+=======
+path = 'dataset/zip/'  # 保存的路径
+>>>>>>> Stashed changes
 url = None
 for i in range(1,31):
     try:
