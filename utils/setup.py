@@ -21,7 +21,7 @@ def setup_logging():
 
     return logger
 
-def setup():
-    setup_device()
-    setup_seed()
+def setup(args):
+    setup_device(args)
+    setup_seed(args)
     setup_logging()
