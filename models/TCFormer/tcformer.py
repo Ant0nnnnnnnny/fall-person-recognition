@@ -10,7 +10,6 @@ from .tcformer_utils import (
 from .transformer_utils import trunc_normal_
 
 
-import logging 
 class TCFormer(nn.Module):
     def __init__(
             self, img_size=224, in_chans=3, embed_dims=[64, 128, 256, 512],
@@ -143,8 +142,8 @@ class TCFormer(nn.Module):
         return outs
 
     def forward(self, x):
-        y = self.forward_features(x[1])
-        return x[0],y
+        y = self.forward_features(x)
+        return y
 
 
 class tcformer_light(TCFormer):
