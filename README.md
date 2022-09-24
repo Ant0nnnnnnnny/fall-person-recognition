@@ -53,7 +53,7 @@ A light network to recognize fallen person.
     - [x] MPII
     - [x] Fallen
     
-- [ ] **TCFormer**
+- [x] **TCFormer**
     - [x] Code
     - [x] Result(Possible)
 - [ ] **HRNet**

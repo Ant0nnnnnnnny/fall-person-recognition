@@ -1,4 +1,7 @@
+from turtle import forward
 import torch
+from torch import nn
+
 from models.TCFormer.backbone.tcformer import tcformer
 from models.TCFormer.neck.mta import MTA
 from models.TCFormer.head.pose_resnet import TopdownHeatmapSimpleHead
