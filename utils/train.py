@@ -1,15 +1,10 @@
 import time
 import logging
 import os
-from models.TCFormer import tcformer
-
 import numpy as np
 import torch
-
-from utils.evaluate import accuracy, get_final_preds
-from utils.loss import JointsMSELoss
-from utils.transforms import flip_back
-from utils.vis import save_debug_images
+from .evaluate import accuracy, get_final_preds
+from .vis import save_debug_images
 def train(args,train_loader,model,optimizer, epoch,loss_func, log_writer):
     batch_time = AverageMeter()
     data_time = AverageMeter()
