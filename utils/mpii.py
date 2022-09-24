@@ -245,7 +245,8 @@ class JointsDataset(Dataset):
                 br = [int(mu_x + tmp_size + 1), int(mu_y + tmp_size + 1)]
                 if ul[0] >= self.heatmap_size[0] or ul[1] >= self.heatmap_size[1] \
                         or br[0] < 0 or br[1] < 0:
-                    # If not, just return the image as is
+
+
                     target_weight[joint_id] = 0
                     continue
 
@@ -254,7 +255,7 @@ class JointsDataset(Dataset):
                 x = np.arange(0, size, 1, np.float32)
                 y = x[:, np.newaxis]
                 x0 = y0 = size // 2
-                # The gaussian is not normalized, we want the center value to equal 1
+
                 g = np.exp(- ((x - x0) ** 2 + (y - y0) ** 2) / (2 * self.sigma ** 2))
 
                 # Usable gaussian range

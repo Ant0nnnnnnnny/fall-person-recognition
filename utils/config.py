@@ -1,4 +1,5 @@
 import argparse
+import os
 
 
 def parse_args():
@@ -11,14 +12,18 @@ def parse_args():
     parser.add_argument('--model_name',type=str, default='TCFormer Pose Estimation')
     parser.add_argument('--seed', type=int, default=7310, help='Random seed.')
 
-    parser.add_argument('--dataset_root',type=str, default='dataset\\PoseData')
+    parser.add_argument('--dataset_root',type=str, default=os.path.join('dataset','PoseData'))
 
     parser.add_argument('--ckpg_dir',type=str, default='checkpoints')
+
+    parser.add_argument('--inference_dir',type=str,default=os.path.join('output','inference'))
+
 
     # ===============================Data ================================
 
     parser.add_argument('--img_shape', type=list, default=[192,256],
                         help='the input images shape.')        
+
 
     parser.add_argument('--prefetch', default=16, type=int,
                         help="use for training duration per worker")

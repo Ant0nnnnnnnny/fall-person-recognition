@@ -24,4 +24,4 @@ def setup_logging():
 def setup(args):
     setup_device(args)
     setup_seed(args)
-    setup_logging()
+    return setup_logging()

@@ -34,10 +34,10 @@ class TCFormer(nn.Module):
         self.in_channs = in_chans
         self.k = k
 
-        dpr = [x.item() for x in torch.linspace(0, drop_path_rate, sum(depths))]  # stochastic depth decay rule
+        dpr = [x.item() for x in torch.linspace(0, drop_path_rate, sum(depths))]  
         cur = 0
 
-        # In stage 1, use the standard transformer blocks
+        # stage 1
         for i in range(1):
             patch_embed = OverlapPatchEmbed(img_size=img_size if i == 0 else img_size // (2 ** (i + 1)),
                                             patch_size=7 if i == 0 else 3,

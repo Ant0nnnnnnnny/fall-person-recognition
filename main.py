@@ -1,22 +1,30 @@
 
 import logging
+import time
+
 
 from utils.config import parse_args
-from utils.data_loader import get_dataloaders
+
+from utils.data_loader import get_dataloaders, get_inference_dataloader
 from utils.loss import JointsMSELoss
 from utils.optimizer import build_optimizer
-from utils.utils import save_checkpoint
+from utils.tools import inference, save_checkpoint
+
 from utils.train import validate
 from utils.setup import setup
 from utils.train import train
 
-from models.pose_model import TCFormerPose
+
+from models.TCFormer.pose_model import TCFormerPose
+
 
 import torch
 
 import numpy as np
-
 import os
+
+import warnings
+warnings.filterwarnings("ignore")
 
 from tensorboardX import SummaryWriter
 
@@ -28,8 +36,10 @@ def main(args):
         'train_global_steps': 0,
         'valid_global_steps': 0,
     }
+
     loss_func = JointsMSELoss(True).cuda()
     model = TCFormerPose(args)
+
     model = torch.nn.DataParallel(model).cuda()
     best_perf = 0.0
     best_model = False
@@ -91,9 +101,27 @@ def main(args):
     torch.save(model.module.state_dict(), final_model_state_file)
     writer_dict['writer'].close()
 
+
+def inf(args):
+    model = TCFormerPose(args)
+    model = torch.nn.DataParallel(model).cuda()
+    checkpoint_file = os.path.join(
+        args.ckpg_dir, 'checkpoint.pth'
+    )
+    checkpoint = torch.load(checkpoint_file)
+    model.load_state_dict(checkpoint['state_dict'])
+    dataset = get_inference_dataloader(args)
+    start_time = time.time()
+    for i, (x, _, _, meta) in enumerate(dataset):
+        inference(model,args,x,i,meta,'offline')
+        end_time = time.time()
+        logging.info('{0}/{1} finished, {2} seconds/sample.{3} fps'.format(i,len(dataset),(end_time - start_time)/args.test_batch_size,args.test_batch_size/(end_time - start_time)))
+        start_time = time.time()
+        if i == 4:
+            break
 if __name__ == '__main__':
 
     args = parse_args()
     setup(args)
-    main(args)
- 
+    # main(args)
+    inf(args)

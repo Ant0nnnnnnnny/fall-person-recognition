@@ -1,14 +1,17 @@
 import logging
-import os
-from torch.utils.data import DataLoader, Dataset, RandomSampler, SequentialSampler
-import torch
-import json
-import tarfile
-import cv2
-import numpy as np
+from torch.utils.data import DataLoader, RandomSampler, SequentialSampler
 from functools import partial
 
 from utils.mpii import MPIIDataset
+def get_inference_dataloader(args):
+    dataset = MPIIDataset(args,args.dataset_root,'test',False)
+    sampler = RandomSampler(dataset)
+    dataloader_class = partial(DataLoader, pin_memory=True, num_workers=0)
+    test_dataloader = dataloader_class(dataset,
+                                        batch_size=args.test_batch_size,
+                                        sampler=sampler,
+                                        drop_last=True)
+    return test_dataloader
 
 def get_dataloaders(args):
     train_dataset = MPIIDataset(args,args.dataset_root,'train',True)
