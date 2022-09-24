@@ -1,75 +1,126 @@
-import time
+
 import logging
+import time
 
-from matplotlib import cm
-import matplotlib.pyplot as plt
+
 from utils.config import parse_args
-from utils.data_loader import get_dataloaders
+from utils.data_loader import get_dataloaders, get_inference_dataloader
+from utils.loss import JointsMSELoss
 from utils.optimizer import build_optimizer
-from utils.validate import validate
+from utils.tools import inference, save_checkpoint
+from utils.train import validate
 from utils.setup import setup
+from utils.train import train
 
-from models.TCFormer.tcformer import tcformer
+from models.TCFormer.pose_model import TCFormerPose
 
 import torch
 
 import numpy as np
 
-def train(args):
-    # 1. load data
-    train_dataloader, val_dataloader = get_dataloaders(args)
-    # 2. build model and optimizers
-    model = tcformer(img_size=args.img_shape,return_map  =True)
-    logging.info('Model initialization finished.')
-    optimizer, scheduler = build_optimizer(args, model)
-    if torch.cuda.is_available():
-        logging.info('model will be running on gpu.')
-        model = torch.nn.parallel.DataParallel(model.cuda())
-    model.eval()
-    logging.info('Training begin.')
-    # 3. training
-    step = 0
+
+import os
+
+import warnings
+warnings.filterwarnings("ignore")
+
+from tensorboardX import SummaryWriter
+
+def main(args):
+
+    train_dataloader,val_dataloader,train_dataset, val_data_set = get_dataloaders(args)
+    writer_dict = {
+        'writer': SummaryWriter(log_dir=args.log_dir),
+        'train_global_steps': 0,
+        'valid_global_steps': 0,
+    }
+    
+    loss_func = JointsMSELoss(True).cuda()
+    model = TCFormerPose(args)
+
+    model = torch.nn.DataParallel(model).cuda()
+    best_perf = 0.0
+    best_model = False
+    last_epoch = -1
+    optimizer,scheduler = build_optimizer(args, model)
+    begin_epoch = 0
+    checkpoint_file = os.path.join(
+        args.ckpg_dir, 'checkpoint.pth'
+    )
+
+    if args.auto_resume and os.path.exists(checkpoint_file):
+        logging.info("=> loading checkpoint '{}'".format(checkpoint_file))
+        checkpoint = torch.load(checkpoint_file)
+        begin_epoch = checkpoint['epoch']
+        best_perf = checkpoint['perf']
+        last_epoch = checkpoint['epoch']
+        model.load_state_dict(checkpoint['state_dict'])
+
+        optimizer.load_state_dict(checkpoint['optimizer'])
+        logging.info("=> loaded checkpoint '{}' (epoch {})".format(
+            checkpoint_file, checkpoint['epoch']))
+
+
+    for epoch in range(begin_epoch, args.max_epochs):
+
+        # train for one epoch
+        train(args, train_dataloader, model, optimizer, epoch, loss_func,
+              writer_dict)
+
+
+        # evaluate on validation set
+        perf_indicator,val_loss = validate(
+            args, val_dataloader, val_data_set, model,loss_func,
+           writer_dict
+        )
+        scheduler.step(val_loss)
+        if perf_indicator >= best_perf:
+            best_perf = perf_indicator
+            best_model = True
+        else:
+            best_model = False
+
+        logging.info('=> saving checkpoint to {}'.format(args.ckpg_dir))
+        save_checkpoint({
+            'epoch': epoch + 1,
+            'model': args.model_name,
+            'state_dict': model.state_dict(),
+            'best_state_dict': model.module.state_dict(),
+            'perf': perf_indicator,
+            'optimizer': optimizer.state_dict(),
+        }, best_model, args.ckpg_dir)
+
+    final_model_state_file = os.path.join(
+        args.ckpg_dir, 'final_state.pth'
+    )
+    logging.info('=> saving final model state to {}'.format(
+        final_model_state_file)
+    )
+    torch.save(model.module.state_dict(), final_model_state_file)
+    writer_dict['writer'].close()
+
+def inf(args):
+    model = TCFormerPose(args)
+    model = torch.nn.DataParallel(model).cuda()
+    checkpoint_file = os.path.join(
+        args.ckpg_dir, 'checkpoint.pth'
+    )
+    checkpoint = torch.load(checkpoint_file)
+    model.load_state_dict(checkpoint['state_dict'])
+    dataset = get_inference_dataloader(args)
     start_time = time.time()
-    num_total_steps = len(train_dataloader) * args.max_epochs
-    for epoch in range(args.max_epochs):
-        for batch in train_dataloader:
-            model.train()
-            name,result = model(batch)
-            logging.info(name)
-            r = np.array(result)
-            logging.info("batch result0: "+ str(r[0].shape)+",batch result1: "+ str(r[1].shape)+",batch result2: "+ str(r[2].shape)+",batch result3: "+ str(r[3].shape))
-            ax=plt.subplot()
-            logging.info(torch.Tensor.cpu(r[0][0][0]).detach().numpy().shape)
-            im=ax.imshow(torch.Tensor.cpu(r[0][0][0]).detach().numpy(),cmap=cm.get_cmap())#绘制 可通过更改cmap改变颜色
-            plt.show()
-            # logging.info(loss)
-            # loss = loss.mean()
-            # accuracy = accuracy.mean()
-            # loss.backward()
-            optimizer.step()
-            optimizer.zero_grad()
-
-
-            step += 1
-            if step % args.print_steps == 0:
-                time_per_step = (time.time() - start_time) / max(1, step)
-                remaining_time = time_per_step * (num_total_steps - step)
-                remaining_time = time.strftime('%H:%M:%S', time.gmtime(remaining_time))
-                logging.info(f"Epoch {epoch} step {step} eta {remaining_time}: loss {loss:.3f}")
-
-        # 4. validation
-
-        loss = validate(model, val_dataloader)
-        scheduler.step(loss)
-        results = {k: round(v, 4) for k, v in results.items()}
-        logging.info(f"Epoch {epoch} step {step}: loss {loss:.3f}")
-
-        # 5. save checkpoint
-
-        state_dict = model.module.state_dict() if args.device == 'cuda' else model.state_dict()
-        torch.save({'epoch': epoch, "step":step,'model_state_dict': state_dict,'optimizer':optimizer.state_dict(),'scheduler':scheduler.state_dict()},
-                       f'{args.savedmodel_path}/model_epoch_{epoch}.bin')
+    for i, (x, _, _, meta) in enumerate(dataset):
+        inference(model,args,x,i,meta,'offline')
+        end_time = time.time()
+        logging.info('{0}/{1} finished, {2} seconds/sample.{3} fps'.format(i,len(dataset),(end_time - start_time)/args.test_batch_size,args.test_batch_size/(end_time - start_time)))
+        start_time = time.time()
+        if i == 4:
+            break
 if __name__ == '__main__':
+
     args = parse_args()
     setup(args)
-    train(args)
+    # main(args)
+    inf(args)
+
+ 
