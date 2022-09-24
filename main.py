@@ -4,21 +4,23 @@ import time
 
 
 from utils.config import parse_args
+
 from utils.data_loader import get_dataloaders, get_inference_dataloader
 from utils.loss import JointsMSELoss
 from utils.optimizer import build_optimizer
 from utils.tools import inference, save_checkpoint
+
 from utils.train import validate
 from utils.setup import setup
 from utils.train import train
 
+
 from models.TCFormer.pose_model import TCFormerPose
+
 
 import torch
 
 import numpy as np
-
-
 import os
 
 import warnings
@@ -34,7 +36,7 @@ def main(args):
         'train_global_steps': 0,
         'valid_global_steps': 0,
     }
-    
+
     loss_func = JointsMSELoss(True).cuda()
     model = TCFormerPose(args)
 
@@ -99,6 +101,7 @@ def main(args):
     torch.save(model.module.state_dict(), final_model_state_file)
     writer_dict['writer'].close()
 
+
 def inf(args):
     model = TCFormerPose(args)
     model = torch.nn.DataParallel(model).cuda()
@@ -122,5 +125,3 @@ if __name__ == '__main__':
     setup(args)
     # main(args)
     inf(args)
-
- 

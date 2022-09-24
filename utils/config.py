@@ -18,10 +18,12 @@ def parse_args():
 
     parser.add_argument('--inference_dir',type=str,default=os.path.join('output','inference'))
 
+
     # ===============================Data ================================
 
     parser.add_argument('--img_shape', type=list, default=[192,256],
                         help='the input images shape.')        
+
 
     parser.add_argument('--prefetch', default=16, type=int,
                         help="use for training duration per worker")

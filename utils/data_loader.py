@@ -1,6 +1,7 @@
 import logging
 from torch.utils.data import DataLoader, RandomSampler, SequentialSampler
 from functools import partial
+
 from utils.mpii import MPIIDataset
 def get_inference_dataloader(args):
     dataset = MPIIDataset(args,args.dataset_root,'test',False)
