@@ -8,8 +8,7 @@ def parse_args():
 
     parser = argparse.ArgumentParser(
         description='Arguments for person pose estimation.')
-
-    parser.add_argument('--model_name',type=str, default='TCFormer Pose Estimation')
+    parser.add_argument('--model_name',type=str, default='tcformer')
     parser.add_argument('--seed', type=int, default=7310, help='Random seed.')
 
     parser.add_argument('--dataset_root',type=str, default=os.path.join('dataset','PoseData'))
@@ -29,7 +28,7 @@ def parse_args():
                         help="use for training duration per worker")
 
     parser.add_argument('--num_workers', default=0, type=int,
-                        help="num_workers for dataloaders")
+                        help="num_workers for dataloader")
 
     parser.add_argument('--batch_size', default=8, type=int,
                         help="use for training duration per worker")
@@ -58,47 +57,13 @@ def parse_args():
                         help='the patient in scheduler ReduceLROnPlateau.')
 
     parser.add_argument('--scheduler_min_lr', type=float,
-                        default=1e-5, help='the min learing rate.')
+                        default=1e-5, help='the min learning rate.')
 
     # ============================= Model Configs =====================
-    parser.add_argument('--num_keypoints', type=int,
-                        default=16)
-
-    parser.add_argument('--heatmap_size', type=list,
-                        default=[48,64])      
-
-    parser.add_argument('--sigma', type=float,
-                        default=2.0)                    
-
-    parser.add_argument('--mta_in_channels', type=list,
-                        default=[64, 128, 320, 512])
-
-    parser.add_argument('--mta_out_channels', type=int, default=256)
-
-    parser.add_argument('--mta_start_level', type=int, default=0)
-
-    parser.add_argument('--mta_add_extra_convs', type=str, default='on_input')
-
-    parser.add_argument('--mta_num_heads', type = list, default=[4,4,4,4])
-
-    parser.add_argument('--mta_mlp_ratios', type = list, default=[4,4,4,4])
-
-    parser.add_argument('--mta_num_outs', type = int, default=4)
-
-    parser.add_argument('--mta_use_sr_layer', type = bool, default=False)
-
-
-
-    parser.add_argument('--head_in_channels', type = int, default=256)
-
-    # parser.add_argument('--head_out_channels', type = int, default=16)
-
-    parser.add_argument('--head_num_deconv_layers', type = int, default=0)
-    
-    parser.add_argument('--head_extra', type = dict, default=dict(final_conv_kernel=1, ))
-
-    parser.add_argument('--head_loss_keypoint', type = dict, default=dict(type='JointsMSELoss', use_target_weight=True))
-
+    '''
+    Moved to configs/
+    '''
+    parser.add_argument('--config_dir', type = str, default= 'configs')
     # ============================ train ========================================
 
     parser.add_argument('--max_epochs', type=int, default=100)
