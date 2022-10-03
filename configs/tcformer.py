@@ -1,12 +1,8 @@
-def add_config(parser):
+def tcformers_config(parser):
     parser.add_argument('--num_keypoints', type=int,
                         default=16)
 
-    parser.add_argument('--heatmap_size', type=list,
-                        default=[48,64])      
-
-    parser.add_argument('--sigma', type=float,
-                        default=2.0)                    
+               
 
     parser.add_argument('--mta_in_channels', type=list,
                         default=[64, 128, 320, 512])
@@ -29,7 +25,6 @@ def add_config(parser):
 
     parser.add_argument('--head_in_channels', type = int, default=256)
 
-    # parser.add_argument('--head_out_channels', type = int, default=16)
 
     parser.add_argument('--head_num_deconv_layers', type = int, default=0)
     

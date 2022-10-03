@@ -2,6 +2,9 @@ import torch
 import random
 import numpy as np
 import logging
+from configs.msnet import msnet_config
+from configs.tcformer import tcformers_config
+
 def setup_device(args):
     args.device = 'cuda' if torch.cuda.is_available() else 'cpu'
     args.n_gpu = torch.cuda.device_count()
@@ -21,7 +24,13 @@ def setup_logging():
 
     return logger
 
-def setup(args):
+def setup(args_parser,args):
+    setup_logging()
+    if args.model_name == 'msnet':
+        args = msnet_config(args_parser)
+    elif args.model_name == 'tcformer':
+        args = tcformers_config(args_parser)
+    args = args.parse_args()
     setup_device(args)
     setup_seed(args)
-    return setup_logging()
+    return args

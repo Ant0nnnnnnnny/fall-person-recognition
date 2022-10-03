@@ -5,17 +5,17 @@ import torch
 import torchvision
 import torch.nn as nn
 from .evaluate import get_max_preds
-import numpy as np
-import logging
 import math
+import matplotlib.pyplot as plt
 
-from utils.vis import save_batch_image_with_joints
-def save_checkpoint(states, is_best, output_dir,
+def save_checkpoint(states, is_best, output_dir,model_name,
                     filename='checkpoint.pth'):
-    torch.save(states, os.path.join(output_dir, filename))
+    torch.save(states, os.path.join(output_dir,model_name,filename))
+    if not os.path.exists( os.path.join(output_dir,model_name)):
+        os.mkdir( os.path.join( output_dir,model_name))
     if is_best and 'state_dict' in states:
         torch.save(states['best_state_dict'],
-                   os.path.join(output_dir, 'model_best.pth'))
+                   os.path.join(output_dir, model_name, 'model_best.pth'))
 
 
 def get_model_summary(model, *input_tensors, item_length=26, verbose=False):
@@ -174,10 +174,11 @@ def inference(model,args,x,index, meta,mode = 'offline',):
                         joint[1] = y * height + padding + joint[1]
                         cv2.circle(ndarr, (int(joint[0]), int(joint[1])), 2, [255, 0, 0], 2)
                     k = k + 1
-        import matplotlib.pyplot as plt
+
+        plt.figure(figsize=(18,10))
         plt.imshow(ndarr)
-        plt.show()
         plt.savefig(os.path.join(args.inference_dir, 'inf-'+str(index)+'.png'))
+        # plt.show()
 
     elif mode == 'real_time':
         pass
