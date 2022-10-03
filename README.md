@@ -56,6 +56,13 @@ A light network to recognize fallen person.
 - [x] **TCFormer**
     - [x] Code
     - [x] Result(Possible)
+      - Acc: 0.87
+      - fps: 1.2 on cpu.
+- [x] **MobileNetV3 with SimpleHead**
+    - [x] Code
+    - [x] Result(Possible)
+      - Acc: 0.74
+      - fps: 35 on cpu.
 - [ ] **HRNet**
     - [ ] Code
     - [ ] Result(Possible)
