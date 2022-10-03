@@ -16,6 +16,7 @@ from utils.train import train
 
 
 from models.TCFormer.pose_model import TCFormerPose
+from models.MobileNet.MSNet import MSNet
 
 
 import torch
@@ -38,8 +39,10 @@ def main(args):
     }
 
     loss_func = JointsMSELoss(True).cuda()
-    model = TCFormerPose(args)
-
+    if args.model_name =='tcformer':
+        model = TCFormerPose(args)
+    elif args.model_name =='msnet':
+        model = MSNet(args)
     model = torch.nn.DataParallel(model).cuda()
     best_perf = 0.0
     best_model = False
@@ -47,7 +50,7 @@ def main(args):
     optimizer,scheduler = build_optimizer(args, model)
     begin_epoch = 0
     checkpoint_file = os.path.join(
-        args.ckpg_dir, 'checkpoint.pth'
+        args.ckpg_dir, args.model_name,'checkpoint.pth'
     )
 
     if args.auto_resume and os.path.exists(checkpoint_file):
@@ -90,7 +93,7 @@ def main(args):
             'best_state_dict': model.module.state_dict(),
             'perf': perf_indicator,
             'optimizer': optimizer.state_dict(),
-        }, best_model, args.ckpg_dir)
+        }, best_model, args.ckpg_dir, args.model_name)
 
     final_model_state_file = os.path.join(
         args.ckpg_dir, 'final_state.pth'
@@ -103,10 +106,13 @@ def main(args):
 
 
 def inf(args):
-    model = TCFormerPose(args)
+    if args.model_name =='tcformer':
+        model = TCFormerPose(args)
+    elif args.model_name =='msnet':
+        model = MSNet(args)
     model = torch.nn.DataParallel(model).cuda()
     checkpoint_file = os.path.join(
-        args.ckpg_dir, 'checkpoint.pth'
+        args.ckpg_dir, args.model_name,'checkpoint.pth'
     )
     checkpoint = torch.load(checkpoint_file)
     model.load_state_dict(checkpoint['state_dict'])
@@ -117,11 +123,9 @@ def inf(args):
         end_time = time.time()
         logging.info('{0}/{1} finished, {2} seconds/sample.{3} fps'.format(i,len(dataset),(end_time - start_time)/args.test_batch_size,args.test_batch_size/(end_time - start_time)))
         start_time = time.time()
-        if i == 4:
-            break
 if __name__ == '__main__':
 
-    args = parse_args()
-    setup(args)
+    args_parser,args = parse_args()
+    args = setup(args_parser,args)
     # main(args)
     inf(args)
