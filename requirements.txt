@@ -1,0 +1,26 @@
+# Usage: pip install -r requirements.txt
+
+# Base ----------------------------------------
+matplotlib>=3.2.2
+numpy>=1.18.5
+opencv-python>=4.1.1
+Pillow>=7.1.2
+PyYAML>=5.3.1
+requests>=2.23.0
+scipy>=1.4.1
+tqdm>=4.64.0
+torch==1.11.0
+torch-tb-profiler==0.4.0
+torchaudio==0.11.0
+torchsampler==0.1.2
+torchsummary==1.5.1
+torchvision==0.12.0
+
+# Plotting ------------------------------------
+pandas>=1.1.4
+seaborn>=0.11.0
+
+# Extras --------------------------------------
+ipython  # interactive notebook
+psutil  # system utilization
+thop>=0.1.1  # FLOPs computation

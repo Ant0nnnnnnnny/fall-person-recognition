@@ -1,6 +1,5 @@
+## TCformer-loss-----------------------------------
 import torch.nn as nn
-
-
 class JointsMSELoss(nn.Module):
     def __init__(self, use_target_weight):
         super(JointsMSELoss, self).__init__()
@@ -26,3 +25,4 @@ class JointsMSELoss(nn.Module):
                 loss += 0.5 * self.criterion(heatmap_pred, heatmap_gt)
 
         return loss / num_joints
+
