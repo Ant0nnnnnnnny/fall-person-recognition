@@ -1,27 +1,32 @@
 
 import logging
-import os
 import time
-import warnings
 
-import numpy as np
-import torch
 
-from models.TCFormer.pose_model import TCFormerPose
 from utils.config import parse_args
+
 from utils.data_loader import get_dataloaders, get_inference_dataloader
 from utils.loss import JointsMSELoss
 from utils.optimizer import build_optimizer
-from utils.setup import setup
 from utils.tools import inference, save_checkpoint
-from utils.train import train, validate
 
+from utils.train import validate
+from utils.setup import setup
+from utils.train import train
+
+
+from models.TCFormer.pose_model import TCFormerPose
+
+
+import torch
+
+import numpy as np
+import os
+
+import warnings
 warnings.filterwarnings("ignore")
 
 from tensorboardX import SummaryWriter
-
-from models.YOLOV5.YOLOV5s_model import YoloModel
-
 
 def main(args):
 
@@ -33,9 +38,7 @@ def main(args):
     }
 
     loss_func = JointsMSELoss(True).cuda()
-    # model = TCFormerPose(args)
-    model = YoloModel(args)
-
+    model = TCFormerPose(args)
 
     model = torch.nn.DataParallel(model).cuda()
     best_perf = 0.0
@@ -100,8 +103,7 @@ def main(args):
 
 
 def inf(args):
-    # model = TCFormerPose(args)
-    model = YoloModel(args)
+    model = TCFormerPose(args)
     model = torch.nn.DataParallel(model).cuda()
     checkpoint_file = os.path.join(
         args.ckpg_dir, 'checkpoint.pth'
