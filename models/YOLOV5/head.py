@@ -5,7 +5,6 @@ import torch
 import torch.nn as nn
 
 from models.YOLOV5.backbone import BottleneckCSP, Conv
-from models.YOLOV5.experimental import check_anchor_order, initialize_weights
 
 ## 拼接
 class Concat(nn.Module):
