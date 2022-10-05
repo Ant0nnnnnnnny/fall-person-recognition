@@ -28,6 +28,7 @@ warnings.filterwarnings("ignore")
 
 from tensorboardX import SummaryWriter
 
+from models.YOLOV5.YOLOV5s_model import YoloModel
 def main(args):
 
     train_dataloader,val_dataloader,train_dataset, val_data_set = get_dataloaders(args)
@@ -38,7 +39,9 @@ def main(args):
     }
 
     loss_func = JointsMSELoss(True).cuda()
-    model = TCFormerPose(args)
+    # model = TCFormerPose(args)
+    model = YoloModel(args)
+
 
     model = torch.nn.DataParallel(model).cuda()
     best_perf = 0.0
@@ -103,7 +106,8 @@ def main(args):
 
 
 def inf(args):
-    model = TCFormerPose(args)
+    # model = TCFormerPose(args)
+    model = YoloModel(args)
     model = torch.nn.DataParallel(model).cuda()
     checkpoint_file = os.path.join(
         args.ckpg_dir, 'checkpoint.pth'

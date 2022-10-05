@@ -99,6 +99,12 @@ def parse_args():
 
     parser.add_argument('--head_loss_keypoint', type = dict, default=dict(type='JointsMSELoss', use_target_weight=True))
 
+    parser.add_argument('--yolov5_class_num', type = int, default=16)
+
+    parser.add_argument('--yolov5_input_ch', type = int, default=3)
+
+
+
     # ============================ train ========================================
 
     parser.add_argument('--max_epochs', type=int, default=100)
