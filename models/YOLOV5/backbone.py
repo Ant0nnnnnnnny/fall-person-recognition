@@ -114,14 +114,14 @@ class backbone(nn.Module):
     def __init__(self):
         super().__init__()
         self.Focus = Focus(c1=3, c2=32, k=3, s=1)
-        self.CBL_1 = self.Conv(c1=32, c2=64, k=3, s=2)
+        self.CBL_1 = Conv(c1=32, c2=64, k=3, s=2)
         self.CSP_1 = BottleneckCSP(c1=64, c2=64, n=1)
-        self.CBL_2 = self.Conv(c1=64, c2=128, k=3, s=2)
+        self.CBL_2 = Conv(c1=64, c2=128, k=3, s=2)
         self.CSP_2 = BottleneckCSP(c1=128, c2=128, n=3)
-        self.CBL_3 = self.Conv(c1=128, c2=256, k=3, s=2)
+        self.CBL_3 = Conv(c1=128, c2=256, k=3, s=2)
         self.CSP_3 = BottleneckCSP(c1=256, c2=256, n=3)
-        self.CBL_4 = self.Conv(c1=256, c2=512, k=3, s=2)
-        self.SPP = SPP(c1=512, c2=512, k=(5, 9, 13))
+        self.CBL_4 = Conv(c1=256, c2=512, k=3, s=2)
+        self.SPPF = SPPF(c1=512, c2=512, k=5)
     
     def forward(self, x):
         # backbone
@@ -133,7 +133,7 @@ class backbone(nn.Module):
         x = self.CBL_3(y1)
         y2 = self.CSP_3(x)  # 6
         x = self.CBL_4(y2)
-        x = self.SPP(x)
+        x = self.SPPF(x)
 
         return y1,y2,x
 
