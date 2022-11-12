@@ -1,10 +1,7 @@
-
-import torch
 import torch.nn as nn
 from models.YOLOV5.backbone import backbone
 from models.YOLOV5.head import head
 from models.YOLOV5.experimental import initialize_weights
-import math
 
 class YoloModel(nn.Module):
     anchors = [[116, 90, 156, 198, 373, 326],
