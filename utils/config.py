@@ -33,13 +33,13 @@ def parse_args():
     parser.add_argument('--num_workers', default=0, type=int,
                         help="num_workers for dataloader")
 
-    parser.add_argument('--batch_size', default=64, type=int,
+    parser.add_argument('--batch_size', default=16, type=int,
                         help="use for training duration per worker")
 
-    parser.add_argument('--val_batch_size', default=64,
+    parser.add_argument('--val_batch_size', default=32,
                         type=int, help="use for validation duration per worker")
 
-    parser.add_argument('--test_batch_size', default=64,
+    parser.add_argument('--test_batch_size', default=32,
                         type=int, help="use for testing duration per worker")
 
     parser.add_argument('--num_joints_half_body',type=int,default=8)

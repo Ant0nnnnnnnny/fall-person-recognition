@@ -4,7 +4,7 @@ import time
 
 
 from utils.config import parse_args
-
+import cv2
 from utils.data_loader import get_dataloaders, get_inference_dataloader
 from utils.loss import JointsMSELoss
 from utils.optimizer import build_optimizer
@@ -105,27 +105,60 @@ def main(args):
     writer_dict['writer'].close()
 
 
-def inf(args):
-    if args.model_name =='tcformer':
-        model = TCFormerPose(args)
-    elif args.model_name =='msnet':
-        model = MSNet(args)
-    model = torch.nn.DataParallel(model).cuda()
-    checkpoint_file = os.path.join(
-        args.ckpg_dir, args.model_name,'checkpoint.pth'
-    )
-    checkpoint = torch.load(checkpoint_file)
-    model.load_state_dict(checkpoint['state_dict'])
-    dataset = get_inference_dataloader(args)
-    start_time = time.time()
-    for i, (x, _, _, meta) in enumerate(dataset):
-        inference(model,args,x,i,meta,'offline')
-        end_time = time.time()
-        logging.info('{0}/{1} finished, {2} seconds/sample.{3} fps'.format(i,len(dataset),(end_time - start_time)/args.test_batch_size,args.test_batch_size/(end_time - start_time)))
+def inf(args,mode = 'offline',video_path = None, camera_id = None):
+    if mode == 'offline':
+        if args.model_name =='tcformer':
+            model = TCFormerPose(args)
+        elif args.model_name =='msnet':
+            model = MSNet(args)
+        model = torch.nn.DataParallel(model).cuda()
+        checkpoint_file = os.path.join(
+            args.ckpg_dir, args.model_name,'checkpoint.pth'
+        )
+        checkpoint = torch.load(checkpoint_file)
+        model.load_state_dict(checkpoint['state_dict'])
+        dataset = get_inference_dataloader(args)
         start_time = time.time()
+        for i, (x, _, _, meta) in enumerate(dataset):
+            inference(model,args,x,i,meta,'offline')
+            end_time = time.time()
+            logging.info('{0}/{1} finished, {2} seconds/sample.{3} fps'.format(i,len(dataset),(end_time - start_time)/args.test_batch_size,args.test_batch_size/(end_time - start_time)))
+            start_time = time.time()
+    else:
+        video_capture = None
+        if video_path !=None:
+            video_capture = video_path
+        if camera_id != None:
+            video_capture = camera_id
+        if video_capture == None:
+            raise TypeError(
+            "One of camera id and video path should not be none in online mode."
+        )
+        if args.model_name =='tcformer':
+            model = TCFormerPose(args)
+        elif args.model_name =='msnet':
+            model = MSNet(args)
+        model = torch.nn.DataParallel(model).cuda()
+        checkpoint_file = os.path.join(
+            args.ckpg_dir, args.model_name,'checkpoint.pth'
+        )
+        checkpoint = torch.load(checkpoint_file)
+        model.load_state_dict(checkpoint['state_dict'])
+        cap = cv2.VideoCapture(video_capture) 
+        while(cap.isOpened()): 
+            ret, frame = cap.read() 
+            result = inference(model,args,frame,0,None,'online')
+            cv2.imshow('image', result) 
+            k = cv2.waitKey(20) 
+            #q键退出
+            if (k & 0xff == ord('q')): 
+                break 
+        cap.release() 
+        
+
 if __name__ == '__main__':
 
     args_parser,args = parse_args()
     args = setup(args_parser,args)
     # main(args)
-    inf(args)
+    inf(args,mode = 'online',video_path=os.path.join('examples','demo4.mp4'))
