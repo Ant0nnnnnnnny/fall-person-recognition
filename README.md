@@ -39,14 +39,31 @@
   + `validate.py` 验证集损失计算模块
   + `vis.py` 数据可视化模块    
 + `main.py` 项目运行入口
- 
+
+# 当前模型对比
+| 模型名称           | Params  | MACs   | AP   | FPS  |
+| ------------------ | ------- | ------ | ---- | ---- |
+| MobileNetV3-normal | 5.285M  | 7.628G | 0.65 | 28.5 |
+| MobileNetV3-large  | 10.871M | 4.053G | 0.76 | 22.7 |
 # 规划
-A light network to recognize fallen person. 
-## Refrence
+## 阶段一
+完成对姿态估计模型的建立、训练，确定最终落地使用的姿态估计方案。
+  
+要求：**AP: 0.80+**,**FPS: 18+** 
+## 阶段二
+基于阶段一的姿态估计方案，使用姿态估计数据，建立数学模型或轻量级神经网络模型，实现跌倒识别。
+  
+要求：**Accuracy: 0.95+**, **CPU-REALTIME**
+
+## 阶段三
+基于`micro-python`,`Django`,`Flutter`实现模型落地部署。其中，`micro-python`用于在边缘设备记录图像信息，并上传至服务器;`Django`用于后端搭建，基于`pytorch`实现图像推理，并得到识别结果;`Flutter`用于搭建跨平台的App,用于向用户展示识别结果信息（如是否跌倒、姿态信息等）。
+## Reference
 + [TCFormer](https://arxiv.org/pdf/2204.08680.pdf)
 + [Simple BaseLine](https://arxiv.org/pdf/1804.06208.pdf)
 + [HRNet](https://arxiv.org/pdf/1902.09212.pdf)
-+ ...
++ [MobileNetV3](https://openaccess.thecvf.com/content_ICCV_2019/papers/Howard_Searching_for_MobileNetV3_ICCV_2019_paper.pdf)
++ [YOLOV7](https://arxiv.org/pdf/2207.02696.pdf)
++ [YOLOV5](https://github.com/ultralytics/yolov5)
 ## TODO
 
 - [x] Dataset
@@ -63,7 +80,6 @@ A light network to recognize fallen person.
     - [x] Result(Possible)
       - Acc: 0.74
       - fps: 35 on cpu.
-      - 
 
 - [ ] **VIPNAS**
     - [ ] Code
