@@ -15,14 +15,14 @@
   + `*_hm_gt.jpg` 热图真实标签
   + `*_ht_pred.jpg` 热图预测结果
   + `*_pred.jpg` 真实标签预测结果
-+ **examples** 样例（暂未实现）
++ **examples** 测试样例，用于推理测试所需的图片、视频等
 + **log** TensorBoard日志存储路径
 + **models** 模型文件夹
 + **output** 验证以及离线推理输出文件夹
   + **inference** 离线推理结果输出文件夹
   + `pred.mat` 验证集预测结果
   + `val_*_gt.jpg` 验证集ground truth真实标签
-  + `val_*_hm_gt.jpg` 验证集热图真实标签
+  + `val_*_hm_gt.jpg` 验证集热图ground truth
   + `val_*_pred.jpg` 验证集预测结果
   + `val_*_hm_pred.jpg` 验证集热图预测结果
 + **utils** 工具类代码文件夹
@@ -32,7 +32,7 @@
   + `evaluate.py` 数据集评分模块
   + `loss.py` 定义了`JointsMSELoss`用于计算姿态估计的损失
   + `mpii.py` 提供MPII数据集的dataset接口
-  + `optimizer.py` 定义了网络所用的优化器与scheduler(中文名没想到叫啥)
+  + `optimizer.py` 定义了网络所用的优化器与scheduler
   + `setup.py` 项目初始化模块
   + `tools.py` 其余杂项的模块，如推理、存储参数、模型摘要等
   + `transforms.py` 数据变换模块，对数据进行数据增强处理
