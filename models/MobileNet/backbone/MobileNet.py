@@ -84,13 +84,13 @@ class SqueezeBlock(nn.Module):
 
 
 class MobileBlock(nn.Module):
-    def __init__(self, in_channels, out_channels, kernal_size, stride, nonLinear, SE, exp_size, dropout_rate=1.0):
+    def __init__(self, in_channels, out_channels, kernel_size, stride, nonLinear, SE, exp_size, dropout_rate=1.0):
         super(MobileBlock, self).__init__()
         self.out_channels = out_channels
         self.nonLinear = nonLinear
         self.SE = SE
         self.dropout_rate = dropout_rate
-        padding = (kernal_size - 1) // 2
+        padding = (kernel_size - 1) // 2
 
         self.use_connect = (stride == 1 and in_channels == out_channels)  # 残差条件
 
@@ -106,7 +106,7 @@ class MobileBlock(nn.Module):
         )
 
         self.depth_conv = nn.Sequential(
-            nn.Conv2d(exp_size, exp_size, kernel_size=kernal_size, stride=stride, padding=padding, groups=exp_size),
+            nn.Conv2d(exp_size, exp_size, kernel_size=kernel_size, stride=stride, padding=padding, groups=exp_size),
             nn.BatchNorm2d(exp_size),
         )
 

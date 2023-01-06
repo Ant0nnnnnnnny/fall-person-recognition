@@ -4,9 +4,9 @@ from models.MobileNet.backbone.MobileNet import MobileNetV3
 from models.MobileNet.head.SimpleHead import SimpleHead
 from models.MobileNet.neck.FPN import FPN
 class MSNet(nn.Module):
-    def __init__(self,args) -> None:
+    def __init__(self,args,multiplier =  1) -> None:
         super().__init__()
-        self.backbone = MobileNetV3(output_channels=args.neck_channels)
+        self.backbone = MobileNetV3(output_channels=args.neck_channels,multiplier = multiplier)
         # self.neck = FPN([args.neck_channels/,args.neck_channels *2, args.neck_channels * 3,args.neck_channels *2])
         self.head = SimpleHead(args)
     def forward(self,x,target,target_weight):

@@ -137,50 +137,68 @@ def get_model_summary(model, *input_tensors, item_length=26, verbose=False):
 
     return summary,details
 
-def inference(model,args,x,index, meta,mode = 'offline',):
+def inference(model,args,x,index, meta,mode = 'offline',use_dataset = False):
     '''
     mode: `real_time` or `offline`
     '''
     nrow = 8
     padding = 2
-    if mode == 'offline':
-        if  args.inference_dir is None:
-            raise TypeError(
-            "Output dir should not be none in offline mode."
-        )
+    if mode == 'offline' :
+        if use_dataset:
+            if  args.inference_dir is None:
+                raise TypeError(
+                "Output dir should not be none in offline mode."
+            )
+            else:
+                model.eval()
+                x = torch.Tensor.float(x)
+                y = model(x,None,None)
+
+                preds,_ = get_max_preds(y.cpu().detach().numpy())
+                preds *=4
+                grid_image = torchvision.utils.make_grid(x, nrow, padding, True)
+                ndarr = grid_image.mul(255).clamp(0, 255).byte().permute(1, 2, 0).cpu().numpy()
+                ndarr = ndarr.copy()
+
+                nmaps = x.size(0)
+                xmaps = min(nrow, nmaps)
+                ymaps = int(math.ceil(float(nmaps) / xmaps))
+                height = int(x.size(2) + padding)
+                width = int(x.size(3) + padding)
+                k = 0
+                for y in range(ymaps):
+                    for x in range(xmaps):
+                        if k >= nmaps:
+                            break
+                        joints = preds[k]
+
+                        for joint in joints:
+                            joint[0] = x * width + padding + joint[0]
+                            joint[1] = y * height + padding + joint[1]
+                            cv2.circle(ndarr, (int(joint[0]), int(joint[1])), 2, [255, 0, 0], 2)
+                        k = k + 1
+        
+                plt.figure(figsize=(18,10))
+                plt.imshow(ndarr)
+                plt.savefig(os.path.join(args.inference_dir, 'inf-'+str(index)+'.png'))
+                # plt.show()
         else:
             model.eval()
+            x = torch.tensor(x)
             x = torch.Tensor.float(x)
+            x = x.unsqueeze(0)
+            x = x.permute(0,3,1,2)
             y = model(x,None,None)
             preds,_ = get_max_preds(y.cpu().detach().numpy())
             preds *=4
+            joints = preds[0]
+            height = int(x.size(2))
+            width = int(x.size(3))
             grid_image = torchvision.utils.make_grid(x, nrow, padding, True)
             ndarr = grid_image.mul(255).clamp(0, 255).byte().permute(1, 2, 0).cpu().numpy()
             ndarr = ndarr.copy()
-
-            nmaps = x.size(0)
-            xmaps = min(nrow, nmaps)
-            ymaps = int(math.ceil(float(nmaps) / xmaps))
-            height = int(x.size(2) + padding)
-            width = int(x.size(3) + padding)
-            k = 0
-            for y in range(ymaps):
-                for x in range(xmaps):
-                    if k >= nmaps:
-                        break
-                    joints = preds[k]
-
-                    for joint in joints:
-                        joint[0] = x * width + padding + joint[0]
-                        joint[1] = y * height + padding + joint[1]
-                        cv2.circle(ndarr, (int(joint[0]), int(joint[1])), 2, [255, 0, 0], 2)
-                    k = k + 1
-
-        plt.figure(figsize=(18,10))
-        plt.imshow(ndarr)
-        plt.savefig(os.path.join(args.inference_dir, 'inf-'+str(index)+'.png'))
-        # plt.show()
-
+            ndarr = show_skeleton(ndarr, joints)
+            return ndarr
     elif mode == 'online':
         model.eval()
         x = torch.tensor(x)

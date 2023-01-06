@@ -63,17 +63,12 @@ A light network to recognize fallen person.
     - [x] Result(Possible)
       - Acc: 0.74
       - fps: 35 on cpu.
-- [ ] **HRNet**
-    - [ ] Code
-    - [ ] Result(Possible)
+      - 
+
 - [ ] **VIPNAS**
-    - [ ] Code
-    - [ ] Result(Possible)
-    
- - [ ] **MHFormer**
     - [ ] Code
     - [ ] Result(Possible)
    
   - [ ] **YOLO**
-    - [ ] Code
+    - [x] Code
     - [ ] Result(Possible)

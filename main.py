@@ -105,7 +105,7 @@ def main(args):
     writer_dict['writer'].close()
 
 
-def inf(args,mode = 'offline',video_path = None, camera_id = None):
+def inf(args,mode = 'offline',video_path = None, camera_id = None,pic_path = None,use_dataset = False):
     if mode == 'offline':
         if args.model_name =='tcformer':
             model = TCFormerPose(args)
@@ -119,8 +119,21 @@ def inf(args,mode = 'offline',video_path = None, camera_id = None):
         model.load_state_dict(checkpoint['state_dict'])
         dataset = get_inference_dataloader(args)
         start_time = time.time()
+
+        if pic_path!=None:
+            img = cv2.imread(pic_path)
+            h,w = img.shape[:2]
+            img = cv2.resize(img,tuple(args.img_shape))
+
+            result = inference(model,args,img,0,None,'offline',use_dataset)
+            result = cv2.resize(result,(w,h))
+            cv2.imshow('image', result) 
+            k = cv2.waitKey(0) 
+            #q键退出
+            return  
+
         for i, (x, _, _, meta) in enumerate(dataset):
-            inference(model,args,x,i,meta,'offline')
+            inference(model,args,x,i,meta,'offline',use_dataset)
             end_time = time.time()
             logging.info('{0}/{1} finished, {2} seconds/sample.{3} fps'.format(i,len(dataset),(end_time - start_time)/args.test_batch_size,args.test_batch_size/(end_time - start_time)))
             start_time = time.time()
@@ -147,7 +160,10 @@ def inf(args,mode = 'offline',video_path = None, camera_id = None):
         cap = cv2.VideoCapture(video_capture) 
         while(cap.isOpened()): 
             ret, frame = cap.read() 
-            result = inference(model,args,frame,0,None,'online')
+            h,w = frame.shape[:2]
+            frame = cv2.resize(frame,(tuple(args.img_shape)))
+            result = inference(model,args,frame,0,None,'online',use_dataset)
+            result = cv2.resize(result,(w,h))
             cv2.imshow('image', result) 
             k = cv2.waitKey(20) 
             #q键退出
@@ -161,4 +177,8 @@ if __name__ == '__main__':
     args_parser,args = parse_args()
     args = setup(args_parser,args)
     # main(args)
-    inf(args,mode = 'online',video_path=os.path.join('examples','demo4.mp4'))
+    inf(args,mode = 'offline',pic_path=os.path.join('examples','pic1.jpg'))
+    # inf(args,mode = 'online',video_path=os.path.join('examples','demo2s.mp4'))
+
+
+

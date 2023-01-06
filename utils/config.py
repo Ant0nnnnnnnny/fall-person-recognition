@@ -88,6 +88,32 @@ def parse_args():
     parser.add_argument('--save_batch_heatmap_gt',type=bool,default=True)
     parser.add_argument('--save_batch_heatmap_pred',type=bool,default=True)
 
-
-
-    return parser, parser.parse_args()
+    #==========================In case get error run in jupyter==================================
+    # parser.add_argument("--f", dest = 'j_cfile', help = 
+    #                 "jupyter config file",
+    #                 default = "file.json", type = str)
+    # parser.add_argument("--ip",
+    #                 "jupyter config file",
+    #                 default = "127.0.0.1", type = str)
+    # parser.add_argument("--stdin",
+    #                 "jupyter config file",
+    #                 default = 9003, type = int)
+    # parser.add_argument("--control",
+    #                 "jupyter config file",
+    #                 default = 9001, type = int)
+    # parser.add_argument("--hb",
+    #                 "jupyter config file",
+    #                 default = 9000, type = int)
+    # parser.add_argument("--Session.signature_scheme",
+    #                 "jupyter config file",
+    #                 default = "hmac-sha256", type = str)
+    # parser.add_argument("--shell",
+    #                 "jupyter config file",
+    #                 default = 9002, type = int)
+    # parser.add_argument("--transport",
+    #                 "jupyter config file",
+    #                 default = "tcp", type = str)
+    # parser.add_argument("--iopub",
+    #                 "jupyter config file",
+    #                 default = 9004, type = int)
+    return parser, parser.parse_args(args=[])

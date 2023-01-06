@@ -30,7 +30,7 @@ def setup(args_parser,args):
         args = msnet_config(args_parser)
     elif args.model_name == 'tcformer':
         args = tcformers_config(args_parser)
-    args = args.parse_args()
+    args = args.parse_args(args = [])
     setup_device(args)
     setup_seed(args)
     return args
