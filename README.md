@@ -65,27 +65,3 @@
 + [MobileNetV3](https://openaccess.thecvf.com/content_ICCV_2019/papers/Howard_Searching_for_MobileNetV3_ICCV_2019_paper.pdf)
 + [YOLOV7](https://arxiv.org/pdf/2207.02696.pdf)
 + [YOLOV5](https://github.com/ultralytics/yolov5)
-## TODO
-
-- [x] Dataset
-    - [x] MPII
-    - [x] Fallen
-    
-- [x] **TCFormer**
-    - [x] Code
-    - [x] Result(Possible)
-      - Acc: 0.87
-      - fps: 1.2 on cpu.
-- [x] **MobileNetV3 with SimpleHead**
-    - [x] Code
-    - [x] Result(Possible)
-      - Acc: 0.74
-      - fps: 35 on cpu.
-
-- [ ] **VIPNAS**
-    - [ ] Code
-    - [ ] Result(Possible)
-   
-  - [ ] **YOLO**
-    - [x] Code
-    - [ ] Result(Possible)
