@@ -18,8 +18,8 @@ def train(args,train_loader,model,optimizer, epoch,loss_func, log_writer):
         # measure data loading time
         data_time.update(time.time() - end)
 
-        target = target.cuda(non_blocking=True)
-        target_weight = target_weight.cuda(non_blocking=True)
+        target = target.to(args.device)
+        target_weight = target_weight.to(args.device)
       
             # compute output
         outputs = model(x,target,target_weight)
@@ -110,8 +110,8 @@ def validate(args, val_loader, val_dataset, model, loss_func, writer_dict=None):
         for i, (x, target, target_weight, meta) in enumerate(val_loader):
             # measure data loading time
 
-            target = target.cuda(non_blocking=True)
-            target_weight = target_weight.cuda(non_blocking=True)
+            target = target.to(args.device)
+            target_weight = target_weight.to(args.device)
             num_images = x.size(0)
             # compute output
             outputs = model(x,target,target_weight)

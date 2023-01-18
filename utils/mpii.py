@@ -305,8 +305,8 @@ class MPIIDataset(JointsDataset):
         for a in anno:
             image_name = a['image']
 
-            c = np.array(a['center'], dtype=np.float)
-            s = np.array([a['scale'], a['scale']], dtype=np.float)
+            c = np.array(a['center'], dtype=np.float16)
+            s = np.array([a['scale'], a['scale']], dtype=np.float16)
 
             # Adjust center/scale slightly to avoid cropping limbs
             if c[0] != -1:
@@ -317,8 +317,8 @@ class MPIIDataset(JointsDataset):
             # we should first convert to 0-based index
             c = c - 1
 
-            joints_3d = np.zeros((self.num_joints, 3), dtype=np.float)
-            joints_3d_vis = np.zeros((self.num_joints,  3), dtype=np.float)
+            joints_3d = np.zeros((self.num_joints, 3), dtype=np.float16)
+            joints_3d_vis = np.zeros((self.num_joints,  3), dtype=np.float16)
             if self.image_set != 'test':
                 joints = np.array(a['joints'])
                 joints[:, 0:2] = joints[:, 0:2] - 1

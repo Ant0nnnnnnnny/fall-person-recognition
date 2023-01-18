@@ -6,7 +6,12 @@ from configs.msnet import msnet_config
 from configs.tcformer import tcformers_config
 
 def setup_device(args):
-    args.device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    if torch.has_cuda:
+        args.device = 'cuda'
+    elif torch.has_mps:
+        args.device = 'meta'
+    else:
+        args.device = 'cpu'
     args.n_gpu = torch.cuda.device_count()
 
 

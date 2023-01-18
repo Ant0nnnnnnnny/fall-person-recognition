@@ -38,12 +38,12 @@ def main(args):
         'valid_global_steps': 0,
     }
 
-    loss_func = JointsMSELoss(True).cuda()
+    loss_func = JointsMSELoss(True).to(args.device)
     if args.model_name =='tcformer':
         model = TCFormerPose(args)
     elif args.model_name =='msnet':
         model = MSNet(args)
-    model = torch.nn.DataParallel(model).cuda()
+    model = torch.nn.DataParallel(model).to(args.device)
     best_perf = 0.0
     best_model = False
     last_epoch = -1
@@ -111,7 +111,7 @@ def inf(args,mode = 'offline',video_path = None, camera_id = None,pic_path = Non
             model = TCFormerPose(args)
         elif args.model_name =='msnet':
             model = MSNet(args)
-        model = torch.nn.DataParallel(model).cuda()
+        model = torch.nn.DataParallel(model).to(args.device)
         checkpoint_file = os.path.join(
             args.ckpg_dir, args.model_name,'checkpoint.pth'
         )
@@ -151,7 +151,7 @@ def inf(args,mode = 'offline',video_path = None, camera_id = None,pic_path = Non
             model = TCFormerPose(args)
         elif args.model_name =='msnet':
             model = MSNet(args)
-        model = torch.nn.DataParallel(model).cuda()
+        model = torch.nn.DataParallel(model).to(args.device)
         checkpoint_file = os.path.join(
             args.ckpg_dir, args.model_name,'checkpoint.pth'
         )
@@ -176,8 +176,8 @@ if __name__ == '__main__':
 
     args_parser,args = parse_args()
     args = setup(args_parser,args)
-    # main(args)
-    inf(args,mode = 'offline',pic_path=os.path.join('examples','pic1.jpg'))
+    main(args)
+    # inf(args,mode = 'offline',pic_path=os.path.join('examples','pic1.jpg'))
     # inf(args,mode = 'online',video_path=os.path.join('examples','demo2s.mp4'))
 
 
