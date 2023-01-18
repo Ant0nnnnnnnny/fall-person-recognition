@@ -9,7 +9,7 @@ def setup_device(args):
     if torch.has_cuda:
         args.device = 'cuda'
     elif torch.has_mps:
-        args.device = 'meta'
+        args.device = 'mps'
     else:
         args.device = 'cpu'
     args.n_gpu = torch.cuda.device_count()

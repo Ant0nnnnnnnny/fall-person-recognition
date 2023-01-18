@@ -20,7 +20,7 @@ def train(args,train_loader,model,optimizer, epoch,loss_func, log_writer):
 
         target = target.to(args.device)
         target_weight = target_weight.to(args.device)
-      
+        x = x.to(args.device)
             # compute output
         outputs = model(x,target,target_weight)
 
