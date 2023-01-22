@@ -8,7 +8,7 @@ def parse_args():
 
     parser = argparse.ArgumentParser(
         description='Arguments for person pose estimation.')
-    parser.add_argument('--model_name',type=str, default='msnet')
+    parser.add_argument('--model_name',type=str, default='tcformer')
     parser.add_argument('--seed', type=int, default=7310, help='Random seed.')
 
     parser.add_argument('--dataset_root',type=str, default=os.path.join('dataset','PoseData'))

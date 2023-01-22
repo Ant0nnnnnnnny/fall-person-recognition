@@ -151,7 +151,7 @@ def inference(model,args,x,index, meta,mode = 'offline',use_dataset = False):
             )
             else:
                 model.eval()
-                x = torch.Tensor.float(x)
+                x = torch.Tensor.float(x).to(args.device)
                 y = model(x,None,None)
 
                 preds,_ = get_max_preds(y.cpu().detach().numpy())
@@ -184,7 +184,7 @@ def inference(model,args,x,index, meta,mode = 'offline',use_dataset = False):
                 # plt.show()
         else:
             model.eval()
-            x = torch.tensor(x)
+            x = torch.tensor(x).to(args.device)
             x = torch.Tensor.float(x)
             x = x.unsqueeze(0)
             x = x.permute(0,3,1,2)
@@ -201,7 +201,7 @@ def inference(model,args,x,index, meta,mode = 'offline',use_dataset = False):
             return ndarr
     elif mode == 'online':
         model.eval()
-        x = torch.tensor(x)
+        x = torch.tensor(x).to(args.device)
         x = torch.Tensor.float(x)
         x = x.unsqueeze(0)
         x = x.permute(0,3,1,2)

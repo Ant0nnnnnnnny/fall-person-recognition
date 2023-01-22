@@ -5,7 +5,9 @@ import numpy as np
 import torch
 from .evaluate import accuracy, get_final_preds
 from .vis import save_debug_images
-def train(args,train_loader,model,optimizer, epoch,loss_func, log_writer):
+
+
+def train(args, train_loader, model, optimizer, epoch, loss_func, log_writer):
     batch_time = AverageMeter()
     data_time = AverageMeter()
     losses = AverageMeter()
@@ -21,23 +23,23 @@ def train(args,train_loader,model,optimizer, epoch,loss_func, log_writer):
         target = target.to(args.device)
         target_weight = target_weight.to(args.device)
         x = x.to(args.device)
-            # compute output
-        outputs = model(x,target,target_weight)
+        # compute output
+        outputs = model(x, target, target_weight)
 
         if isinstance(outputs, list):
-                loss = loss_func(outputs[0], target, target_weight)
-                for output in outputs[1:]:
-                    loss += loss_func(output, target, target_weight)
+            loss = loss_func(outputs[0], target, target_weight)
+            for output in outputs[1:]:
+                loss += loss_func(output, target, target_weight)
         else:
-                output = outputs
-                loss = loss_func(output, target, target_weight)
+            output = outputs
+            loss = loss_func(output, target, target_weight)
 
         loss = loss_func(output, target, target_weight)
         _, avg_acc, cnt, pred = accuracy(output.cpu().detach().numpy(),
-                                             target.cpu().numpy())
+                                         target.cpu().numpy())
         losses.update(loss)
         acc.update(avg_acc)
-            # compute gradient and do update step
+        # compute gradient and do update step
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
@@ -68,9 +70,9 @@ def train(args,train_loader,model,optimizer, epoch,loss_func, log_writer):
                               prefix)
 
 
-
 class AverageMeter(object):
     """Computes and stores the average and current value"""
+
     def __init__(self):
         self.reset()
 
@@ -114,7 +116,7 @@ def validate(args, val_loader, val_dataset, model, loss_func, writer_dict=None):
             target_weight = target_weight.to(args.device)
             num_images = x.size(0)
             # compute output
-            outputs = model(x,target,target_weight)
+            outputs = model(x, target, target_weight)
 
             if isinstance(outputs, list):
                 loss = loss_func(outputs[0], target, target_weight)
@@ -129,7 +131,7 @@ def validate(args, val_loader, val_dataset, model, loss_func, writer_dict=None):
             losses.update(loss.item(), x.size(0))
 
             _, avg_acc, cnt, pred = accuracy(output.detach().cpu().numpy(),
-                                            target.detach().cpu().numpy())
+                                             target.detach().cpu().numpy())
             acc.update(avg_acc, cnt)
 
             # measure elapsed time
@@ -209,9 +211,11 @@ def validate(args, val_loader, val_dataset, model, loss_func, writer_dict=None):
                 )
             writer_dict['valid_global_steps'] = global_steps + 1
 
-    return perf_indicator,loss
+    return perf_indicator, loss
 
 # markdown format output
+
+
 def _print_name_value(name_value, full_arch_name):
     names = name_value.keys()
     values = name_value.values()
@@ -228,5 +232,5 @@ def _print_name_value(name_value, full_arch_name):
     logging.info(
         '| ' + full_arch_name + ' ' +
         ' '.join(['| {:.3f}'.format(value) for value in values]) +
-         ' |'
+        ' |'
     )
