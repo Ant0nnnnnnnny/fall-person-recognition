@@ -1,5 +1,5 @@
 
-from tensorboardX import SummaryWriter
+from torch.utils.tensorboard import SummaryWriter
 import logging
 import time
 
@@ -67,6 +67,7 @@ def main(args):
         optimizer.load_state_dict(checkpoint['optimizer'])
         logging.info("=> loaded checkpoint '{}' (epoch {})".format(
             checkpoint_file, checkpoint['epoch']))
+    writer_dict['writer'].add_graph(model, input_to_model=(torch.randint(1,255,(1,3,192,256)).float().to(args.device),torch.tensor(1).to(args.device),torch.tensor(1).to(args.device)))
 
     for epoch in range(begin_epoch, args.max_epochs):
 
@@ -184,7 +185,7 @@ if __name__ == '__main__':
 
     args_parser, args = parse_args()
     args = setup(args_parser, args)
-    # main(args)
-    inf(args,mode = 'offline',use_dataset=True)
+    main(args)
+    # inf(args,mode = 'offline',use_dataset=True)
     # inf(args,mode = 'offline',pic_path=os.path.join('examples','fallen_pic1.jpg'))
     # inf(args,mode = 'online',video_path=os.path.join('examples','video1.mp4'))
