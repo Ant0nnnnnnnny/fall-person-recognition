@@ -1,7 +1,7 @@
 def msnet_config(parser):
     parser.add_argument('--num_keypoints', type=int,
                         default=16)
-    parser.add_argument('--neck_channels', type = int ,default = 256)
+    parser.add_argument('--neck_channels', type = int ,default = 64)
     parser.add_argument('--deconv_num_layers', type=int,
                         default=3)
     parser.add_argument('--deconv_num_filters', type=list,

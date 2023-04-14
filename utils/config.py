@@ -8,7 +8,7 @@ def parse_args():
 
     parser = argparse.ArgumentParser(
         description='Arguments for person pose estimation.')
-    parser.add_argument('--model_name',type=str, default='tcformer')
+    parser.add_argument('--model_name',type=str, default='mfnet')
     parser.add_argument('--seed', type=int, default=7310, help='Random seed.')
 
     parser.add_argument('--dataset_root',type=str, default=os.path.join('dataset','PoseData'))
@@ -33,13 +33,13 @@ def parse_args():
     parser.add_argument('--num_workers', default=0, type=int,
                         help="num_workers for dataloader")
 
-    parser.add_argument('--batch_size', default=16, type=int,
+    parser.add_argument('--batch_size', default=4, type=int,
                         help="use for training duration per worker")
 
-    parser.add_argument('--val_batch_size', default=32,
+    parser.add_argument('--val_batch_size', default=4,
                         type=int, help="use for validation duration per worker")
 
-    parser.add_argument('--test_batch_size', default=32,
+    parser.add_argument('--test_batch_size', default=4,
                         type=int, help="use for testing duration per worker")
 
     parser.add_argument('--num_joints_half_body',type=int,default=8)

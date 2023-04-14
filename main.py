@@ -114,7 +114,7 @@ def inf(args, mode='offline', video_path=None, camera_id=None, pic_path=None, us
         elif args.model_name == 'msnet':
             model = MSNet(args)
         elif args.model_name == 'mfnet':
-            model = MFNet(args)
+            model = MFNet(args,2)
         model = torch.nn.DataParallel(model).to(args.device)
         checkpoint_file = os.path.join(
             args.ckpg_dir, args.model_name, 'checkpoint.pth'
