@@ -3,7 +3,7 @@ import random
 import numpy as np
 import logging
 from configs.msnet import msnet_config
-from configs.tcformer import tcformers_config
+from configs.msknet import msknet_config
 from configs.mfnet import mfnet_config
 def setup_device(args):
     if torch.has_cuda:
@@ -36,8 +36,8 @@ def setup(args_parser,args):
     setup_logging()
     if args.model_name == 'msnet':
         args = msnet_config(args_parser)
-    elif args.model_name == 'tcformer':
-        args = tcformers_config(args_parser)
+    elif args.model_name == 'msknet':
+        args = msknet_config(args_parser)
     elif args.model_name == 'mfnet':
         args = mfnet_config(args_parser)
     args = args.parse_args(args = [])

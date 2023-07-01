@@ -8,10 +8,10 @@ def parse_args():
 
     parser = argparse.ArgumentParser(
         description='Arguments for person pose estimation.')
-    parser.add_argument('--model_name',type=str, default='mfnet')
+    parser.add_argument('--model_name',type=str, default='msknet')
     parser.add_argument('--seed', type=int, default=7310, help='Random seed.')
 
-    parser.add_argument('--dataset_root',type=str, default=os.path.join('dataset','PoseData'))
+    parser.add_argument('--dataset_root',type=str, default=os.path.join('dataset','PoseData',))
 
     parser.add_argument('--ckpg_dir',type=str, default='checkpoints')
 
@@ -20,17 +20,17 @@ def parse_args():
 
     # ===============================Data ================================
 
-    parser.add_argument('--img_shape', type=list, default=[192,256],
+    parser.add_argument('--img_shape', type=list, default=[256,256],
                         help='the input images shape.')        
 
     parser.add_argument('--heatmap_size', type=list,
-                        default=[48,64])      
+                        default=[32,32])      
     parser.add_argument('--sigma', type=float,
                         default=2.0)     
     parser.add_argument('--prefetch', default=16, type=int,
                         help="use for training duration per worker")
 
-    parser.add_argument('--num_workers', default=0, type=int,
+    parser.add_argument('--num_workers', default=14, type=int,
                         help="num_workers for dataloader")
 
     parser.add_argument('--batch_size', default=4, type=int,
@@ -69,9 +69,9 @@ def parse_args():
     parser.add_argument('--config_dir', type = str, default= 'configs')
     # ============================ train ========================================
 
-    parser.add_argument('--max_epochs', type=int, default=100)
+    parser.add_argument('--max_epochs', type=int, default=300)
 
-    parser.add_argument('--print_steps', type=int, default=100)
+    parser.add_argument('--print_steps', type=int, default=30)
 
     parser.add_argument('--log_dir',type=str,default='log')
 

@@ -182,8 +182,8 @@ class MobileNetV3(nn.Module):
                 nn.BatchNorm2d(out_conv1_out),
                 h_swish(inplace=True),
             )
-        self.se1 = CBAM(16*multiplier)
-        self.se2 = CBAM(96*multiplier)
+        self.se1 = CBAM(int(16*multiplier))
+        self.se2 = CBAM(int(96*multiplier))
         out_conv2_in = _make_divisible(576 * multiplier)
         out_conv2_out = _make_divisible(1280 * multiplier)
         self.out_conv2 = nn.Sequential(

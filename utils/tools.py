@@ -155,7 +155,7 @@ def inference(model,args,x,index, meta,mode = 'offline',use_dataset = False):
                 y = model(x,None,None)
 
                 preds,_ = get_max_preds(y.cpu().detach().numpy())
-                preds *=4
+                preds *=8
                 grid_image = torchvision.utils.make_grid(x, nrow, padding, True)
                 ndarr = grid_image.mul(255).clamp(0, 255).byte().permute(1, 2, 0).cpu().numpy()
                 ndarr = ndarr.copy()
@@ -190,7 +190,7 @@ def inference(model,args,x,index, meta,mode = 'offline',use_dataset = False):
             x = x.permute(0,3,1,2)
             y = model(x,None,None)
             preds,_ = get_max_preds(y.cpu().detach().numpy())
-            preds *=4
+            preds *=8
             joints = preds[0]
             height = int(x.size(2))
             width = int(x.size(3))
@@ -207,7 +207,7 @@ def inference(model,args,x,index, meta,mode = 'offline',use_dataset = False):
         x = x.permute(0,3,1,2)
         y = model(x,None,None)
         preds,_ = get_max_preds(y.cpu().detach().numpy())
-        preds *=4
+        preds *=8
         joints = preds[0]
         height = int(x.size(2))
         width = int(x.size(3))

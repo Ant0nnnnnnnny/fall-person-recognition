@@ -16,8 +16,8 @@ from utils.setup import setup
 from utils.train import train
 
 from models.MFNet.MFNet import MFNet
-from models.TCFormer.pose_model import TCFormerPose
 from models.MobileNet.MSNet import MSNet
+from models.MSKNet.MSKNet import MSKNet
 
 
 import torch
@@ -40,8 +40,8 @@ def main(args):
     }
 
     loss_func = JointsMSELoss(True).to(args.device)
-    if args.model_name == 'tcformer':
-        model = TCFormerPose(args)
+    if args.model_name == 'msknet':
+        model = MSKNet(args)
     elif args.model_name == 'msnet':
         model = MSNet(args)
     elif args.model_name == 'mfnet':
@@ -67,14 +67,12 @@ def main(args):
         optimizer.load_state_dict(checkpoint['optimizer'])
         logging.info("=> loaded checkpoint '{}' (epoch {})".format(
             checkpoint_file, checkpoint['epoch']))
-    writer_dict['writer'].add_graph(model, input_to_model=(torch.randint(1,255,(1,3,192,256)).float().to(args.device),torch.tensor(1).to(args.device),torch.tensor(1).to(args.device)))
-
     for epoch in range(begin_epoch, args.max_epochs):
 
         # train for one epoch
         train(args, train_dataloader, model, optimizer, epoch, loss_func,
               writer_dict)
-
+    
         # evaluate on validation set
         perf_indicator, val_loss = validate(
             args, val_dataloader, val_data_set, model, loss_func,
@@ -109,12 +107,12 @@ def main(args):
 
 def inf(args, mode='offline', video_path=None, camera_id=None, pic_path=None, use_dataset=False):
     if mode == 'offline':
-        if args.model_name == 'tcformer':
-            model = TCFormerPose(args)
+        if args.model_name == 'msknet':
+            model = MSKNet(args)
         elif args.model_name == 'msnet':
-            model = MSNet(args)
+            model = MSNet(args,1.5)
         elif args.model_name == 'mfnet':
-            model = MFNet(args,2)
+            model = MFNet(args,1.5)
         model = torch.nn.DataParallel(model).to(args.device)
         checkpoint_file = os.path.join(
             args.ckpg_dir, args.model_name, 'checkpoint.pth'
@@ -153,8 +151,8 @@ def inf(args, mode='offline', video_path=None, camera_id=None, pic_path=None, us
             raise TypeError(
                 "One of camera id and video path should not be none in online mode."
             )
-        if args.model_name == 'tcformer':
-            model = TCFormerPose(args)
+        if args.model_name == 'msknet':
+            model = MSKNet(args)
         elif args.model_name == 'msnet':
             model = MSNet(args)
         elif args.model_name == 'mfnet':
@@ -185,7 +183,7 @@ if __name__ == '__main__':
 
     args_parser, args = parse_args()
     args = setup(args_parser, args)
-    main(args)
-    # inf(args,mode = 'offline',use_dataset=True)
-    # inf(args,mode = 'offline',pic_path=os.path.join('examples','fallen_pic1.jpg'))
+    # main(args)
+    inf(args,mode = 'offline',use_dataset=True)
+    # inf(args,mode = 'offline',pic_path=os.path.join('examples','stand_pic1.jpg'))
     # inf(args,mode = 'online',video_path=os.path.join('examples','video1.mp4'))

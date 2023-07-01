@@ -1,13 +1,10 @@
 from torch.optim import AdamW
-from torch.optim.lr_scheduler import ReduceLROnPlateau
+from torch.optim.lr_scheduler import CosineAnnealingLR
 def build_optimizer(args,model):
 
     optimizer = AdamW(model.parameters(),args.learning_rate)
     
-    scheduler = ReduceLROnPlateau(optimizer=optimizer, 
-    factor=args.scheduler_factor, 
-    patience=args.scheduler_patience,
-    verbose=True,
-    min_lr=args.scheduler_min_lr)
+    scheduler = CosineAnnealingLR(optimizer=optimizer, 
+    T_max=args.max_epochs/2)
 
     return optimizer,scheduler
