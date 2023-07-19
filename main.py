@@ -119,6 +119,7 @@ def inf(args, mode='offline', video_path=None, camera_id=None, pic_path=None, us
         checkpoint_file = os.path.join(
             args.ckpg_dir, args.model_name, 'checkpoint.pth'
         )
+        
         checkpoint = torch.load(checkpoint_file,map_location=args.device)
         model.load_state_dict(checkpoint['state_dict'])
         dataset = get_inference_dataloader(args)
@@ -126,12 +127,10 @@ def inf(args, mode='offline', video_path=None, camera_id=None, pic_path=None, us
 
         if pic_path != None:
             img = cv2.imread(pic_path)
-            print(img.shape)
-            img = cv2.resize(img, tuple(args.img_shape))
-            print(img.shape)
+          
             result = inference(model, args, img, 0, None,
                                'offline', use_dataset)
-            
+            plt.savefig(pic_path.split('.')[0]+'_result.png')
             plt.show()
             return
 
@@ -185,5 +184,5 @@ if __name__ == '__main__':
     args = setup(args_parser, args)
     # main(args)
     # inf(args,mode = 'offline',use_dataset=True)
-    inf(args,mode = 'offline',pic_path=os.path.join('examples','stand_2.jpg'))
+    inf(args,mode = 'offline',pic_path=os.path.join('examples','sit_pic1.jpg'))
     # inf(args,mode = 'online',video_path=os.path.join('examples','video1.mp4'))

@@ -188,15 +188,17 @@ def inference(model,args,x,index, meta,mode = 'offline',use_dataset = False):
                 # plt.show()
         else:
             model.eval()
-            x = torch.tensor(x).to(args.device)
+            Reshape = Rescale(tuple(args.img_shape))
+            x = torch.tensor(Reshape(x)).float().to(args.device)
+            
             x = torch.Tensor.float(x)
             x = x.unsqueeze(0)
             x = x.permute(0,3,1,2)
             y = model(x,None,None)
+            
             if args.model_name == 'mfnet':
                 y = dsntnn.dsnt(y)
-                print(x)
-                display_pose(x[0][:3,:,:]/256,y[0])
+                display_pose(x[0][:3,:,:],y[0])
                 return 
             preds,_ = get_max_preds(y.cpu().detach().numpy())
             preds *=8
@@ -240,3 +242,30 @@ def show_skeleton(img,kpts,color=(255,128,128)):
         if pos[0] > 0 and pos[1] > 0 :
             cv2.circle(img, pos,4,(0,0,255),-1) #为肢体点画红色实心圆
     return img
+
+
+class Rescale(object):
+
+    def __init__(self, output_size):
+        assert isinstance(output_size, (int, tuple))
+        self.output_size = output_size
+
+    def __call__(self, sample):
+        image_ = sample/256.0
+        h, w = image_.shape[:2]
+        im_scale = min(float(self.output_size[0]) / float(h), float(self.output_size[1]) / float(w))
+        new_h = int(image_.shape[0] * im_scale)
+        new_w = int(image_.shape[1] * im_scale)
+        image = cv2.resize(image_, (new_w, new_h),
+                    interpolation=cv2.INTER_LINEAR)
+        left_pad = (self.output_size[1] - new_w) // 2
+        right_pad = (self.output_size[1] - new_w) - left_pad
+        top_pad = (self.output_size[0] - new_h) // 2
+        bottom_pad = (self.output_size[0] - new_h) - top_pad
+        mean=np.array([0.485, 0.456, 0.406])
+        pad = ((top_pad, bottom_pad), (left_pad, right_pad))
+        image = np.stack([np.pad(image[:,:,c], pad, mode='constant', constant_values=mean[c]) 
+                        for c in range(3)], axis=2)
+   
+
+        return image
