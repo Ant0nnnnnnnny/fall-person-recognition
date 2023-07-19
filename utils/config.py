@@ -8,7 +8,7 @@ def parse_args():
 
     parser = argparse.ArgumentParser(
         description='Arguments for person pose estimation.')
-    parser.add_argument('--model_name',type=str, default='msknet')
+    parser.add_argument('--model_name',type=str, default='mfnet')
     parser.add_argument('--seed', type=int, default=7310, help='Random seed.')
 
     parser.add_argument('--dataset_root',type=str, default=os.path.join('dataset','PoseData',))
@@ -20,7 +20,7 @@ def parse_args():
 
     # ===============================Data ================================
 
-    parser.add_argument('--img_shape', type=list, default=[256,256],
+    parser.add_argument('--img_shape', type=list, default=[224,224],
                         help='the input images shape.')        
 
     parser.add_argument('--heatmap_size', type=list,

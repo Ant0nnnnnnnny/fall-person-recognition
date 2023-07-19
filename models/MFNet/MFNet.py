@@ -1,14 +1,21 @@
 import torch.nn as nn
-import torch
-from models.MFNet.backbone.MFNet import MobileNetV3
+from models.MFNet.backbone.MFNet import mobilenetv2_ed
 from models.MFNet.head.SimpleHead import SimpleHead
+import dsntnn
 class MFNet(nn.Module):
     def __init__(self,args,multiplier =  1) -> None:
         super().__init__()
-        self.backbone = MobileNetV3(output_channels=args.neck_channels,multiplier = multiplier)
-        self.head = SimpleHead(args)
+        self.resnet = mobilenetv2_ed(width_mult=multiplier)
+        self.outsize = 32
+        self.hm_conv = nn.Conv2d(self.outsize, args.num_keypoints, kernel_size=1, bias=False)
     def forward(self,x,target,target_weight):
-        x = torch.Tensor.float(x)
-        y = self.backbone(x)
-        y = self.head(y)
-        return y
+        
+        resnet_out = self.resnet(x)
+
+        unnormalized_heatmaps = self.hm_conv(resnet_out)
+     
+        heatmaps = dsntnn.flat_softmax(unnormalized_heatmaps)
+    
+        # coords = dsntnn.dsnt(heatmaps)
+
+        return  heatmaps

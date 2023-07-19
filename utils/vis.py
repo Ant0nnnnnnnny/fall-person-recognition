@@ -8,6 +8,7 @@ import cv2
 import logging
 from utils.evaluate import get_max_preds
 
+import matplotlib.pyplot as plt
 
 def save_batch_image_with_joints(batch_image, batch_joints, batch_joints_vis,
                                  file_name, nrow=8, padding=2):
@@ -133,3 +134,42 @@ def save_debug_images(args, x, meta, target, joints_pred, output,
         save_batch_heatmaps(
             x, output, '{}_hm_pred.jpg'.format(prefix)
         )
+
+def display_pose( img, pose):
+    
+    mean=np.array([0.485, 0.456, 0.406])
+    std=np.array([0.229, 0.224, 0.225])
+    pose  = pose.data.cpu().numpy()
+    img = img.cpu().numpy().transpose(1,2,0)
+    colors = ['g', 'g', 'g', 'g', 'g', 'g', 'm', 'm', 'r', 'r', 'y', 'y', 'y', 'y','y','y']
+    pairs = [[8,9],[11,12],[11,10],[2,1],[1,0],[13,14],[14,15],[3,4],[4,5],[8,7],[7,6],[6,2],[6,3],[8,12],[8,13]]
+    colors_skeleton = ['r', 'y', 'y', 'g', 'g', 'y', 'y', 'g', 'g', 'm', 'm', 'g', 'g', 'y','y']
+    img = np.clip(img*std+mean, 0.0, 1.0)
+    img_width, img_height,_ = img.shape
+    pose = ((pose + 1)* np.array([img_width, img_height])-1)/2 # pose ~ [-1,1]
+    ax = plt.gca()
+    plt.imshow(img)
+    for idx in range(len(colors)):
+        plt.plot(pose[idx,0], pose[idx,1], marker='o', color=colors[idx])
+    for idx in range(len(colors_skeleton)):
+        plt.plot(pose[pairs[idx],0], pose[pairs[idx],1],color=colors_skeleton[idx])
+
+    xmin = np.min(pose[:,0])
+    ymin = np.min(pose[:,1])
+    xmax = np.max(pose[:,0])
+    ymax = np.max(pose[:,1])
+
+    bndbox = np.array(expand_bbox(xmin, xmax, ymin, ymax, img_width, img_height))
+    coords = (bndbox[0], bndbox[1]), bndbox[2]-bndbox[0]+1, bndbox[3]-bndbox[1]+1
+    ax.add_patch(plt.Rectangle(*coords, fill=False, edgecolor='yellow', linewidth=1))
+
+def expand_bbox(left, right, top, bottom, img_width, img_height):
+    width = right-left
+    height = bottom-top
+    ratio = 0.15
+    new_left = np.clip(left-ratio*width,0,img_width)
+    new_right = np.clip(right+ratio*width,0,img_width)
+    new_top = np.clip(top-ratio*height,0,img_height)
+    new_bottom = np.clip(bottom+ratio*height,0,img_height)
+
+    return [int(new_left), int(new_top), int(new_right), int(new_bottom)]

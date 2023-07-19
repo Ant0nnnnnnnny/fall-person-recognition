@@ -6,9 +6,11 @@ import torchvision
 import torch.nn as nn
 from .evaluate import get_max_preds
 import math
+from .vis import display_pose
+
 import matplotlib.pyplot as plt
 import numpy as np
-
+import dsntnn
 def save_checkpoint(states, is_best, output_dir,model_name,
                     filename='checkpoint.pth'):
     torch.save(states, os.path.join(output_dir,model_name,filename))
@@ -153,7 +155,9 @@ def inference(model,args,x,index, meta,mode = 'offline',use_dataset = False):
                 model.eval()
                 x = torch.Tensor.float(x).to(args.device)
                 y = model(x,None,None)
-
+                if args.model_name == 'mfnet':
+                    y = dsntnn.dsnt(y)
+                    display_pose(x,y)
                 preds,_ = get_max_preds(y.cpu().detach().numpy())
                 preds *=8
                 grid_image = torchvision.utils.make_grid(x, nrow, padding, True)
@@ -189,6 +193,11 @@ def inference(model,args,x,index, meta,mode = 'offline',use_dataset = False):
             x = x.unsqueeze(0)
             x = x.permute(0,3,1,2)
             y = model(x,None,None)
+            if args.model_name == 'mfnet':
+                y = dsntnn.dsnt(y)
+                print(x)
+                display_pose(x[0][:3,:,:]/256,y[0])
+                return 
             preds,_ = get_max_preds(y.cpu().detach().numpy())
             preds *=8
             joints = preds[0]

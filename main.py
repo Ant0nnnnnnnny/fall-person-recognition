@@ -18,7 +18,7 @@ from utils.train import train
 from models.MFNet.MFNet import MFNet
 from models.MobileNet.MSNet import MSNet
 from models.MSKNet.MSKNet import MSKNet
-
+import matplotlib.pyplot as plt
 
 import torch
 
@@ -26,6 +26,8 @@ import numpy as np
 import os
 
 import warnings
+
+
 warnings.filterwarnings("ignore")
 
 
@@ -112,7 +114,7 @@ def inf(args, mode='offline', video_path=None, camera_id=None, pic_path=None, us
         elif args.model_name == 'msnet':
             model = MSNet(args,1.5)
         elif args.model_name == 'mfnet':
-            model = MFNet(args,1.5)
+            model = MFNet(args,1)
         model = torch.nn.DataParallel(model).to(args.device)
         checkpoint_file = os.path.join(
             args.ckpg_dir, args.model_name, 'checkpoint.pth'
@@ -124,15 +126,13 @@ def inf(args, mode='offline', video_path=None, camera_id=None, pic_path=None, us
 
         if pic_path != None:
             img = cv2.imread(pic_path)
-            h, w = img.shape[:2]
+            print(img.shape)
             img = cv2.resize(img, tuple(args.img_shape))
-
+            print(img.shape)
             result = inference(model, args, img, 0, None,
                                'offline', use_dataset)
-            result = cv2.resize(result, (w, h))
-            cv2.imshow('image', result)
-            k = cv2.waitKey(0)
-            # q键退出
+            
+            plt.show()
             return
 
         for i, (x, _, _, meta) in enumerate(dataset):
@@ -184,6 +184,6 @@ if __name__ == '__main__':
     args_parser, args = parse_args()
     args = setup(args_parser, args)
     # main(args)
-    inf(args,mode = 'offline',use_dataset=True)
-    # inf(args,mode = 'offline',pic_path=os.path.join('examples','stand_pic1.jpg'))
+    # inf(args,mode = 'offline',use_dataset=True)
+    inf(args,mode = 'offline',pic_path=os.path.join('examples','stand_2.jpg'))
     # inf(args,mode = 'online',video_path=os.path.join('examples','video1.mp4'))
