@@ -40,24 +40,32 @@
   + `vis.py` 数据可视化模块    
 + `main.py` 项目运行入口
 
-# 当前模型对比
+## 部分结果展示
+
+![坐姿](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/sit-pose-estimation.png)
+
+![站姿](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/stand-pose-estimation.png)
+
+![跌倒](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/fallen-pose-estimation.png)
+
+<!-- # 当前模型对比
 | 模型名称           | Params     | MACs       | AP       | FPS      |
 | ------------------ | ---------- | ---------- | -------- | -------- |
 | MobileNetV3-normal | **5.285M** | **3.814G** | 0.65     | **28.5** |
 | MobileNetV3-large  | 10.871M    | 4.053G     | 0.76     | 22.7     |
 | TCFormer           | 25.624M    | 6.535G     | **0.82** | 9.4      |
-| MFNet-normal       | 5.464M     | 8.841G     | 0.68     | 23.8     |
-# 规划
-## 阶段一
+| MFNet-normal       | 5.464M     | 8.841G     | 0.68     | 23.8     | -->
+## 规划
+### 阶段一
 完成对姿态估计模型的建立、训练，确定最终落地使用的姿态估计方案。
   
 要求：**AP: 0.80+**,**FPS: 18+** 
-## 阶段二
+### 阶段二
 基于阶段一的姿态估计方案，使用姿态估计数据，建立数学模型或轻量级神经网络模型，实现跌倒识别。
   
 要求：**Accuracy: 0.95+**, **CPU-REALTIME**
 
-## 阶段三
+### 阶段三
 基于`micro-python`,`Django`,`Flutter`实现模型落地部署。其中，`micro-python`用于在边缘设备记录图像信息，并上传至服务器;`Django`用于后端搭建，基于`pytorch`实现图像推理，并得到识别结果;`Flutter`用于搭建跨平台的App,用于向用户展示识别结果信息（如是否跌倒、姿态信息等）。
 ## Reference
 + [TCFormer](https://arxiv.org/pdf/2204.08680.pdf)
