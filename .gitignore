@@ -131,6 +131,6 @@ dmypy.json
 log
 *.LAPTOP-TAPEGVFU
 .DS_Store
-
+*.ipynb
 # line counter
 .VSCodeCounter
