@@ -41,7 +41,7 @@
 + `main.py` 项目运行入口
 
 ## 部分结果展示
- 检测器为[YOLOS-tiny](https://huggingface.co/hustvl/yolos-tiny)
+ 检测器为[YOLOS-tiny](https://huggingface.co/hustvl/yolos-tiny)，模型使用MFNet。
 ### 坐卧
 ![坐姿](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/sit-pose-estimation.png)
 ### 站立
