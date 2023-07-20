@@ -41,11 +41,12 @@
 + `main.py` 项目运行入口
 
 ## 部分结果展示
-
+### 坐卧
 ![坐姿](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/sit-pose-estimation.png)
+### 站立
 
 ![站姿](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/stand-pose-estimation.png)
-
+### 跌倒
 ![跌倒](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/fallen-pose-estimation.png)
 
 <!-- # 当前模型对比
