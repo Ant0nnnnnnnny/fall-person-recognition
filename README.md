@@ -47,14 +47,23 @@
 + `main.py` 项目运行入口
 
 ## 部分结果展示
- 检测器为[YOLOS-tiny](https://huggingface.co/hustvl/yolos-tiny)，模型使用MFNet。
+
+### 多人-遮挡 
+![足球](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/multi-pose-estimation.png)
+[YOLOS-base](https://huggingface.co/hustvl/yolos-tiny) - MFNet
 ### 坐卧
 ![坐姿](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/sit-pose-estimation.png)
+[YOLOS-tiny](https://huggingface.co/hustvl/yolos-tiny) - MFNet
+
 ### 站立
 
 ![站姿](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/stand-pose-estimation.png)
+[YOLOS-tiny](https://huggingface.co/hustvl/yolos-tiny) - MFNet
+
 ### 跌倒
 ![跌倒](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/fallen-pose-estimation.png)
+[YOLOS-tiny](https://huggingface.co/hustvl/yolos-tiny) - MFNet
+
 
 <!-- # 当前模型对比
 | 模型名称           | Params     | MACs       | AP       | FPS      |
