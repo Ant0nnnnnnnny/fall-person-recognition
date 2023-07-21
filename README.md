@@ -50,19 +50,26 @@
 
 ### 多人-遮挡 
 ![足球](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/multi-pose-estimation.png)
-<center>检测器：[YOLOS-base](https://huggingface.co/hustvl/yolos-base) - 姿态估计模型：MFNet</center>
+
+ 检测器：[YOLOS-base](https://huggingface.co/hustvl/yolos-base)
+ 姿态估计模型： **MFNet** 
+
 ### 坐卧
+
 ![坐姿](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/sit-pose-estimation.png)
-<center>检测器：[YOLOS-tiny](https://huggingface.co/hustvl/yolos-tiny) - 姿态估计模型：MFNet</center>
+ 检测器：[YOLOS-tiny](https://huggingface.co/hustvl/yolos-tiny) 
+ 姿态估计模型： **MFNet** 
 
 ### 站立
 
 ![站姿](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/stand-pose-estimation.png)
-<center>检测器：[YOLOS-tiny](https://huggingface.co/hustvl/yolos-tiny) - 姿态估计模型：MFNet</center>
+ 检测器：[YOLOS-tiny](https://huggingface.co/hustvl/yolos-tiny) 
+ 姿态估计模型： **MFNet** 
 
 ### 跌倒
 ![跌倒](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/fallen-pose-estimation.png)
-<center>检测器：[YOLOS-tiny](https://huggingface.co/hustvl/yolos-tiny) - 姿态估计模型：MFNet</center>
+ 检测器：[YOLOS-tiny](https://huggingface.co/hustvl/yolos-tiny) 
+ 姿态估计模型： **MFNet** 
 
 
 <!-- # 当前模型对比
@@ -71,7 +78,7 @@
 | MobileNetV3-normal | **5.285M** | **3.814G** | 0.65     | **28.5** |
 | MobileNetV3-large  | 10.871M    | 4.053G     | 0.76     | 22.7     |
 | TCFormer           | 25.624M    | 6.535G     | **0.82** | 9.4      |
-| MFNet-normal       | 5.464M     | 8.841G     | 0.68     | 23.8     | -->
+|  **MFNet**-normal       | 5.464M     | 8.841G     | 0.68     | 23.8     | -->
 ## 规划
 ### 阶段一
 完成对姿态估计模型的建立、训练，确定最终落地使用的姿态估计方案。
