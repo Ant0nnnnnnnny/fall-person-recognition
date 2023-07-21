@@ -50,19 +50,19 @@
 
 ### 多人-遮挡 
 ![足球](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/multi-pose-estimation.png)
-[YOLOS-base](https://huggingface.co/hustvl/yolos-tiny) - MFNet
+<center>检测器：[YOLOS-base](https://huggingface.co/hustvl/yolos-base) - 姿态估计模型：MFNet</center>
 ### 坐卧
 ![坐姿](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/sit-pose-estimation.png)
-[YOLOS-tiny](https://huggingface.co/hustvl/yolos-tiny) - MFNet
+<center>检测器：[YOLOS-tiny](https://huggingface.co/hustvl/yolos-tiny) - 姿态估计模型：MFNet</center>
 
 ### 站立
 
 ![站姿](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/stand-pose-estimation.png)
-[YOLOS-tiny](https://huggingface.co/hustvl/yolos-tiny) - MFNet
+<center>检测器：[YOLOS-tiny](https://huggingface.co/hustvl/yolos-tiny) - 姿态估计模型：MFNet</center>
 
 ### 跌倒
 ![跌倒](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/fallen-pose-estimation.png)
-[YOLOS-tiny](https://huggingface.co/hustvl/yolos-tiny) - MFNet
+<center>检测器：[YOLOS-tiny](https://huggingface.co/hustvl/yolos-tiny) - 姿态估计模型：MFNet</center>
 
 
 <!-- # 当前模型对比
