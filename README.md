@@ -7,13 +7,13 @@
 
  2023.2 —— 支持**实时单人姿态估计**
 ## 说明
-Config→![Config](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/docs/config.md)
+Config→[Config](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/docs/config.md)
 
 
-分支![Branch](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/docs/branch.md)
+分支[Branch](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/docs/branch.md)
 
 
-项目结构![Files](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/docs/structure.md)
+项目结构[Files](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/docs/structure.md)
 
 ## 部分结果展示
 
