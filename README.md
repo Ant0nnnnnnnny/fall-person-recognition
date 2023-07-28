@@ -1,6 +1,8 @@
 # fallen-person-recognize
 ## 新内容
 
+ 2023.7 —— 添加**关键点行为识别数据集**，共110000+带有标注的关键点数据
+
  2023.7 —— 支持**多人姿态估计**
 
  2023.2 —— 支持**实时单人姿态估计**
@@ -47,6 +49,9 @@
 + `main.py` 项目运行入口
 
 ## 部分结果展示
+
+### 行为识别数据集
+![结果](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/skeleton dataset.png)
 
 ### 多人-遮挡 
 ![足球](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/multi-pose-estimation.png)
