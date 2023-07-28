@@ -51,7 +51,7 @@
 ## 部分结果展示
 
 ### 行为识别数据集
-![结果](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/skeleton dataset.png)
+![结果](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/skeleton-dataset.png)
 
 ### 多人-遮挡 
 ![足球](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/multi-pose-estimation.png)
