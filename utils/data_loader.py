@@ -2,6 +2,7 @@ import logging
 from torch.utils.data import DataLoader, RandomSampler, SequentialSampler
 from functools import partial
 
+from utils.skeleton_dataset import SkeletonDataset
 from utils.mpii import MPIIDataset
 def get_inference_dataloader(args):
     dataset = MPIIDataset(args,args.dataset_root,'test',False)
@@ -14,8 +15,18 @@ def get_inference_dataloader(args):
     return test_dataloader
 
 def get_dataloaders(args):
-    train_dataset = MPIIDataset(args,args.dataset_root,'train',True)
-    val_dataset = MPIIDataset(args,args.dataset_root,'valid',False)
+    
+    train_dataset = None
+    val_dataset = None
+
+    if args.model_name == 'st-gcn':
+
+        train_dataset = SkeletonDataset(args, train = True)
+        val_dataset = SkeletonDataset(args, train = False)
+        
+    else:
+        train_dataset = MPIIDataset(args,args.dataset_root,'train',True)
+        val_dataset = MPIIDataset(args,args.dataset_root,'valid',False)
 
     if args.num_workers > 0:
         dataloader_class = partial(
@@ -36,7 +47,9 @@ def get_dataloaders(args):
                                       batch_size=args.val_batch_size,
                                       sampler=val_sampler,
                                       drop_last=False)
+    
     logging.info("DataLoader finished.")
+
     return train_dataloader, val_dataloader,train_dataset,val_dataset
 
     
