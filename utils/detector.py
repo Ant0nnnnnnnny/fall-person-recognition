@@ -4,11 +4,14 @@ import torch
 import time
 import matplotlib.pyplot as plt
 import cv2
-def detect_person(imgurl):
-    image = Image.open(imgurl)
-    img = cv2.imread(imgurl)
-    model = YolosForObjectDetection.from_pretrained('hustvl/yolos-base')
-    image_processor = YolosImageProcessor.from_pretrained("hustvl/yolos-base")
+def detect_person(imgurl, online = False, frame = None):
+    if online:
+        img = frame
+    else:
+        image = Image.open(imgurl)
+        img = cv2.imread(imgurl)
+    model = YolosForObjectDetection.from_pretrained('hustvl/yolos-tiny')
+    image_processor = YolosImageProcessor.from_pretrained("hustvl/yolos-tiny")
 
     inputs = image_processor(images=image, return_tensors="pt")
     before = time.time()
