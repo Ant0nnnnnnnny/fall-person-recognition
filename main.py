@@ -3,6 +3,9 @@ from torch.utils.tensorboard import SummaryWriter
 import logging
 import time
 
+from bytetracker import BYTETracker
+from detector.Detector import FastDetector
+from utils.multi_estimator import MultiEstimator
 
 from utils.config import parse_args
 import cv2
@@ -18,12 +21,14 @@ from utils.train import train
 from models.MFNet.MFNet import MFNet
 from models.MobileNet.MSNet import MSNet
 from models.MSKNet.MSKNet import MSKNet
+from models.STGCN.STGCN import STGCN
 import matplotlib.pyplot as plt
 
 import torch
 import dsntnn
 from utils.detector import detect_person
 import os
+import numpy as np
 
 import warnings
 
@@ -50,6 +55,9 @@ def main(args):
         model = MSNet(args)
     elif args.model_name == 'mfnet':
         model = MFNet(args)
+    elif args.model_name == 'st-gcn':
+        model = STGCN(args)
+
     model = torch.nn.DataParallel(model).to(args.device)
     best_perf = 0.0
     best_model = False
@@ -61,6 +69,7 @@ def main(args):
     )
 
     if args.auto_resume and os.path.exists(checkpoint_file):
+
         logging.info("=> loading checkpoint '{}'".format(checkpoint_file))
         checkpoint = torch.load(checkpoint_file,map_location=args.device)
         begin_epoch = checkpoint['epoch']
@@ -184,9 +193,6 @@ def inference_with_detector(args, img_path):
     assert args.model_name =='mfnet' 
     'Detecting mode only supports MFNet'
     model = MFNet(args)
-    checkpoint_file = os.path.join(
-            args.ckpg_dir, args.model_name, 'checkpoint.pth'
-        )
     model = torch.nn.DataParallel(model).to(args.device)
     checkpoint_file = os.path.join(
             args.ckpg_dir, args.model_name, 'checkpoint.pth'
@@ -224,6 +230,59 @@ def inference_with_detector(args, img_path):
     plt.savefig(img_path.split('.')[0]+'-estimation.png')
     plt.show()
 
+def inference_with_tracker(args,video_path):
+    model = MFNet(args)
+    model = torch.nn.DataParallel(model).to(args.device)
+    checkpoint_file = os.path.join(
+            args.ckpg_dir, args.model_name, 'checkpoint.pth'
+        )
+    checkpoint = torch.load(checkpoint_file,map_location=args.device)
+    model.load_state_dict(checkpoint['state_dict'])
+
+    estimator = MultiEstimator(model.module,args)
+    tracker = BYTETracker()
+
+    capture = cv2.VideoCapture(video_path)
+    frame_width = int(capture.get(3))
+    frame_height = int(capture.get(4))
+
+
+    out = cv2.VideoWriter(os.path.join('examples','video_result.mp4'), cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 10, (frame_width, frame_height)) 
+
+    counter =  0
+    dets = None
+    detector = FastDetector(args)
+    while True:
+            
+        ret, frame = capture.read()
+        if not ret:
+            break
+        before =time.time()
+        if counter %1 == 0:
+
+            dets = detector.detect(frame)
+            if len(dets) == 0:
+                continue
+        counter+=1
+        online_targets = tracker.update(torch.tensor(np.array(dets)),2)
+          
+        if len(online_targets) == 0:
+            continue
+        dets = online_targets
+            
+        humans = estimator.inference(frame,dets)
+        frame = estimator.vis(frame,humans)
+          
+        # for i in online_targets:
+        #     cv2.rectangle(frame,(int(i[0]),int(i[1])),(int(i[2]),int(i[3])), (0,0,255),4)
+        end = time.time()
+        cv2.putText(frame, "fps: " + str(round(1/(end - before),2)), (5,34),cv2.FONT_HERSHEY_SIMPLEX,1,color=(0,0,255))
+        cv2.imshow('video', frame)
+        out.write(frame)
+        if cv2.waitKey(50) == 27:
+            out.release()
+            break
+    out.release()
 
 if __name__ == '__main__':
 
@@ -233,6 +292,7 @@ if __name__ == '__main__':
     # inf(args,mode = 'offline',use_dataset=True)
     # inf(args,mode = 'offline',pic_path=os.path.join('examples','sit_pic1.jpg'))
     # inf(args,mode = 'online',video_path=os.path.join('examples','video1.mp4'))
-    inference_with_detector(args=args, img_path=os.path.join('examples','fallen-pose.jpg'))
-    inference_with_detector(args=args, img_path=os.path.join('examples','stand-pose.jpg'))
-    inference_with_detector(args=args, img_path=os.path.join('examples','sit-pose.jpg'))
+    # inference_with_detector(args=args, img_path=os.path.join('examples','fallen-pose.jpg'))
+    # inference_with_detector(args=args, img_path=os.path.join('examples','stand-pose.jpg'))
+    # inference_with_detector(args=args, img_path=os.path.join('examples','sit-pose.jpg'))
+    inference_with_tracker(args=args,video_path=os.path.join('examples','video.mp4'))
