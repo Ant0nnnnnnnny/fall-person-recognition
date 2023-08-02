@@ -19,13 +19,12 @@ Config→[Config](https://github.com/qhtLucifer/fallen-person-recognize/blob/mai
 
 ### 模型性能对比
 
-| 模型                                                   | Macs(M) | 参数量(M) | 平均推理耗时(ms/frame)                                                                         | 说明                 |
-| ------------------------------------------------------ | ------- | --------- | ---------------------------------------------------------------------------------------------- | -------------------- |
-| MFNet                                                  | 1035.96 | 4.10      | 53/人                                                                                          | 姿态估计模型         |
-| [FastestDet](https://github.com/dog-qiuqiu/FastestDet) | 779.38  | 0.24      | 61                                                                                             | 人体检测模型         |
-| [ST-GCN](https://github.com/hazdzz/STGCN)              | 55.86   | 2.62      | 21                                                                                             | 动作分类模型**TODO** |
-| 共计                                                   | 1871.2  | 6.96      | 135| [推理视频](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/video.mov) |
-|                                                        |
+| 模型                                                   | Macs(M) | 参数量(M) | 平均推理耗时(ms/frame) | 说明                                                                                           |
+| ------------------------------------------------------ | ------- | --------- | ---------------------- | ---------------------------------------------------------------------------------------------- |
+| MFNet                                                  | 1035.96 | 4.10      | 53/人                  | 姿态估计模型                                                                                   |
+| [FastestDet](https://github.com/dog-qiuqiu/FastestDet) | 779.38  | 0.24      | 61                     | 人体检测模型                                                                                   |
+| [ST-GCN](https://github.com/hazdzz/STGCN)              | 55.86   | 2.62      | 21                     | 动作分类模型**TODO**                                                                           |
+| 共计                                                   | 1871.2  | 6.96      | 135                    | [推理视频](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/video.mov) |
 
 ### 行为识别数据集
 下载:[Google Drive](https://drive.google.com/drive/folders/1-n0jYog_vLufOdzq5lYgvuI1q_ulrpD8?usp=drive_link)(主要是不限速)  [百度网盘](https://pan.baidu.com/s/1Mw040S7RUPSiRFxxCGgxZA?pwd=p7sc)
