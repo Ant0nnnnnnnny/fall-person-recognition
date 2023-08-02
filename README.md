@@ -18,6 +18,7 @@ Config→[Config](https://github.com/qhtLucifer/fallen-person-recognize/blob/mai
 ## 部分结果展示
 
 ## 姿态估计
+
 <iframe 
 src="https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/video.mov" 
 scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> 
