@@ -42,12 +42,13 @@ class MultiEstimator:
         multi_keypoints = []
         for i in boxes:
             img = imgs[int(i[1]):int(i[3]), int(i[0]):int(i[2]),:]
-            
             height = img.shape[0]
             width = img.shape[1]
 
+            if height == 0 or width ==0:
+                return np.array([])
             rescale_out = self.rescale(img, (self.img_shape, self.img_shape))
-
+            
             image = rescale_out['image']
             image = self.to_tensor(image).to('mps')
             image = image.unsqueeze(0)

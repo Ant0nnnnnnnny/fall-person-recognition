@@ -246,8 +246,8 @@ def inference_with_tracker(args,video_path):
     frame_width = int(capture.get(3))
     frame_height = int(capture.get(4))
 
-
-    out = cv2.VideoWriter(os.path.join('examples','video_result.mp4'), cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 10, (frame_width, frame_height)) 
+    print(frame_width,frame_height)
+    out = cv2.VideoWriter(os.path.join('video01.mov'), cv2.VideoWriter_fourcc(*"avc1"), 30, (frame_width, frame_height),True) 
 
     counter =  0
     dets = None
@@ -258,24 +258,29 @@ def inference_with_tracker(args,video_path):
         if not ret:
             break
         before =time.time()
-        if counter %1 == 0:
-
+        if counter %2 == 0:
             dets = detector.detect(frame)
+            det_time = time.time()
             if len(dets) == 0:
                 continue
         counter+=1
         online_targets = tracker.update(torch.tensor(np.array(dets)),2)
-          
+        track_time = time.time() 
         if len(online_targets) == 0:
             continue
         dets = online_targets
-            
+
         humans = estimator.inference(frame,dets)
+        end = time.time()
+        logging.info('Total {total:.2f}s/frame\t Detect cost: {det_c:.2f}s/frame \t Tracker cost: {t_c:.2f}s/frame \t Pose estimation: {p_c:.2f}'.
+                     format(total = end -before, 
+                            det_c = det_time - before, 
+                            t_c = track_time - det_time, 
+                            p_c = end - track_time))
         frame = estimator.vis(frame,humans)
           
-        # for i in online_targets:
-        #     cv2.rectangle(frame,(int(i[0]),int(i[1])),(int(i[2]),int(i[3])), (0,0,255),4)
-        end = time.time()
+        for i in online_targets:
+            cv2.rectangle(frame,(int(i[0]),int(i[1])),(int(i[2]),int(i[3])), (0,0,255),4)
         cv2.putText(frame, "fps: " + str(round(1/(end - before),2)), (5,34),cv2.FONT_HERSHEY_SIMPLEX,1,color=(0,0,255))
         cv2.imshow('video', frame)
         out.write(frame)
