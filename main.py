@@ -272,7 +272,7 @@ def inference_with_tracker(args,video_path):
                             p_c = end - track_time))
         frame = estimator.vis(frame,humans,dets)
           
-        cv2.putText(frame, "fps: " + str(round(1/(end - before),2)), (5,34),cv2.FONT_HERSHEY_SIMPLEX,1,color=(0,0,255))
+        # cv2.putText(frame, "fps: " + str(round(1/(end - before),2)), (5,34),cv2.FONT_HERSHEY_SIMPLEX,1,color=(0,0,255))
         cv2.imshow('video', frame)
         out.write(frame)
         if cv2.waitKey(50) == 27:

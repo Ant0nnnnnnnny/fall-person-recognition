@@ -117,8 +117,8 @@ class MultiEstimator:
         image = np.stack([np.pad(image[:, :, c], pad, mode='constant',
                          constant_values=mean[c])for c in range(3)], axis=2)
 
-        def pose_fun(x): return ((((x.reshape([-1, 2])+np.array([1.0, 1.0]))/2.0*np.array(
-            output_size)-[left_pad, top_pad]) * 1.0 / np.array([new_w, new_h])*np.array([w, h])))
+        pose_fun = lambda x:(x*np.array([new_w+left_pad*2,new_h + top_pad*2])/im_scale - np.array([left_pad,top_pad])/im_scale)
+        
         image = cv2.resize(
             image, (output_size[1], output_size[0]), interpolation=cv2.INTER_LINEAR)
         return {'image': image, 'pose_fun': pose_fun}
@@ -158,7 +158,7 @@ class MultiEstimator:
 
             # 归一化
             position2d /= np.array([384.0,512.0])
-      
+            position2d = rescale_out['pose_fun'](position2d)
             multi_keypoints.append(position2d)
 
         return np.array(multi_keypoints)
@@ -168,13 +168,6 @@ class MultiEstimator:
             npimg = np.copy(npimg)
 
         for box, single_keypoints in zip(bboxs, multi_keypoints):
-
-            roi_w = box[2] - box[0]
-            roi_h = box[3] - box[1]
-
-            single_keypoints[:, 0] *= roi_w
-            
-            single_keypoints[:, 1] *= roi_h
 
             offset  = np.array([box[0],box[1]])
 
