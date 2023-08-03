@@ -231,15 +231,8 @@ def inference_with_detector(args, img_path):
     plt.show()
 
 def inference_with_tracker(args,video_path):
-    model = MFNet(args)
-    model = torch.nn.DataParallel(model).to(args.device)
-    checkpoint_file = os.path.join(
-            args.ckpg_dir, args.model_name, 'checkpoint.pth'
-        )
-    checkpoint = torch.load(checkpoint_file,map_location=args.device)
-    model.load_state_dict(checkpoint['state_dict'])
-
-    estimator = MultiEstimator(model.module,args)
+ 
+    estimator = MultiEstimator(args)
     tracker = BYTETracker()
 
     capture = cv2.VideoCapture(video_path)
@@ -277,16 +270,15 @@ def inference_with_tracker(args,video_path):
                             det_c = det_time - before, 
                             t_c = track_time - det_time, 
                             p_c = end - track_time))
-        frame = estimator.vis(frame,humans)
+        frame = estimator.vis(frame,humans,dets)
           
-        for i in online_targets:
-            cv2.rectangle(frame,(int(i[0]),int(i[1])),(int(i[2]),int(i[3])), (0,0,255),4)
         cv2.putText(frame, "fps: " + str(round(1/(end - before),2)), (5,34),cv2.FONT_HERSHEY_SIMPLEX,1,color=(0,0,255))
         cv2.imshow('video', frame)
         out.write(frame)
         if cv2.waitKey(50) == 27:
             out.release()
             break
+        
     out.release()
 
 if __name__ == '__main__':
