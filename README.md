@@ -50,7 +50,7 @@ Config→[Config](https://github.com/qhtLucifer/fallen-person-recognize/blob/mai
  姿态估计模型： **MFNet** 
 
 ### 广角
-![跌倒](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/wide_angle.jpg)
+![广角](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/wide_angle1.jpg)
  检测器：[FastestDet](https://github.com/dog-qiuqiu/FastestDet)
  姿态估计模型： **MFNet** 
 
