@@ -49,9 +49,9 @@ Config→[Config](https://github.com/qhtLucifer/fallen-person-recognize/blob/mai
  检测器：[YOLOS-tiny](https://huggingface.co/hustvl/yolos-tiny) 
  姿态估计模型： **MFNet** 
 
-### 跌倒
-![跌倒](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/fallen-pose-estimation.png)
- 检测器：[YOLOS-tiny](https://huggingface.co/hustvl/yolos-tiny) 
+### 广角
+![跌倒](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/wide_angle.jpg)
+ 检测器：[FastestDet](https://github.com/dog-qiuqiu/FastestDet)
  姿态估计模型： **MFNet** 
 
 
