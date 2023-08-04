@@ -19,12 +19,15 @@ Config→[Config](https://github.com/qhtLucifer/fallen-person-recognize/blob/mai
 
 ### 模型性能对比
 
-| 模型                                                   | Macs(M) | 参数量(M) | 平均推理耗时(ms/frame) | 说明                                                                                           |
-| ------------------------------------------------------ | ------- | --------- | ---------------------- | ---------------------------------------------------------------------------------------------- |
-| MFNet                                                  | 1035.96 | 4.10      | 21/人                  | 姿态估计模型                                                                                   |
-| [FastestDet](https://github.com/dog-qiuqiu/FastestDet) | 779.38  | 0.24      | 61                     | 人体检测模型                                                                                   |
-| [ST-GCN](https://github.com/hazdzz/STGCN)              | 55.86   | 2.62      | 21                     | 动作分类模型**TODO**                                                                           |
-| 共计                                                   | 1871.2  | 6.96      | 102                    | [推理视频](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/video.mov) |
+| 模型                                                | FlOPS(G) | 参数量(M) | 平均推理耗时(ms/frame)`*` | 说明                                                                                           |
+| --------------------------------------------------- | ------- | --------- | ---------------------- | ---------------------------------------------------------------------------------------------- |
+| MFNet                                               | 0.67 | 4.10      | 21/人                  | 姿态估计模型                                                                                   |
+| [PicoDet](https://arxiv.org/pdf/2111.00902.pdf) | 1.18  | 0.97      | 13.7                   | 人体检测模型                                                                                   |
+| [ST-GCN](https://arxiv.org/pdf/1801.07455v2.pdf)           | 27.74   | 2.62      | 21                     | 动作分类模型**TODO**                                                                           |
+|[ByteTrack](https://arxiv.org/pdf/2110.06864.pdf)| - | - | 7.3 | 目标跟踪模型
+| 共计                                                | 29.59  | 7.69      | 63                    | [推理视频](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/video.mov) |
+
+`*`说明: 基于M1Pro(8+2)平台推理。
 
 ### 行为识别数据集
 下载:[Google Drive](https://drive.google.com/drive/folders/1-n0jYog_vLufOdzq5lYgvuI1q_ulrpD8?usp=drive_link)(主要是不限速)  [百度网盘](https://pan.baidu.com/s/1Mw040S7RUPSiRFxxCGgxZA?pwd=p7sc)
@@ -54,14 +57,6 @@ Config→[Config](https://github.com/qhtLucifer/fallen-person-recognize/blob/mai
  检测器：[FastestDet](https://github.com/dog-qiuqiu/FastestDet)
  姿态估计模型： **MFNet** 
 
-
-<!-- # 当前模型对比
-| 模型名称           | Params     | MACs       | AP       | FPS      |
-| ------------------ | ---------- | ---------- | -------- | -------- |
-| MobileNetV3-normal | **5.285M** | **3.814G** | 0.65     | **28.5** |
-| MobileNetV3-large  | 10.871M    | 4.053G     | 0.76     | 22.7     |
-| TCFormer           | 25.624M    | 6.535G     | **0.82** | 9.4      |
-| **MFNet**-normal   | 5.464M     | 8.841G     | 0.68     | 23.8     | --> |
 ## 规划
 ### 阶段一
 完成对姿态估计模型的建立、训练，确定最终落地使用的姿态估计方案。

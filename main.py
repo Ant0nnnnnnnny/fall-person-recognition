@@ -4,7 +4,7 @@ import logging
 import time
 
 from bytetracker import BYTETracker
-from detector.Detector import FastDetector
+from detector.PicoDet import PicoDetector
 from utils.multi_estimator import MultiEstimator
 
 from utils.config import parse_args
@@ -244,20 +244,23 @@ def inference_with_tracker(args,video_path):
 
     counter =  0
     dets = None
-    detector = FastDetector(args)
+    detector = PicoDetector(args)
     while True:
             
         ret, frame = capture.read()
         if not ret:
             break
         before =time.time()
-        if counter %2 == 0:
-            dets = detector.detect(frame)
-            det_time = time.time()
-            if len(dets) == 0:
-                continue
-        counter+=1
-        online_targets = tracker.update(torch.tensor(np.array(dets)),2)
+       
+        dets = detector.detect(frame)
+
+        det_time = time.time()
+
+        if len(dets) == 0:
+            continue
+
+        online_targets = tracker.update(torch.tensor(np.array(dets)),counter)
+        counter +=1 
         track_time = time.time() 
         if len(online_targets) == 0:
             continue
@@ -265,11 +268,11 @@ def inference_with_tracker(args,video_path):
 
         humans = estimator.inference(frame,dets)
         end = time.time()
-        logging.info('Total {total:.2f}s/frame\t Detect cost: {det_c:.2f}s/frame \t Tracker cost: {t_c:.2f}s/frame \t Pose estimation: {p_c:.2f}'.
-                     format(total = end -before, 
-                            det_c = det_time - before, 
-                            t_c = track_time - det_time, 
-                            p_c = end - track_time))
+        logging.info('Total {total:.2f}ms/frame\t Detect cost: {det_c:.2f}ms/frame \t Tracker cost: {t_c:.2f}ms/frame \t Pose estimation: {p_c:.2f}ms'.
+                     format(total = (end -before)*1000, 
+                            det_c =( det_time - before)*1000, 
+                            t_c = (track_time - det_time)*1000, 
+                            p_c = (end - track_time)*1000))
         frame = estimator.vis(frame,humans,dets)
           
         # cv2.putText(frame, "fps: " + str(round(1/(end - before),2)), (5,34),cv2.FONT_HERSHEY_SIMPLEX,1,color=(0,0,255))
@@ -292,4 +295,5 @@ if __name__ == '__main__':
     # inference_with_detector(args=args, img_path=os.path.join('examples','fallen-pose.jpg'))
     # inference_with_detector(args=args, img_path=os.path.join('examples','stand-pose.jpg'))
     # inference_with_detector(args=args, img_path=os.path.join('examples','sit-pose.jpg'))
+
     inference_with_tracker(args=args,video_path=os.path.join('examples','video.mp4'))
