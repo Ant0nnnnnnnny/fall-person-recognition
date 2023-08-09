@@ -1,10 +1,6 @@
 import cv2
 import numpy as np
-import argparse
 import onnxruntime as ort
-from pathlib import Path
-from tqdm import tqdm
-
 
 class PicoDetector():
     def __init__(self,

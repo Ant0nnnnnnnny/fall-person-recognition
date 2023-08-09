@@ -123,3 +123,15 @@ def accuracy(output, target, hm_type='gaussian', thr=0.5):
     if cnt != 0:
         acc[0] = avg_acc
     return acc, avg_acc, cnt, pred
+
+
+def skeleton_accuracy(outputs, y):
+
+    '''
+    Calculate each class` accuracy in outputs.
+    return: {'mean':mean accuracy, class_0:class_0 accuracy, class_1: class_1 accuracy, ....}
+    '''
+
+    classes = set(y.detach().cpu().numpy())
+
+    

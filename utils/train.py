@@ -16,6 +16,7 @@ def train(args, train_loader, model, optimizer, epoch, loss_func, log_writer):
     model.train()
 
     end = time.time()
+    
     for i, (x, target, target_weight, meta) in enumerate(train_loader):
         # measure data loading time
         data_time.update(time.time() - end)

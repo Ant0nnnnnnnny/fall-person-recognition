@@ -5,13 +5,11 @@ import logging
 from configs.msnet import msnet_config
 from configs.msknet import msknet_config
 from configs.mfnet import mfnet_config
+from configs.st_gcn import st_gcn_config
 def setup_device(args):
     if torch.has_cuda:
         args.device = 'cuda'
         logging.info('Model running on cuda.')
-    elif torch.has_mps:
-        args.device = 'mps'
-        logging.info('Model running on mps.')
     else:
         args.device = 'cpu'
         logging.info('Model running on cpu.')
@@ -40,6 +38,9 @@ def setup(args_parser,args):
         args = msknet_config(args_parser)
     elif args.model_name == 'mfnet':
         args = mfnet_config(args_parser)
+    elif args.model_name == 'st-gcn':
+        args = st_gcn_config(args_parser)
+    
     args = args.parse_args(args = [])
     setup_device(args)
     setup_seed(args)

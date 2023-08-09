@@ -8,39 +8,47 @@ def parse_args():
 
     parser = argparse.ArgumentParser(
         description='Arguments for person pose estimation.')
-    parser.add_argument('--model_name',type=str, default='mfnet')
+    
+    parser.add_argument('--model_name',type=str, default='st-gcn')
+    
     parser.add_argument('--seed', type=int, default=7310, help='Random seed.')
 
     parser.add_argument('--dataset_root',type=str, default=os.path.join('dataset','PoseData',))
-
+    parser.add_argument('--skeleton_dataset_dir',type=str,default=os.path.join('dataset','ActivityData','ntu120.pkl'))
     parser.add_argument('--ckpg_dir',type=str, default='checkpoints')
-
     parser.add_argument('--inference_dir',type=str,default=os.path.join('output','inference'))
+    parser.add_argument('--log_dir',type=str,default='log')
+    parser.add_argument('--output_dir',type=str, default='output')
+    parser.add_argument('--debug_dir',type=str,default='debug')
+    parser.add_argument('--config_dir', type = str, default= 'configs')
+
+    parser.add_argument('--estimator_onnx_path',type = str, default=os.path.join('checkpoints','mfnet','checkpoint.onnx'))
+
+    parser.add_argument('--auto_resume',type=bool,default=True)
+
+    parser.add_argument('--print_steps', type=int, default=30)
 
 
+    # =============================== Detector configs ================================
+
+    parser.add_argument('--detector_prob_threshold', type=float, default=0.4)
+
+    parser.add_argument('--detector_iou_threshold', type=float, default=0.3)
+    
+    parser.add_argument('--detector_weight_path', type=str, default= os.path.join('checkpoints','pico.onnx'))
+
+    parser.add_argument('--threshold',type=float, default=0.25)
+    
     # ===============================Data ================================
 
-    parser.add_argument('--img_shape', type=list, default=[224,224],
+    parser.add_argument('--img_shape', type=list, default=[256,192],
                         help='the input images shape.')        
 
-    parser.add_argument('--heatmap_size', type=list,
-                        default=[32,32])      
-    parser.add_argument('--sigma', type=float,
-                        default=2.0)     
-    parser.add_argument('--prefetch', default=16, type=int,
+    parser.add_argument('--prefetch', default=2, type=int,
                         help="use for training duration per worker")
 
-    parser.add_argument('--num_workers', default=14, type=int,
+    parser.add_argument('--num_workers', default=8, type=int,
                         help="num_workers for dataloader")
-
-    parser.add_argument('--batch_size', default=4, type=int,
-                        help="use for training duration per worker")
-
-    parser.add_argument('--val_batch_size', default=4,
-                        type=int, help="use for validation duration per worker")
-
-    parser.add_argument('--test_batch_size', default=4,
-                        type=int, help="use for testing duration per worker")
 
     parser.add_argument('--num_joints_half_body',type=int,default=8)
 
@@ -49,36 +57,39 @@ def parse_args():
     parser.add_argument('--rotation_factor',type=float,default=30)
 
     parser.add_argument('--scale_factor',type=float,default=0.25)
-    # ================================ optimizer ================================
-    parser.add_argument('--learning_rate', type=float,
-                        default=5e-4, help='learning rate.')
 
-    parser.add_argument('--scheduler_factor', type=float, default=0.1,
-                        help='the factor in scheduler ReduceLROnPlateau.')
+    parser.add_argument('--skeleton_label_dir',type=str,default=os.path.join('dataset','ActivityData','labels.txt'))
 
-    parser.add_argument('--scheduler_patience', type=int, default=10,
-                        help='the patient in scheduler ReduceLROnPlateau.')
-
-    parser.add_argument('--scheduler_min_lr', type=float,
-                        default=1e-5, help='the min learning rate.')
+    parser.add_argument('--activity_classes',type=list,default=[42, 49, 50])
 
     # ============================= Model Configs =====================
     '''
     Moved to configs/
     '''
-    parser.add_argument('--config_dir', type = str, default= 'configs')
-    # ============================ train ========================================
+    # ============================ Hyperparameters ========================================
 
+    parser.add_argument('--label_smoothing', type=float,
+                        default=0)
+    
+    parser.add_argument('--adamw_betas', type=tuple,
+                        default=(0.9, 0.999))
+    parser.add_argument('--adamw_weight_decay', type=float,
+                        default=1e-2)
+    parser.add_argument('--adamw_amsgrad', type=bool, default=False)
+
+    parser.add_argument('--learning_rate', type=float,
+                        default=5e-4, help='learning rate.')
+
+    parser.add_argument('--scheduler_min_lr', type=float,
+                        default=1e-5, help='the min learning rate.')
+    
     parser.add_argument('--max_epochs', type=int, default=300)
 
-    parser.add_argument('--print_steps', type=int, default=30)
+    parser.add_argument('--batch_size', default=4, type=int,
+                        help="use for training duration per worker")
 
-    parser.add_argument('--log_dir',type=str,default='log')
-
-    parser.add_argument('--auto_resume',type=bool,default=True)
-
-    parser.add_argument('--output_dir',type=str, default='output')
-    parser.add_argument('--debug_dir',type=str,default='debug')
+    parser.add_argument('--val_batch_size', default=4,
+                        type=int, help="use for validation duration per worker")
 
     #==============================Debug config =======================
     parser.add_argument('--post_processing',type=bool,default=True)
@@ -88,32 +99,4 @@ def parse_args():
     parser.add_argument('--save_batch_heatmap_gt',type=bool,default=True)
     parser.add_argument('--save_batch_heatmap_pred',type=bool,default=True)
 
-    #==========================In case get error run in jupyter==================================
-    # parser.add_argument("--f", dest = 'j_cfile', help = 
-    #                 "jupyter config file",
-    #                 default = "file.json", type = str)
-    # parser.add_argument("--ip",
-    #                 "jupyter config file",
-    #                 default = "127.0.0.1", type = str)
-    # parser.add_argument("--stdin",
-    #                 "jupyter config file",
-    #                 default = 9003, type = int)
-    # parser.add_argument("--control",
-    #                 "jupyter config file",
-    #                 default = 9001, type = int)
-    # parser.add_argument("--hb",
-    #                 "jupyter config file",
-    #                 default = 9000, type = int)
-    # parser.add_argument("--Session.signature_scheme",
-    #                 "jupyter config file",
-    #                 default = "hmac-sha256", type = str)
-    # parser.add_argument("--shell",
-    #                 "jupyter config file",
-    #                 default = 9002, type = int)
-    # parser.add_argument("--transport",
-    #                 "jupyter config file",
-    #                 default = "tcp", type = str)
-    # parser.add_argument("--iopub",
-    #                 "jupyter config file",
-    #                 default = 9004, type = int)
     return parser, parser.parse_args(args=[])
