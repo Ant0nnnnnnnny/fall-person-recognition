@@ -58,24 +58,24 @@ Config→[Config](https://github.com/qhtLucifer/fallen-person-recognize/blob/mai
 ### 多人-遮挡 
 ![足球](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/multi-pose-estimation.png)
 
- 检测器：[YOLOS-base](https://huggingface.co/hustvl/yolos-base)
+ 检测器：[PicoDet](https://arxiv.org/pdf/2111.00902.pdf)
  姿态估计模型： **MFNet** 
 
 ### 坐卧
 
 ![坐姿](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/sit-pose-estimation.png)
- 检测器：[YOLOS-tiny](https://huggingface.co/hustvl/yolos-tiny) 
+ 检测器：[PicoDet](https://arxiv.org/pdf/2111.00902.pdf)
  姿态估计模型： **MFNet** 
 
 ### 站立
 
 ![站姿](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/stand-pose-estimation.png)
- 检测器：[YOLOS-tiny](https://huggingface.co/hustvl/yolos-tiny) 
+ 检测器：[PicoDet](https://arxiv.org/pdf/2111.00902.pdf)
  姿态估计模型： **MFNet** 
 
 ### 广角
 ![广角](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/wide_angle1.jpg)
- 检测器：[FastestDet](https://github.com/dog-qiuqiu/FastestDet)
+ 检测器：[PicoDet](https://arxiv.org/pdf/2111.00902.pdf)
  姿态估计模型： **MFNet** 
 
 ## 规划
@@ -97,3 +97,6 @@ Config→[Config](https://github.com/qhtLucifer/fallen-person-recognize/blob/mai
 + [MobileNetV3](https://openaccess.thecvf.com/content_ICCV_2019/papers/Howard_Searching_for_MobileNetV3_ICCV_2019_paper.pdf)
 + [YOLOV7](https://arxiv.org/pdf/2207.02696.pdf)
 + [YOLOV5](https://github.com/ultralytics/yolov5)
++ [PicoDet](https://arxiv.org/pdf/2111.00902.pdf)
++ [ST-GCN](https://arxiv.org/pdf/1801.07455v2.pdf) 
++ [ByteTrack](https://arxiv.org/pdf/2110.06864.pdf)
