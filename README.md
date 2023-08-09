@@ -53,7 +53,7 @@ Config→[Config](https://github.com/qhtLucifer/fallen-person-recognize/blob/mai
 ### 行为识别数据集
 下载:[Google Drive](https://drive.google.com/drive/folders/1-n0jYog_vLufOdzq5lYgvuI1q_ulrpD8?usp=drive_link)(主要是不限速)  [百度网盘](https://pan.baidu.com/s/1Mw040S7RUPSiRFxxCGgxZA?pwd=p7sc)
 
-![结果](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/skeleton-dataset.jpg)
+![结果](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/ST-GCN_Skeleton.jpg)
 
 ### 多人-遮挡 
 ![足球](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/multi-pose-estimation.png)
