@@ -16,6 +16,14 @@ class SkeletonDataset(Dataset):
         else:
             self.class_range = args.activity_classes 
 
+        if self.class_range != list(range(120)):
+
+            self.classes_map = {key: value for value, key in enumerate(self.class_range, 1)}
+            logging.info('Label map finished.' + str(self.classes_map))
+
+        with open(args.skeleton_label_dir,'r') as f:
+            self.labels = f.readlines()
+        
         with open(args.skeleton_dataset_dir,'rb') as f:
 
             self.original_data = pickle.load(f)
@@ -24,7 +32,7 @@ class SkeletonDataset(Dataset):
             self.original_data = self.original_data[:int(len(self.original_data) * 0.7)]
         else:
             self.original_data = self.original_data[int(len(self.original_data) * 0.7):]
-            
+        
         logging.info('Class range: '+str(self.class_range))
         logging.info('Skeleton dataset loading complete.')
         
@@ -37,13 +45,12 @@ class SkeletonDataset(Dataset):
         keypoints = np.pad(keypoints,((0,0),(0,300 - keypoints.shape[1]), (0,0),(0,2 - keypoints.shape[-1])))
         
         X = torch.tensor(keypoints,dtype = torch.float32)
-        print(self.original_data[idx]['label'])
         if self.class_range == []:
             y = torch.tensor(self.original_data[idx]['label'],dtype = torch.long)
         else:
-            y =torch.tensor( self.class_range.index(self.original_data[idx]['label']) if self.original_data[idx]['label'] in self.class_range else 0 ,dtype = torch.long)
+            y =torch.tensor( self.classes_map[self.original_data[idx]['label']] if self.original_data[idx]['label'] in self.class_range else 0 ,dtype = torch.long)
         
-        feats = {'img_shape':shape}
+        feats = {'img_shape':shape,'real_label':self.labels[self.original_data[idx]['label']]}
         
         return X, y, feats
     
