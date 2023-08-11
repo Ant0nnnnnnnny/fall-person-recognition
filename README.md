@@ -43,7 +43,7 @@ Config→[Config](https://github.com/qhtLucifer/fallen-person-recognize/blob/mai
 
 | 模型                                             | 准确率(%) | 推理速度(ms) | 参数量(M) |
 | ------------------------------------------------ | --------- | ------------ | ------ |
-| [ST-GCN](https://arxiv.org/pdf/1801.07455v2.pdf) | 85.8      | 93.1 ± 2.95  | 3.095     |
+| [ST-GCN](https://arxiv.org/pdf/1801.07455v2.pdf) | 85.8      | 79.2  ± 4.4  | 3.095     |
 ### 模型性能对比
 
 | 模型                                              | FLOPS(G) | 参数量(M) | 平均推理耗时(ms/frame)`*` | 说明                                                                                           |
