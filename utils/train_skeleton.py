@@ -24,9 +24,9 @@ def train(args, train_loader, model, optimizer, epoch, loss_func, log_writer):
 
         loss = loss_func(output, y)
        
-        losses.update(loss)
+        losses.update(loss.item(),X.size(0))
 
-        avg_acc = calculate_accuracy(torch.argmax(output.cpu().detach(),dim = 1),y,feats)
+        avg_acc = calculate_accuracy(torch.argmax(output.cpu().detach(),dim = 1),y.detach().cpu(),feats)
 
         acc.update(avg_acc)
         # compute gradient and do update step
@@ -74,7 +74,7 @@ class AverageMeter(object):
         self.avg = self.sum / self.count if self.count != 0 else 0
 
 
-def validate(args, val_loader, model, loss_func, writer_dict=None):
+def validate(args, val_loader, model, loss_func,lr, writer_dict=None):
     batch_time = AverageMeter()
     losses = AverageMeter()
     acc = AverageMeter()
@@ -85,11 +85,11 @@ def validate(args, val_loader, model, loss_func, writer_dict=None):
     with torch.no_grad():
         end = time.time()
         for i, (X,y,feats) in enumerate(val_loader):
-            # measure data loading time
+            
+            X = X.to(args.device)
 
-            target = target.to(args.device)
-            target_weight = target_weight.to(args.device)
-          
+            y= y.to(args.device)
+            
             # compute output
             output = model(X)
 
@@ -98,7 +98,7 @@ def validate(args, val_loader, model, loss_func, writer_dict=None):
             # measure accuracy and record loss
             losses.update(loss.item(), X.size(0))
 
-            classes_,all = calculate_accuracy(torch.argmax(output.cpu().detach(),dim = 1),y,feats,True)
+            classes_,all = calculate_accuracy(torch.argmax(output.cpu().detach(),dim = 1),y.detach().cpu(),feats,True)
 
             acc.update(all)
 
@@ -118,9 +118,9 @@ def validate(args, val_loader, model, loss_func, writer_dict=None):
 
     
         model_name = args.model_name
-           
+        all = {*classes_, 'Mean:',all}
         _print_name_value(classes_, model_name)
-
+        logging.info('Mean acc on val dataset:'+str(acc.avg))
         if writer_dict:
             writer = writer_dict['writer']
             global_steps = writer_dict['valid_global_steps']
@@ -129,17 +129,12 @@ def validate(args, val_loader, model, loss_func, writer_dict=None):
                 losses.avg,
                 global_steps
             )
-            writer.add_scalar(
+            writer.add_scalars(
                 'valid_acc',
-                acc.avg,
+                {'Accuracy':acc.avg,'Learning rate':lr},
                 global_steps
             )
 
-            writer.add_scalars(
-                    'valid',
-                    classes_,
-                    global_steps
-            )
             writer_dict['valid_global_steps'] = global_steps + 1
 
     return loss
@@ -170,11 +165,15 @@ def calculate_accuracy(y_pred, y_real, feats, each_classes = False):
 
     with torch.no_grad():
         all = float(torch.sum((y_real == y_pred)/len(y_pred)))
+        
         if each_classes:
+            # print(feats['real_label'])
             classes_ = {int(key):0 for key in y_real}
             for i in range(len(y_pred)):
+                
                 classes_[y_real.tolist()[i]] += int(y_real[i] == y_pred[i])
       
-            classes_ = {feats['real_label'][key] if key != 0 else 'others':float(classes_[int(key)]/torch.sum(y_real==key)) for key in y_real}
+            classes_ = {feats['real_label'][i]: classes_[int(y_real[i])] for i in range(len(y_real))}
+            
             return classes_, all
         return all

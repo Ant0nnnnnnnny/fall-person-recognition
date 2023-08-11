@@ -1,5 +1,5 @@
 import logging
-from torch.utils.data import DataLoader, RandomSampler, SequentialSampler
+from torch.utils.data import DataLoader, RandomSampler, SequentialSampler, random_split
 from functools import partial
 
 from utils.skeleton_dataset import SkeletonDataset
@@ -21,8 +21,10 @@ def get_dataloaders(args):
 
     if args.model_name == 'st-gcn':
 
-        train_dataset = SkeletonDataset(args, train = True)
-        val_dataset = SkeletonDataset(args, train = False)
+        dataset = SkeletonDataset(args)
+        train_length = int(len(dataset)*0.7 )
+        val_length = int( len(dataset)*0.3 )
+        train_dataset,val_dataset = random_split(dataset = dataset,lengths = [train_length,val_length+1])
         
     else:
         train_dataset = MPIIDataset(args,args.dataset_root,'train',True)
@@ -37,7 +39,7 @@ def get_dataloaders(args):
 
     train_sampler = RandomSampler(train_dataset)
 
-    val_sampler = SequentialSampler(val_dataset)
+    val_sampler = RandomSampler(val_dataset)
 
     train_dataloader = dataloader_class(train_dataset,
                                         batch_size=args.batch_size,

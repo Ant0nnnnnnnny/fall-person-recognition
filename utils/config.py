@@ -13,8 +13,11 @@ def parse_args():
     
     parser.add_argument('--seed', type=int, default=7310, help='Random seed.')
 
-    parser.add_argument('--dataset_root',type=str, default=os.path.join('dataset','PoseData',))
-    parser.add_argument('--skeleton_dataset_dir',type=str,default=os.path.join('dataset','ActivityData','ntu120.pkl'))
+    parser.add_argument('--dataset_root',type=str, default=os.path.join('dataset','ActivityData',))
+    parser.add_argument('--skeleton_dataset_dir',type=str,default='--skeleton_dataset_dir',type=str,default=os.path.join('dataset','ActivityData','ntu120.pkl'))
+    
+    parser.add_argument('--skeleton_label_dir',type=str,default='--skeleton_dataset_dir',type=str,default=os.path.join('dataset','ActivityData','labels.txt'))
+
     parser.add_argument('--ckpg_dir',type=str, default='checkpoints')
     parser.add_argument('--inference_dir',type=str,default=os.path.join('output','inference'))
     parser.add_argument('--log_dir',type=str,default='log')
@@ -26,7 +29,7 @@ def parse_args():
 
     parser.add_argument('--auto_resume',type=bool,default=True)
 
-    parser.add_argument('--print_steps', type=int, default=30)
+    parser.add_argument('--print_steps', type=int, default=200)
 
 
     # =============================== Detector configs ================================
@@ -44,10 +47,10 @@ def parse_args():
     parser.add_argument('--img_shape', type=list, default=[256,192],
                         help='the input images shape.')        
 
-    parser.add_argument('--prefetch', default=2, type=int,
+    parser.add_argument('--prefetch', default=4, type=int,
                         help="use for training duration per worker")
 
-    parser.add_argument('--num_workers', default=8, type=int,
+    parser.add_argument('--num_workers', default=14, type=int,
                         help="num_workers for dataloader")
 
     parser.add_argument('--num_joints_half_body',type=int,default=8)
@@ -58,9 +61,7 @@ def parse_args():
 
     parser.add_argument('--scale_factor',type=float,default=0.25)
 
-    parser.add_argument('--skeleton_label_dir',type=str,default=os.path.join('dataset','ActivityData','labels.txt'))
-
-    parser.add_argument('--activity_classes',type=list,default=[42, 49, 50])
+    parser.add_argument('--activity_classes',type=list,default=[])
 
     # ============================= Model Configs =====================
     '''
@@ -83,12 +84,18 @@ def parse_args():
     parser.add_argument('--scheduler_min_lr', type=float,
                         default=1e-5, help='the min learning rate.')
     
+    parser.add_argument('--scheduler_cosine_T_miu', type=int,
+                        default=2, help='Factor of restart epochs.')
+    
+    parser.add_argument('--scheduler_cosine_T0', type=int,
+                        default=5, help='Number of epochs for the first restart')
+
     parser.add_argument('--max_epochs', type=int, default=300)
 
-    parser.add_argument('--batch_size', default=4, type=int,
+    parser.add_argument('--batch_size', default=64, type=int,
                         help="use for training duration per worker")
 
-    parser.add_argument('--val_batch_size', default=4,
+    parser.add_argument('--val_batch_size', default = 64,
                         type=int, help="use for validation duration per worker")
 
     #==============================Debug config =======================
