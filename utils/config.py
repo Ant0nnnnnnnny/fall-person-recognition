@@ -14,9 +14,10 @@ def parse_args():
     parser.add_argument('--seed', type=int, default=7310, help='Random seed.')
 
     parser.add_argument('--dataset_root',type=str, default=os.path.join('dataset','ActivityData',))
-    parser.add_argument('--skeleton_dataset_dir',type=str,default='--skeleton_dataset_dir',type=str,default=os.path.join('dataset','ActivityData','ntu120.pkl'))
     
-    parser.add_argument('--skeleton_label_dir',type=str,default='--skeleton_dataset_dir',type=str,default=os.path.join('dataset','ActivityData','labels.txt'))
+    parser.add_argument('--skeleton_dataset_dir',type=str,default=os.path.join('dataset','ActivityData','ntu120.pkl'))
+    
+    parser.add_argument('--skeleton_label_dir',type=str,default=os.path.join('dataset','ActivityData','labels.txt'))
 
     parser.add_argument('--ckpg_dir',type=str, default='checkpoints')
     parser.add_argument('--inference_dir',type=str,default=os.path.join('output','inference'))
@@ -50,7 +51,7 @@ def parse_args():
     parser.add_argument('--prefetch', default=4, type=int,
                         help="use for training duration per worker")
 
-    parser.add_argument('--num_workers', default=14, type=int,
+    parser.add_argument('--num_workers', default=4, type=int,
                         help="num_workers for dataloader")
 
     parser.add_argument('--num_joints_half_body',type=int,default=8)
@@ -67,7 +68,7 @@ def parse_args():
     '''
     Moved to configs/
     '''
-    # ============================ Hyperparameters ========================================
+    # ============================ Hyper parameters ========================================
 
     parser.add_argument('--label_smoothing', type=float,
                         default=0)

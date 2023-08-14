@@ -10,7 +10,7 @@ class SkeletonDataset(Dataset):
         super().__init__()
         self.original_data = None
         
-        if args.activity_classes == None:
+        if args.activity_classes == []:
             
             self.class_range = list(range(120))
         else:
@@ -45,7 +45,7 @@ class SkeletonDataset(Dataset):
         keypoints = np.pad(keypoints,((0,0),(0,300 - keypoints.shape[1]), (0,0),(0,2 - keypoints.shape[-1])))
         
         X = torch.tensor(keypoints,dtype = torch.float32)
-        if self.class_range == []:
+        if self.class_range == list(range(120)):
             y = torch.tensor(self.original_data[idx]['label'],dtype = torch.long)
         else:
             y =torch.tensor( self.classes_map[self.original_data[idx]['label']] if self.original_data[idx]['label'] in self.class_range else 0 ,dtype = torch.long)

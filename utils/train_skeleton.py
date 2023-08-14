@@ -84,6 +84,8 @@ def validate(args, val_loader, model, loss_func,lr, writer_dict=None):
 
     with torch.no_grad():
         end = time.time()
+        total_y = torch.tensor([])
+        total_y_hat = torch.tensor([])
         for i, (X,y,feats) in enumerate(val_loader):
             
             X = X.to(args.device)
@@ -97,9 +99,10 @@ def validate(args, val_loader, model, loss_func,lr, writer_dict=None):
 
             # measure accuracy and record loss
             losses.update(loss.item(), X.size(0))
-
-            classes_,all = calculate_accuracy(torch.argmax(output.cpu().detach(),dim = 1),y.detach().cpu(),feats,True)
-
+            y_predict = torch.argmax(output.cpu().detach(),dim = 1)
+            total_y = torch.concat([total_y,y.detach().cpu()] )
+            total_y_hat = torch.concat([total_y_hat,y_predict])
+            all = calculate_accuracy(y_predict,y.detach().cpu(),feats,False)
             acc.update(all)
 
             # measure elapsed time
@@ -116,7 +119,8 @@ def validate(args, val_loader, model, loss_func,lr, writer_dict=None):
                           loss=losses, acc=acc)
                 logging.info(msg)
 
-    
+        classes_,all = calculate_accuracy(y_predict,y.detach().cpu(),feats,True)
+        
         model_name = args.model_name
         all = {*classes_, 'Mean:',all}
         _print_name_value(classes_, model_name)
@@ -173,7 +177,7 @@ def calculate_accuracy(y_pred, y_real, feats, each_classes = False):
                 
                 classes_[y_real.tolist()[i]] += int(y_real[i] == y_pred[i])
       
-            classes_ = {feats['real_label'][i]: classes_[int(y_real[i])] for i in range(len(y_real))}
+            classes_ = {feats['real_label'][i][:-2]: classes_[int(y_real[i])] for i in range(len(y_real))}
             
             return classes_, all
         return all
