@@ -44,11 +44,8 @@ Config→[Config](https://github.com/qhtLucifer/fallen-person-recognize/blob/mai
 | 模型                                             | 复现准确率(%) | 论文准确率(%)                                     | 推理速度(ms) | 参数量(M) |
 | ------------------------------------------------ | ------------- | ------------------------------------------------- | ------------ | --------- |
 | [ST-GCN](https://arxiv.org/pdf/1801.07455v2.pdf) | 85.8          | [88.8](https://arxiv.org/pdf/1801.07455v2.pdf) | 79.2  ± 4.4  | 3.095     |
-|**TODO** Simple MLP|-|-|-|-|
-|**TODO** Simple 1x1 Conv|-|-|-|-|
-|**TODO** STID|-|-|-|-|
-|**TODO** 1x1Conv+MLP+time embedding|-|-|-|-|
-|**TODO** 1x1Conv+MLP+time embedding+spatial embedding|-|-|-|-|
+|**TODO** [SGN](https://arxiv.org/pdf/1904.01189.pdf)|-|-|-|-|
+|**TODO** [STID](https://arxiv.org/pdf/2208.05233.pdf)|-|-|-|-|
 ### 模型性能对比
 
 | 模型                                              | FLOPS(G) | 参数量(M) | 平均推理耗时(ms/frame)`*` | 说明                                                                                           |
