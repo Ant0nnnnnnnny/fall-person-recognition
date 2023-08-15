@@ -27,4 +27,6 @@ class JointsMSELoss(nn.Module):
         return loss / num_joints
 
 def get_loss(args):
-    return JointsMSELoss(True).to(args.device) if args.model_name != 'st-gcn' else nn.CrossEntropyLoss(label_smoothing=args.label_smoothing)
+    if args.model_name in ['st-gcn', 'smlp','sgn']:
+        return nn.CrossEntropyLoss(label_smoothing=args.label_smoothing)
+    return JointsMSELoss(True).to(args.device)

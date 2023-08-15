@@ -11,7 +11,8 @@ from models.MFNet.MFNet import MFNet
 from models.MobileNet.MSNet import MSNet
 from models.MSKNet.MSKNet import MSKNet
 from models.STGCN.STGCN import STGCN
-
+from models.SMLP.backbone import SMLP
+from models.SGN.backbone import SGN
 import time
 import matplotlib.pyplot as plt
 import cv2
@@ -23,10 +24,7 @@ def save_checkpoint(states, is_best, output_dir,model_name,
     torch.save(states, os.path.join(output_dir,model_name,filename))
     if not os.path.exists( os.path.join(output_dir,model_name)):
         os.mkdir( os.path.join( output_dir,model_name))
-    if is_best and 'state_dict' in states:
-        torch.save(states['best_state_dict'],
-                   os.path.join(output_dir, model_name, 'model_best.pth'))
-
+   
 def load_model(args):
 
     if args.model_name == 'msknet':
@@ -37,6 +35,10 @@ def load_model(args):
         model = MFNet(args)
     elif args.model_name == 'st-gcn':
         model = STGCN(args)
+    elif args.model_name == 'smlp':
+        model = SMLP(args)
+    elif args.model_name == 'sgn':
+        model = SGN(args)
     else:
         raise 'Unknown model name.'
     return model.to(args.device)
