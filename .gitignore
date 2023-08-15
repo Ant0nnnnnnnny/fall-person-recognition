@@ -135,4 +135,4 @@ log
 # line counter
 .VSCodeCounter
 
-.train data/*
+train data
