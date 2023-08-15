@@ -54,8 +54,6 @@ def main(args):
         logging.info("=> loading checkpoint '{}'".format(checkpoint_file))
         checkpoint = torch.load(checkpoint_file,map_location=args.device)
         begin_epoch = checkpoint['epoch']
-        best_perf = checkpoint['perf']
-        last_epoch = checkpoint['epoch']
         model.load_state_dict(checkpoint['state_dict'])
 
         optimizer.load_state_dict(checkpoint['optimizer'])
@@ -63,11 +61,11 @@ def main(args):
             checkpoint_file, checkpoint['epoch']))
     for epoch in range(begin_epoch, args.max_epochs):
 
-        if args.model_name == 'st-gcn':
+        if args.model_name in ['st-gcn','smlp','sgn'] :
 
             skeleton_train(args,train_dataloader,model, optimizer, epoch, loss_func,writer_dict)
-
-            val_loss = skeleton_validate(args,  val_dataloader, model, loss_func, writer_dict)
+    
+            val_loss = skeleton_validate(args,  val_dataloader, model, loss_func,scheduler.get_last_lr()[0], writer_dict)
 
             scheduler.step(val_loss)
 
@@ -77,7 +75,6 @@ def main(args):
                 'epoch': epoch + 1,
                 'model': args.model_name,
                 'state_dict': model.state_dict(),
-                'best_state_dict': model.module.state_dict(),
                 'optimizer': optimizer.state_dict(),
             }, best_model, args.ckpg_dir, args.model_name)
 
@@ -93,11 +90,6 @@ def main(args):
                 writer_dict
             )
             scheduler.step(val_loss)
-            if perf_indicator >= best_perf:
-                best_perf = perf_indicator
-                best_model = True
-            else:
-                best_model = False
 
             logging.info('=> saving checkpoint to {}'.format(args.ckpg_dir))
             save_checkpoint({
@@ -107,7 +99,7 @@ def main(args):
                 'best_state_dict': model.module.state_dict(),
                 'perf': perf_indicator,
                 'optimizer': optimizer.state_dict(),
-            }, best_model, args.ckpg_dir, args.model_name)
+            },  args.ckpg_dir, args.model_name)
 
     final_model_state_file = os.path.join(
         args.ckpg_dir, 'final_state.pth'

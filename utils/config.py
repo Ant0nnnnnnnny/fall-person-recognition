@@ -9,15 +9,16 @@ def parse_args():
     parser = argparse.ArgumentParser(
         description='Arguments for person pose estimation.')
     
-    parser.add_argument('--model_name',type=str, default='st-gcn')
+    parser.add_argument('--model_name',type=str, default='sgn')
     
     parser.add_argument('--seed', type=int, default=7310, help='Random seed.')
-
-    parser.add_argument('--dataset_root',type=str, default=os.path.join('dataset','ActivityData',))
     
-    parser.add_argument('--skeleton_dataset_dir',type=str,default=os.path.join('dataset','ActivityData','ntu120.pkl'))
+    parser.add_argument('--skeleton_dataset_xset_train_dir',type=str,default=os.path.join('dataset','ActionData','ntu_xset_train.pkl'))
+    parser.add_argument('--skeleton_dataset_xset_val_dir',type=str,default=os.path.join('dataset','ActionData','ntu_xset_val.pkl'))
+    parser.add_argument('--skeleton_dataset_xsub_train_dir',type=str,default=os.path.join('dataset','ActionData','ntu_xsub_train.pkl'))
+    parser.add_argument('--skeleton_dataset_xsub_val_dir',type=str,default=os.path.join('dataset','ActionData','ntu_xsub_val.pkl'))
     
-    parser.add_argument('--skeleton_label_dir',type=str,default=os.path.join('dataset','ActivityData','labels.txt'))
+    parser.add_argument('--skeleton_label_dir',type=str,default=os.path.join('dataset','ActionData','labels.txt'))
 
     parser.add_argument('--ckpg_dir',type=str, default='checkpoints')
     parser.add_argument('--inference_dir',type=str,default=os.path.join('output','inference'))
@@ -80,7 +81,7 @@ def parse_args():
     parser.add_argument('--adamw_amsgrad', type=bool, default=False)
 
     parser.add_argument('--learning_rate', type=float,
-                        default=5e-4, help='learning rate.')
+                        default=1e-3, help='learning rate.')
 
     parser.add_argument('--scheduler_min_lr', type=float,
                         default=1e-5, help='the min learning rate.')

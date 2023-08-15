@@ -6,6 +6,7 @@ from configs.msnet import msnet_config
 from configs.msknet import msknet_config
 from configs.mfnet import mfnet_config
 from configs.st_gcn import st_gcn_config
+from configs.sgn import sgn_config
 def setup_device(args):
     if torch.has_cuda:
         args.device = 'cuda'
@@ -31,6 +32,7 @@ def setup_logging():
     return logger
 
 def setup(args_parser,args):
+
     setup_logging()
     if args.model_name == 'msnet':
         args = msnet_config(args_parser)
@@ -40,7 +42,11 @@ def setup(args_parser,args):
         args = mfnet_config(args_parser)
     elif args.model_name == 'st-gcn':
         args = st_gcn_config(args_parser)
-    
+    elif args.model_name == 'smlp':
+        args = st_gcn_config(args_parser)
+    elif args.model_name =='sgn':
+        args = sgn_config(args_parser)
+
     args = args.parse_args(args = [])
     setup_device(args)
     setup_seed(args)
