@@ -134,3 +134,5 @@ log
 *.ipynb
 # line counter
 .VSCodeCounter
+
+.train data/*
