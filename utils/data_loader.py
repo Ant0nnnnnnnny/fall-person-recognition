@@ -1,8 +1,8 @@
 import logging
-from torch.utils.data import DataLoader, RandomSampler, SequentialSampler, random_split
+from torch.utils.data import DataLoader, RandomSampler
 from functools import partial
 
-from utils.skeleton_dataset import SkeletonDataset
+from utils.skeleton_dataset import SkeletonTrainDataset, SkeletonValDataset
 from utils.mpii import MPIIDataset
 def get_inference_dataloader(args):
     dataset = MPIIDataset(args,args.dataset_root,'test',False)
@@ -14,18 +14,16 @@ def get_inference_dataloader(args):
                                         drop_last=True)
     return test_dataloader
 
-def get_dataloaders(args):
+def get_dataloaders(args, split_mode = 'x-sub'):
     
     train_dataset = None
     val_dataset = None
 
-    if args.model_name == 'st-gcn':
+    if args.model_name in ['st-gcn', 'smlp','sgn']:
 
-        dataset = SkeletonDataset(args)
-        train_length = int(len(dataset)*0.7 )
-        val_length = int( len(dataset)*0.3 )
-        train_dataset,val_dataset = random_split(dataset = dataset,lengths = [train_length,val_length+1])
-        
+        train_dataset = SkeletonTrainDataset(args=args, mode=split_mode)
+        val_dataset = SkeletonValDataset(args=args, mode=split_mode)
+     
     else:
         train_dataset = MPIIDataset(args,args.dataset_root,'train',True)
         val_dataset = MPIIDataset(args,args.dataset_root,'valid',False)
@@ -44,9 +42,11 @@ def get_dataloaders(args):
     train_dataloader = dataloader_class(train_dataset,
                                         batch_size=args.batch_size,
                                         sampler=train_sampler,
+                                        collate_fn=train_dataset.sgn_transform,
                                         drop_last=True)
     val_dataloader = dataloader_class(val_dataset,
                                       batch_size=args.val_batch_size,
+                                        collate_fn=val_dataset.sgn_transform,
                                       sampler=val_sampler,
                                       drop_last=False)
     
