@@ -1,4 +1,4 @@
-# fallen-person-recognize
+# 跌倒识别
 <div align="center">
 
 [English](README.md) | 简体中文
