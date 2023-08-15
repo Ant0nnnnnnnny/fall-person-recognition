@@ -9,7 +9,7 @@ English | [简体中文](README_CN.md)
 
 2023.8 —— Real-time multi-person pose estimation are available now. **33FPS** on Apple M1Pro(CPU)。
 
- 2023.7 —— **Skeleton-Based Action recognition dataset has been added to project.**，Which contains over 110000 samples. [Google Drive](https://drive.google.com/drive/folders/1-n0jYog_vLufOdzq5lYgvuI1q_ulrpD8?usp=drive_link)
+ 2023.7 —— **Skeleton-Based Action recognition dataset has been added to project**，Which contains over 110000 samples. [Google Drive](https://drive.google.com/drive/folders/1-n0jYog_vLufOdzq5lYgvuI1q_ulrpD8?usp=drive_link)
 
  2023.7 —— **Multi-pose estimation** are available now.
 
