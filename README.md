@@ -1,102 +1,106 @@
 # fallen-person-recognize
-## 新内容
+<div align="center">
 
-2023.8 —— 支持实时多人姿态估计，**33FPS** on Apple M1Pro。
+English | [简体中文](README_CN.md)
 
- 2023.7 —— 添加**关键点行为识别数据集**，共110000+带有标注的关键点数据。[Google Drive](https://drive.google.com/drive/folders/1-n0jYog_vLufOdzq5lYgvuI1q_ulrpD8?usp=drive_link)
+</div>
 
- 2023.7 —— 支持**多人姿态估计**
+## NEWS
 
- 2023.2 —— 支持**实时单人姿态估计**
+2023.8 —— Real-time multi-person pose estimation are available now. **33FPS** on Apple M1Pro(CPU)。
+
+ 2023.7 —— **Skeleton-Based Action recognition dataset has been added to project.**，Which contains over 110000 samples. [Google Drive](https://drive.google.com/drive/folders/1-n0jYog_vLufOdzq5lYgvuI1q_ulrpD8?usp=drive_link)
+
+ 2023.7 —— **Multi-pose estimation** are available now.
+
+ 2023.2 —— **Real-time single person pose estimation** is available. 
 
 ## TODO
-- [x] 基于COCO数据集重新训练姿态估计模型并调参（**47FPS**）。
-- [x] 基于PicoDet的实时人体检测器（**73FPS**）。
-- [ ] 基于ByteTrack的姿态跟踪。
-  - [x] 检测框跟踪。
-  - [ ] 骨架跟踪。
-- [ ] 基于深度学习的行为识别模型。
-  - [x] 数据集（NTU-120）。
-  - [x] 主流模型复现。
-  - [ ] 轻量级模型搭建。
-  - [ ] 模型改进。
-- [ ] 优化模型性能。
-  - [ ] 骨骼点抖动处理。
-  - [ ] PicoDet优化。
-  - [ ] Pipeline优化。
-  - [ ] Tracker优化。
-- [ ] 发布Python的部署版本。
-- [ ] 发布C++的部署版本。
-- [ ] 计算并行化。
-## 说明
+- [x] Retrained on COCO dataset.（**47FPS**）.
+- [x] Real-time human body detector based on [PicoDet](https://arxiv.org/pdf/2111.00902.pdf)（**73FPS**）.
+- [ ] Pose tracking based on [ByteTrack](https://arxiv.org/pdf/2110.06864.pdf).
+  - [x] Bounding boxes tracking.
+  - [ ] Skeletons tracking.
+- [ ] Action recognition model based on deep learning.
+  - [x] Dataset（NTU-120）。
+  - [x] experiment on related methods.
+  - [ ] Constructing on light model.
+  - [ ] Improve model performance.
+- [ ] Improve model performance.
+  - [ ] Skeleton noise filter in video inference.
+  - [ ] Improve PicoDet.
+  - [ ] Improve Pipeline.
+  - [ ] Improve Tracker.
+- [ ] Release python deployed version.
+- [ ] Release C++ deployed version.
+- [ ] Computing parallel on servers.
+## Docs
 Config→[Config](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/docs/config.md)
 
 
-分支→[Branch](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/docs/branch.md)
+Projects files info: [Files](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/docs/structure.md)
 
+## Results
 
-项目结构→[Files](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/docs/structure.md)
+### Skeleton-based action recognition model performances.
 
-## 成果
-
-### 基于骨骼的行为识别模型对比
-
-| 模型                                             | 复现准确率(%) | 论文准确率(%)                                     | 推理速度(ms) | 参数量(M) |
+| Model                                             | Accuracy in experiment(%) | Accuracy on paper(%)                                     | latency(ms) | Params(M) |
 | ------------------------------------------------ | ------------- | ------------------------------------------------- | ------------ | --------- |
 | [ST-GCN](https://arxiv.org/pdf/1801.07455v2.pdf) | 85.8          | [88.8](https://arxiv.org/pdf/1801.07455v2.pdf) | 79.2  ± 4.4  | 3.095     |
 |**TODO** [SGN](https://arxiv.org/pdf/1904.01189.pdf)|-|-|-|-|
 |**TODO** [STID](https://arxiv.org/pdf/2208.05233.pdf)|-|-|-|-|
-### 模型性能对比
+### Model's performances in pipeline 
 
-| 模型                                              | FLOPS(G) | 参数量(M) | 平均推理耗时(ms/frame)`*` | 说明                                                                                           |
+| Model                                              | FLOPS(G) | Params(M) | Latency(ms/frame)`*` | Info                                                                                           |
 | ------------------------------------------------- | -------- | --------- | ------------------------- | ---------------------------------------------------------------------------------------------- |
-| MFNet                                             | 0.67     | 4.10      | 21/人                     | 姿态估计模型                                                                                   |
-| [PicoDet](https://arxiv.org/pdf/2111.00902.pdf)   | 1.18     | 0.97      | 13.7                      | 人体检测模型                                                                                   |  |
-| [ByteTrack](https://arxiv.org/pdf/2110.06864.pdf) | -        | -         | 7.3                       | 目标跟踪模型,**TODO**                                                                          |
-| 共计                                              | 1.85     | 5.07      | 42                        | [推理视频](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/video.mov) |
+| MFNet                                             | 0.67     | 4.10      | 21/人                     | Pose estimation model                                                                                   |
+| [PicoDet](https://arxiv.org/pdf/2111.00902.pdf)   | 1.18     | 0.97      | 13.7                      | Human detection model.                                                              |  |
+| [ByteTrack](https://arxiv.org/pdf/2110.06864.pdf) | -        | -         | 7.3                       | Human tracking model**TODO**                                                                          |
+| Total                                              | 1.85     | 5.07      | 42                        | [Inference video](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/video.mov) |
 
-`*`说明: 基于M1Pro(8+2)平台推理。
+`*`Info: Evaluating on M1Pro(8+2)。
 
-### 行为识别数据集
-下载:[Google Drive](https://drive.google.com/drive/folders/1-n0jYog_vLufOdzq5lYgvuI1q_ulrpD8?usp=drive_link)(主要是不限速)  [百度网盘](https://pan.baidu.com/s/1Mw040S7RUPSiRFxxCGgxZA?pwd=p7sc)
+### Skeleton-based Action Recognition dataset
+Link:[Google Drive](https://drive.google.com/drive/folders/1-n0jYog_vLufOdzq5lYgvuI1q_ulrpD8?usp=drive_link)(No limit)  [Baidu Yun](https://pan.baidu.com/s/1Mw040S7RUPSiRFxxCGgxZA?pwd=p7sc)
 
-![结果](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/ST-GCN_Skeleton.jpg)
+![Result](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/ST-GCN_Skeleton.jpg)
 
-### 多人-遮挡 
+### Multi-person: Cover
 ![足球](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/multi-pose-estimation.png)
 
- 检测器：[PicoDet](https://arxiv.org/pdf/2111.00902.pdf)
- 姿态估计模型： **MFNet** 
+ Detector: [PicoDet](https://arxiv.org/pdf/2111.00902.pdf)
+ Pose estimator: **MFNet** 
 
-### 坐卧
+### Siting
 
-![坐姿](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/sit-pose-estimation.png)
- 检测器：[PicoDet](https://arxiv.org/pdf/2111.00902.pdf)
- 姿态估计模型： **MFNet** 
+![Sitting](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/sit-pose-estimation.png)
+ Detector: [PicoDet](https://arxiv.org/pdf/2111.00902.pdf)
+ Pose estimator: **MFNet** 
 
-### 站立
+### Standing
 
-![站姿](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/stand-pose-estimation.png)
- 检测器：[PicoDet](https://arxiv.org/pdf/2111.00902.pdf)
- 姿态估计模型： **MFNet** 
+![Standing](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/stand-pose-estimation.png)
+ Detector: [PicoDet](https://arxiv.org/pdf/2111.00902.pdf)
+ Pose estimator: **MFNet** 
 
-### 广角
-![广角](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/wide_angle1.jpg)
- 检测器：[PicoDet](https://arxiv.org/pdf/2111.00902.pdf)
- 姿态估计模型： **MFNet** 
+### Wide
+![Wide](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/wide_angle1.jpg)
+ Detector: [PicoDet](https://arxiv.org/pdf/2111.00902.pdf)
+ Pose estimator:  **MFNet** 
 
-## 规划
-### 阶段一
-完成对姿态估计模型的建立、训练，确定最终落地使用的姿态估计方案。
+## Plan
+### Stage 1
+Build a real-time pose estimation model**Done**
   
-要求：**AP: 0.80+**,**FPS: 18+** 
-### 阶段二
-基于阶段一的姿态估计方案，使用姿态估计数据，建立数学模型或轻量级神经网络模型，实现跌倒识别。
+Target: **AP: 0.80+**,**FPS: 18+** 
+Result: **AP: 0.93**,**FPS: 47+** 
+### Stage 2
+Build a light skeleton-based fallen recognition model based on pose estimator in stage 1.
   
-要求：**Accuracy: 0.95+**, **CPU-REALTIME**
+Target: **Accuracy: 0.95+**, **CPU-REALTIME**
 
-### 阶段三
-基于`micro-python`,`Django`,`Flutter`实现模型落地部署。其中，`micro-python`用于在边缘设备记录图像信息，并上传至服务器;`Django`用于后端搭建，基于`pytorch`实现图像推理，并得到识别结果;`Flutter`用于搭建跨平台的App,用于向用户展示识别结果信息（如是否跌倒、姿态信息等）。
+### Stage 3
+Deploy models based on `micro-python`,`Django`and `Flutter`. `micro-python` is used to capture data on edge devices and upload to server.`Django` or any server framework is used to build backend，which is responsible for infer frames and send results to mobile devices.`Flutter` is used to build an app to receive results computed by server, such as whether the target is falling and so on。
 ## Reference
 + [TCFormer](https://arxiv.org/pdf/2204.08680.pdf)
 + [Simple BaseLine](https://arxiv.org/pdf/1804.06208.pdf)
