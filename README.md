@@ -42,7 +42,7 @@ Projects files info: [Files](https://github.com/qhtLucifer/fallen-person-recogni
 
 ## Results
 
-### Skeleton-based action recognition model performances.
+### Skeleton-based action recognition model performances
 
 | Model                                             | Accuracy in experiment(%) | Accuracy in paper(%)                                     | latency(ms) | Params(M) |
 | ------------------------------------------------ | ------------- | ------------------------------------------------- | ------------ | --------- |
