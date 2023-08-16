@@ -65,6 +65,9 @@ class SkeletonTrainDataset(Dataset):
             # 堆叠feats
             fs = {'img_shape': torch.tensor([[*(i['img_shape'])] for i in feats]) ,'real_label':[i['real_label'][:-1] for i in feats] }
 
+        # 数据增强
+        new_X = _transform(new_X, 0.3)
+
         return [new_X,torch.tensor([*y]), fs]
             
     def __getitem__(self, idx):
@@ -99,7 +102,7 @@ class SkeletonValDataset(Dataset):
 
         '''
         super().__init__()
-
+        self.seg = args.seg
         dataset_path = args.skeleton_dataset_xsub_val_dir if mode =='x-sub' else args.skeleton_dataset_xsub_val_dir
 
         with open(args.skeleton_label_dir,'r') as f:
@@ -173,3 +176,33 @@ class SkeletonValDataset(Dataset):
         
         return len(self.original_data)
     
+def _rot(rot):
+    cos_r, sin_r = rot.cos(), rot.sin()
+    zeros = rot.new(rot.size()[:2] + (1,)).zero_()
+    ones = rot.new(rot.size()[:2] + (1,)).fill_(1)
+
+    r1 = torch.stack((ones, zeros),dim=-1)
+    rx2 = torch.stack((zeros, cos_r[:,:,0:1]), dim = -1)
+    rx = torch.cat((r1, rx2), dim = 2)
+
+    ry1 = torch.stack((cos_r[:,:,1:2], zeros), dim =-1)
+    r2 = torch.stack((zeros, ones),dim=-1)
+
+    ry = torch.cat((ry1, r2), dim = 2)
+
+    rot = ry.matmul(rx)
+
+    return rot
+
+def _transform(x, theta, rate = 0.3):
+    x = x.contiguous().view(x.size()[:2] + (-1, 2))
+    rot = x.new(x.size()[0],2).uniform_(-theta, theta)
+    rot = rot.repeat(1, x.size()[1])
+    rot = rot.contiguous().view((-1, x.size()[1], 2))
+    rot = _rot(rot)
+    x = torch.transpose(x, 2, 3)
+    x = torch.matmul(rot, x)
+    x = torch.transpose(x, 2, 3)
+
+    x = x.contiguous().view(x.size()[:2] + (-1,))
+    return x

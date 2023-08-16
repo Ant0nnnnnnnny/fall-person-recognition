@@ -5,7 +5,7 @@ import torch
 import math
 
 class SGN(nn.Module):
-    def __init__(self, args, bias = True):
+    def __init__(self, args, train_mode = True):
         super(SGN, self).__init__()
         bias = args.bias
         self.dim1 = 256
@@ -13,7 +13,7 @@ class SGN(nn.Module):
         self.channels = args.channels
         num_joint = args.num_joint
         bs = args.batch_size
-        if self.train:
+        if train_mode:
             self.spa = self.one_hot(bs, num_joint, self.seg)
             self.spa = self.spa.permute(0, 3, 2, 1).to(args.device)
             self.tem = self.one_hot(bs, self.seg, num_joint)
@@ -111,16 +111,16 @@ class embed(nn.Module):
             self.cnn = nn.Sequential(
                 norm_data(dim),
                 cnn1x1(dim, 64, bias=bias),
-                nn.ReLU(),
+                nn.Mish(),
                 cnn1x1(64, dim1, bias=bias),
-                nn.ReLU(),
+                nn.Mish(),
             )
         else:
             self.cnn = nn.Sequential(
                 cnn1x1(dim, 64, bias=bias),
-                nn.ReLU(),
+                nn.Mish(),
                 cnn1x1(64, dim1, bias=bias),
-                nn.ReLU(),
+                nn.Mish(),
             )
 
     def forward(self, x):
@@ -142,7 +142,7 @@ class local(nn.Module):
         self.maxpool = nn.AdaptiveMaxPool2d((1, 20))
         self.cnn1 = nn.Conv2d(dim1, dim1, kernel_size=(1, 3), padding=(0, 1), bias=bias)
         self.bn1 = nn.BatchNorm2d(dim1)
-        self.relu = nn.ReLU()
+        self.relu = nn.Mish()
         self.cnn2 = nn.Conv2d(dim1, dim2, kernel_size=1, bias=bias)
         self.bn2 = nn.BatchNorm2d(dim2)
         self.dropout = nn.Dropout2d(0.2)
@@ -163,7 +163,7 @@ class gcn_spa(nn.Module):
     def __init__(self, in_feature, out_feature, bias = False):
         super(gcn_spa, self).__init__()
         self.bn = nn.BatchNorm2d(out_feature)
-        self.relu = nn.ReLU()
+        self.relu = nn.Mish()
         self.w = cnn1x1(in_feature, out_feature, bias=False)
         self.w1 = cnn1x1(in_feature, out_feature, bias=bias)
 

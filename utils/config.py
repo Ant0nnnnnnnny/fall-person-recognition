@@ -11,7 +11,7 @@ def parse_args():
     
     parser.add_argument('--model_name',type=str, default='sgn')
     
-    parser.add_argument('--seed', type=int, default=7310, help='Random seed.')
+    parser.add_argument('--seed', type=int, default=3407, help='Random seed.')
     
     parser.add_argument('--skeleton_dataset_xset_train_dir',type=str,default=os.path.join('dataset','ActionData','ntu_xset_train.pkl'))
     parser.add_argument('--skeleton_dataset_xset_val_dir',type=str,default=os.path.join('dataset','ActionData','ntu_xset_val.pkl'))
@@ -31,7 +31,7 @@ def parse_args():
 
     parser.add_argument('--auto_resume',type=bool,default=True)
 
-    parser.add_argument('--print_steps', type=int, default=200)
+    parser.add_argument('--print_steps', type=int, default=50)
 
 
     # =============================== Detector configs ================================
@@ -52,7 +52,7 @@ def parse_args():
     parser.add_argument('--prefetch', default=4, type=int,
                         help="use for training duration per worker")
 
-    parser.add_argument('--num_workers', default=4, type=int,
+    parser.add_argument('--num_workers', default=14, type=int,
                         help="num_workers for dataloader")
 
     parser.add_argument('--num_joints_half_body',type=int,default=8)
@@ -72,12 +72,12 @@ def parse_args():
     # ============================ Hyper parameters ========================================
 
     parser.add_argument('--label_smoothing', type=float,
-                        default=0)
+                        default=0.1)
     
     parser.add_argument('--adamw_betas', type=tuple,
                         default=(0.9, 0.999))
     parser.add_argument('--adamw_weight_decay', type=float,
-                        default=1e-2)
+                        default=1e-4)
     parser.add_argument('--adamw_amsgrad', type=bool, default=False)
 
     parser.add_argument('--learning_rate', type=float,
@@ -92,12 +92,12 @@ def parse_args():
     parser.add_argument('--scheduler_cosine_T0', type=int,
                         default=5, help='Number of epochs for the first restart')
 
-    parser.add_argument('--max_epochs', type=int, default=300)
+    parser.add_argument('--max_epochs', type=int, default=200)
 
-    parser.add_argument('--batch_size', default=64, type=int,
+    parser.add_argument('--batch_size', default=512, type=int,
                         help="use for training duration per worker")
 
-    parser.add_argument('--val_batch_size', default = 64,
+    parser.add_argument('--val_batch_size', default = 512,
                         type=int, help="use for validation duration per worker")
 
     #==============================Debug config =======================

@@ -48,7 +48,7 @@ def get_dataloaders(args, split_mode = 'x-sub'):
                                       batch_size=args.val_batch_size,
                                         collate_fn=val_dataset.sgn_transform,
                                       sampler=val_sampler,
-                                      drop_last=False)
+                                      drop_last=True)
     
     logging.info("DataLoader finished.")
 

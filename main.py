@@ -107,7 +107,7 @@ def main(args):
     logging.info('=> saving final model state to {}'.format(
         final_model_state_file)
     )
-    torch.save(model.module.state_dict(), final_model_state_file)
+    torch.save(model.state_dict(), final_model_state_file)
 
     writer_dict['writer'].close()
 
@@ -116,6 +116,8 @@ if __name__ == '__main__':
     args_parser, args = parse_args()
     args = setup(args_parser, args)
     main(args)
+    # import os
+    # os.system('/root/upload.sh')
 
     # inference_with_detector(args=args, img_path=os.path.join('examples','multi-pose.jpg'))
 
