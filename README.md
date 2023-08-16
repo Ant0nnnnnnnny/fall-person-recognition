@@ -46,7 +46,7 @@ Projects files info: [Files](https://github.com/qhtLucifer/fallen-person-recogni
 
 | Model                                             | Accuracy in experiment(%) | Accuracy in paper(%)                                     | latency(ms) | Params(M) |
 | ------------------------------------------------ | ------------- | ------------------------------------------------- | ------------ | --------- |
-| [ST-GCN](https://arxiv.org/pdf/1801.07455v2.pdf) | 85.8          | [88.8](https://arxiv.org/pdf/1801.07455v2.pdf) | 79.2  ± 4.4  | 3.095     |
+| [ST-GCN](https://arxiv.org/pdf/1801.07455v2.pdf) | 85.8          | [88.8(3D)](https://arxiv.org/pdf/1801.07455v2.pdf) | 79.2  ± 4.4  | 3.095     |
 |[SGN](https://arxiv.org/pdf/1904.01189.pdf)|74.6|[79.2(3D)](https://arxiv.org/pdf/1904.01189.pdf)|6.55 ± 0.47|0.721|
 |**TODO** [STID](https://arxiv.org/pdf/2208.05233.pdf)|-|-|-|-|
 
