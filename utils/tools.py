@@ -4,7 +4,7 @@ import torch
 from bytetracker import BYTETracker
 from detector.PicoDet import PicoDetector
 from utils.multi_estimator import MultiEstimator
-
+from ActionRecognition.Classifier import ActionRecognition
 
 
 from models.MFNet.MFNet import MFNet
@@ -46,7 +46,6 @@ def inference_with_detector(args, img_path):
 
     estimator = MultiEstimator(args)
     detector = PicoDetector(args)
-
     img = cv2.imread(img_path)
     img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
     before = time.time()
@@ -65,13 +64,15 @@ def inference_with_detector(args, img_path):
     plt.show()
 
 def inference_with_tracker(args,video_path):
- 
+    
     estimator = MultiEstimator(args)
     tracker = BYTETracker()
-
+    classifier = ActionRecognition(args)
     capture = cv2.VideoCapture(video_path)
     frame_width = int(capture.get(3))
     frame_height = int(capture.get(4))
+    
+    frames_buffer = {}
 
     print(frame_width,frame_height)
     out = cv2.VideoWriter(os.path.join('video04.mov'), cv2.VideoWriter_fourcc(*"avc1"), 30, (frame_width, frame_height),True) 
@@ -94,20 +95,37 @@ def inference_with_tracker(args,video_path):
             continue
 
         online_targets = tracker.update(torch.tensor(np.array(dets)),counter)
+       
+        print(online_targets)
         counter +=1 
         track_time = time.time() 
         if len(online_targets) == 0:
             continue
         dets = online_targets
 
-        humans = estimator.inference(frame,dets)
+        humans, humans_scaled = estimator.inference(frame,dets)
+        labels = []
+        for idx in range(len(online_targets)):
+            if online_targets[idx][4] in frames_buffer.keys():
+
+                frames_buffer[online_targets[idx][4]].append(humans_scaled[idx])
+                if len(frames_buffer[online_targets[idx][4]]) >= args.seg:
+                    frames_buffer[online_targets[idx][4]] = frames_buffer[online_targets[idx][4]][-args.seg:]
+                    labels.append(classifier.infer(np.array(frames_buffer[online_targets[idx][4]]),None))
+                else:
+                    labels.append('Tracking')
+            else :
+                frames_buffer.update({online_targets[idx][4]:humans_scaled[idx]})
+                labels.append('Tracking')
+
+        print(humans.shape)
         end = time.time()
         logging.info('Total {total:.2f}ms/frame\t Detect cost: {det_c:.2f}ms/frame \t Tracker cost: {t_c:.2f}ms/frame \t Pose estimation: {p_c:.2f}ms'.
                      format(total = (end -before)*1000, 
                             det_c =( det_time - before)*1000, 
                             t_c = (track_time - det_time)*1000, 
                             p_c = (end - track_time)*1000))
-        frame = estimator.vis(frame,humans,dets)
+        frame = estimator.vis(frame,humans,dets, labels)
         cv2.imshow('video', frame)
         out.write(frame)
         if cv2.waitKey(50) == 27:

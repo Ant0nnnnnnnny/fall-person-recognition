@@ -7,13 +7,14 @@ import math
 class SGN(nn.Module):
     def __init__(self, args, train_mode = True):
         super(SGN, self).__init__()
-        bias = args.bias
+        bias = True
         self.dim1 = 256
         self.seg = args.seg
         self.channels = args.channels
         num_joint = args.num_joint
-        bs = args.batch_size
         if train_mode:
+            bs = args.batch_size
+
             self.spa = self.one_hot(bs, num_joint, self.seg)
             self.spa = self.spa.permute(0, 3, 2, 1).to(args.device)
             self.tem = self.one_hot(bs, self.seg, num_joint)

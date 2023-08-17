@@ -1,6 +1,6 @@
 def mfnet_config(parser):
     parser.add_argument('--num_keypoints', type=int,
-                        default=16)
+                        default=17)
     parser.add_argument('--neck_channels', type=int, default=256)
     parser.add_argument('--deconv_num_layers', type=int,
                         default=3)

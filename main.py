@@ -115,7 +115,7 @@ if __name__ == '__main__':
 
     args_parser, args = parse_args()
     args = setup(args_parser, args)
-    main(args)
+    # main(args)
     # import os
     # os.system('/root/upload.sh')
 
@@ -126,4 +126,4 @@ if __name__ == '__main__':
     # inference_with_detector(args=args, img_path=os.path.join('examples','sit-pose.jpg'))
 
 
-    # inference_with_tracker(args=args,video_path=os.path.join('examples','video3.mp4'))
+    inference_with_tracker(args=args,video_path=os.path.join('examples','video3.mp4'))

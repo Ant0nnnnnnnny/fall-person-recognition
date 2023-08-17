@@ -166,13 +166,14 @@ class MultiEstimator:
 
     def inference(self, imgs, boxes):
         multi_keypoints = []
+        scaled_keypoints = []
         for i in boxes:
             img = imgs[int(i[1]):int(i[3]), int(i[0]):int(i[2]), :]
             height = img.shape[0]
             width = img.shape[1]
 
             if height == 0 or width == 0:
-                return np.array([])
+                return np.array([]),np.array([])
             # 预处理
             rescale_out = self.rescale(img, self.img_shape)
             image = rescale_out['image']
@@ -189,18 +190,19 @@ class MultiEstimator:
             position2d = np.array(
                 [[np.argmax(px[0, i]), np.argmax(py[0, i])]for i in range(17)],dtype='float32')
 
-            # 归一化
+            # 还原坐标
             position2d /= np.array([384.0,512.0])
+            scaled_keypoints.append(position2d)
             position2d = rescale_out['pose_fun'](position2d)
             multi_keypoints.append(position2d)
 
-        return np.array(multi_keypoints)
+        return np.array(multi_keypoints), np.array(scaled_keypoints)
 
-    def vis(self, npimg, multi_keypoints, bboxs, imgcopy=False):
+    def vis(self, npimg, multi_keypoints, bboxs,labels, probs, imgcopy=False):
         if imgcopy:
             npimg = np.copy(npimg)
 
-        for box, single_keypoints in zip(bboxs, multi_keypoints):
+        for i,(box, single_keypoints) in enumerate(zip(bboxs, multi_keypoints)):
 
             offset  = np.array([box[0],box[1]])
 
@@ -208,6 +210,8 @@ class MultiEstimator:
             
             cv2.rectangle(npimg, (int(box[0]), int(box[1])), (int(
                 box[2]), int(box[3])), (0, 0, 255), 4)
+            
+            cv2.putText(npimg, labels[i]if probs[i] == 0 else labels[i] +':'+str(probs), (int(box[0]), int(box[1])), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
             for i in range(17):
                 cv2.circle(npimg, (single_keypoints[i][0], single_keypoints[i][1]),
                            3, self.keypoint_info[i], thickness=3, lineType=8, shift=0)
