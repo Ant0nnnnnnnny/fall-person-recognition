@@ -36,6 +36,12 @@ English | [简体中文](README_CN.md)
 - [x] Release python deployed version.
 - [ ] Release C++ deployed version.
 - [ ] Computing parallel on servers.
+
+## Usage
+```{bash}
+python video.py --video_path YOUR_VIDEO_PATH [-- enable_filter True]
+```
+
 ## Docs
 Config→[Config](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/docs/config.md)
 
