@@ -7,7 +7,9 @@
 
 ## 新内容
 
-2023.8 —— 支持实时多人姿态估计，**33FPS** on Apple M1Pro。
+ 2023.8 —— 支持实时多人行为识别，**31FPS** on Apple M1Pro。
+
+ 2023.8 —— 支持实时多人姿态估计，**33FPS** on Apple M1Pro。
 
  2023.7 —— 添加**关键点行为识别数据集**，共110000+带有标注的关键点数据。[Google Drive](https://drive.google.com/drive/folders/1-n0jYog_vLufOdzq5lYgvuI1q_ulrpD8?usp=drive_link)
 
@@ -20,20 +22,25 @@
 - [x] 基于PicoDet的实时人体检测器（**73FPS**）。
 - [ ] 基于ByteTrack的姿态跟踪。
   - [x] 检测框跟踪。
-  - [ ] 骨架跟踪。
-- [ ] 基于深度学习的行为识别模型。
+  - [x] 骨架跟踪。
+- [x] 基于深度学习的行为识别模型。
   - [x] 数据集（NTU-120）。
   - [x] 主流模型复现。
-  - [ ] 轻量级模型搭建。
-  - [ ] 模型改进。
+  - [x] 轻量级模型搭建。
+  - [x] 模型改进。
 - [ ] 优化模型性能。
-  - [ ] 骨骼点抖动处理。
+  - [x] 骨骼点抖动处理。
   - [ ] PicoDet优化。
   - [ ] Pipeline优化。
   - [ ] Tracker优化。
-- [ ] 发布Python的部署版本。
+- [x] 发布Python的部署版本。
 - [ ] 发布C++的部署版本。
 - [ ] 计算并行化。
+
+## 使用
+```{bash}
+python video.py --video_path 视频路径 [-- enable_filter True]
+```
 ## 说明
 Config→[Config](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/docs/config.md)
 
@@ -55,10 +62,11 @@ Config→[Config](https://github.com/qhtLucifer/fallen-person-recognize/blob/mai
 
 | 模型                                              | FLOPS(G) | 参数量(M) | 平均推理耗时(ms/frame)`*` | 说明                                                                                           |
 | ------------------------------------------------- | -------- | --------- | ------------------------- | ---------------------------------------------------------------------------------------------- |
-| MFNet                                             | 0.67     | 4.10      | 21/人                     | 姿态估计模型                                                                                   |
+| MFNet                                             | 0.67     | 4.10      | 9.2/人                     | 姿态估计模型                                                                                   |
 | [PicoDet](https://arxiv.org/pdf/2111.00902.pdf)   | 1.18     | 0.97      | 13.7                      | 人体检测模型                                                                                   |  |
-| [ByteTrack](https://arxiv.org/pdf/2110.06864.pdf) | -        | -         | 7.3                       | 目标跟踪模型,**TODO**                                                                          |
-| 共计                                              | 1.85     | 5.07      | 42                        | [推理视频](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/video.mov) |
+| [ByteTrack](https://arxiv.org/pdf/2110.06864.pdf) | -        | -         | 7.3                       | 目标跟踪模型                                                        |
+| [SGN+](https://arxiv.org/pdf/1904.01189.pdf) | 2.73        | 1.02        |7.52                       | 行为识别模型                                                                        |
+| 共计                                              | 4.58     | 6.09      | 37.72                        | [推理视频](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/video.mov) |
 
 `*`说明: 基于M1Pro(8+2)平台推理。
 

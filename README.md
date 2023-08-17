@@ -7,7 +7,9 @@ English | [简体中文](README_CN.md)
 
 ## NEWS
 
-2023.8 —— Real-time multi-person pose estimation are available now. **33FPS** on Apple M1Pro(CPU)。
+ 2023.8 —— Real-time multi-person skeleton-based action recognition are available now. **31FPS** on Apple M1Pro(CPU)。
+
+ 2023.8 —— Real-time multi-person pose estimation are available now. **33FPS** on Apple M1Pro(CPU)。
 
  2023.7 —— **Skeleton-Based Action recognition dataset has been added to project**，Which contains over 110000 samples. [Google Drive](https://drive.google.com/drive/folders/1-n0jYog_vLufOdzq5lYgvuI1q_ulrpD8?usp=drive_link)
 
@@ -24,14 +26,14 @@ English | [简体中文](README_CN.md)
 - [ ] Action recognition model based on deep learning.
   - [x] Dataset（NTU-120）。
   - [x] experiment on related methods.
-  - [ ] Constructing on light model.
-  - [ ] Improve model performance.
+  - [x] Constructing on light model.
+  - [x] Improve model performance.
 - [ ] Improve model performance.
-  - [ ] Skeleton noise filter in video inference.
+  - [x] Skeleton noise filter in video inference.
   - [ ] Improve PicoDet.
   - [ ] Improve Pipeline.
   - [ ] Improve Tracker.
-- [ ] Release python deployed version.
+- [x] Release python deployed version.
 - [ ] Release C++ deployed version.
 - [ ] Computing parallel on servers.
 ## Docs
@@ -57,10 +59,11 @@ Projects files info: [Files](https://github.com/qhtLucifer/fallen-person-recogni
 
 | Model                                              | FLOPS(G) | Params(M) | Latency(ms/frame)`*` | Info                                                                                           |
 | ------------------------------------------------- | -------- | --------- | ------------------------- | ---------------------------------------------------------------------------------------------- |
-| MFNet                                             | 0.67     | 4.10      | 21/Person                     | Pose estimation model                                                                                   |
-| [PicoDet](https://arxiv.org/pdf/2111.00902.pdf)   | 1.18     | 0.97      | 13.7                      | Human detection model.                                                              |  |
-| [ByteTrack](https://arxiv.org/pdf/2110.06864.pdf) | -        | -         | 7.3                       | Human tracking model**TODO**                                                                          |
-| Total                                              | 1.85     | 5.07      | 42                        | [Inference video](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/video.mov) |
+| MFNet                                             | 0.67     | 4.10      | 9.2/人                     | Pose estimation model.                                                                                   |
+| [PicoDet](https://arxiv.org/pdf/2111.00902.pdf)   | 1.18     | 0.97      | 13.7                      | Human detection model.                                                                         |  |
+| [ByteTrack](https://arxiv.org/pdf/2110.06864.pdf) | -        | -         | 7.3                       | Human tracking model.                                                        |
+| [SGN+](https://arxiv.org/pdf/1904.01189.pdf) | 2.73        | 1.02        |7.52                       | Action recognition model.                                                                        |
+| Total                                              | 4.58     | 6.09      | 37.72                        | [Video](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/video.mov) |
 
 `*`Info: Evaluating on M1Pro(8+2)。
 
