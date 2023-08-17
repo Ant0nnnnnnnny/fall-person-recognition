@@ -20,10 +20,10 @@ English | [简体中文](README_CN.md)
 ## TODO
 - [x] Retrained on COCO dataset.（**47FPS**）.
 - [x] Real-time human body detector based on [PicoDet](https://arxiv.org/pdf/2111.00902.pdf)（**73FPS**）.
-- [ ] Pose tracking based on [ByteTrack](https://arxiv.org/pdf/2110.06864.pdf).
+- [x] Pose tracking based on [ByteTrack](https://arxiv.org/pdf/2110.06864.pdf).
   - [x] Bounding boxes tracking.
-  - [ ] Skeletons tracking.
-- [ ] Action recognition model based on deep learning.
+  - [x] Skeletons tracking.
+- [x] Action recognition model based on deep learning.
   - [x] Dataset（NTU-120）。
   - [x] experiment on related methods.
   - [x] Constructing on light model.
