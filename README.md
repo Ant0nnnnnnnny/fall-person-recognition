@@ -65,7 +65,7 @@ Projects files info: [Files](https://github.com/qhtLucifer/fallen-person-recogni
 
 | Model                                              | FLOPS(G) | Params(M) | Latency(ms/frame)`*` | Info                                                                                           |
 | ------------------------------------------------- | -------- | --------- | ------------------------- | ---------------------------------------------------------------------------------------------- |
-| MFNet                                             | 0.67     | 4.10      | 9.2/人                     | Pose estimation model.                                                                                   |
+| MFNet                                             | 0.67     | 4.10      | 9.2/Person                     | Pose estimation model.                                                                                   |
 | [PicoDet](https://arxiv.org/pdf/2111.00902.pdf)   | 1.18     | 0.97      | 13.7                      | Human detection model.                                                                         |  |
 | [ByteTrack](https://arxiv.org/pdf/2110.06864.pdf) | -        | -         | 7.3                       | Human tracking model.                                                        |
 | [SGN+](https://arxiv.org/pdf/1904.01189.pdf) | 2.73        | 1.02        |7.52                       | Action recognition model.                                                                        |
