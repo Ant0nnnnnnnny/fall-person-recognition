@@ -72,6 +72,9 @@ class Pipeline():
                 for i in range(len(humans)):
                     humans[i] = self.filter.predict(humans[i],1)
                     humans_scaled[i] = self.scaled_filter.predict(humans_scaled[i],1)
+                    
+            estimation_time = time.time()
+            
             labels = []
             probs = []
             for idx in range(len(online_targets)):
@@ -95,11 +98,14 @@ class Pipeline():
                     probs.append(0)
 
             end = time.time()
-            logging.info('Total {total:.2f}ms/frame\t Detect cost: {det_c:.2f}ms/frame \t Tracker cost: {t_c:.2f}ms/frame \t Pose estimation: {p_c:.2f}ms'.
+            logging.info('Total {total:.2f}ms/frame\t Detect cost: {det_c:.2f}ms/frame \t Tracker cost: {t_c:.2f}ms/frame \t Pose estimation: {p_c:.2f}ms \t Action recognition: {r_c:.2f}ms'.
                         format(total = (end -before)*1000, 
                                 det_c =( det_time - before)*1000, 
                                 t_c = (track_time - det_time)*1000, 
-                                p_c = (end - track_time)*1000))
+                                p_c = (estimation_time - track_time)*1000,
+                                r_c = (end - estimation_time)*1000),
+                              )
+            
             frame = self.estimator.vis(frame,humans,dets, labels, probs)
             cv2.imshow('video', frame)
         
