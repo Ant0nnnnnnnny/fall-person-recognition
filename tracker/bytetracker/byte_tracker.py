@@ -1,8 +1,8 @@
 import numpy as np
 import torch
-from tracker.bytetracker import matching
-from tracker.bytetracker.basetrack import BaseTrack, TrackState
-from tracker.bytetracker.kalman_filter import KalmanFilter
+from tracker.ByteTracker import matching
+from tracker.ByteTracker.basetrack import BaseTrack, TrackState
+from tracker.ByteTracker.kalman_filter import KalmanFilter
 
 
 def xywh2xyxy(x):
