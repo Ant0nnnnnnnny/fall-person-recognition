@@ -3,6 +3,7 @@ from torch.utils.data import DataLoader, RandomSampler
 from functools import partial
 
 from utils.skeleton_dataset import SkeletonTrainDataset, SkeletonValDataset
+from utils.fall_dataset import FallTrainDataset, FallValDataset
 from utils.mpii import MPIIDataset
 def get_inference_dataloader(args):
     dataset = MPIIDataset(args,args.dataset_root,'test',False)
@@ -20,10 +21,14 @@ def get_dataloaders(args, split_mode = 'x-sub'):
     val_dataset = None
 
     if args.model_name in ['st-gcn', 'smlp','sgn']:
-
-        train_dataset = SkeletonTrainDataset(args=args, mode=split_mode)
-        val_dataset = SkeletonValDataset(args=args, mode=split_mode)
-     
+        
+        if args.dataset_name == 'fall':
+            train_dataset = FallTrainDataset(args=args)
+            val_dataset = FallValDataset(args=args)
+        else:
+            train_dataset = SkeletonTrainDataset(args=args, mode=split_mode)
+            val_dataset = SkeletonValDataset(args=args, mode=split_mode)
+        
     else:
         train_dataset = MPIIDataset(args,args.dataset_root,'train',True)
         val_dataset = MPIIDataset(args,args.dataset_root,'valid',False)

@@ -35,7 +35,7 @@ class SGN(nn.Module):
         self.gcn1 = gcn_spa(self.dim1 // 2, self.dim1 // 2, bias=bias)
         self.gcn2 = gcn_spa(self.dim1 // 2, self.dim1, bias=bias)
         self.gcn3 = gcn_spa(self.dim1, self.dim1, bias=bias)
-        self.fc = nn.Linear(self.dim1 * 2, args.num_classes)
+        self.head = nn.Linear(self.dim1 * 2, args.num_classes)
 
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
@@ -73,7 +73,7 @@ class SGN(nn.Module):
         # Classification
         output = self.maxpool(input)
         output = torch.flatten(output, 1)
-        output = self.fc(output)
+        output = self.head(output)
 
         return output
 

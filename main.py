@@ -14,7 +14,7 @@ from utils.train import train
 from utils.train_skeleton import train as skeleton_train
 from utils.train_skeleton import validate as skeleton_validate
 
-from utils.tools import load_model,inference_with_detector, inference_with_tracker
+from utils.tools import load_model
 
 import torch
 import os
@@ -59,6 +59,16 @@ def main(args):
         optimizer.load_state_dict(checkpoint['optimizer'])
         logging.info("=> loaded checkpoint '{}' (epoch {})".format(
             checkpoint_file, checkpoint['epoch']))
+    else:
+
+        if args.model_name in ['st-gcn','smlp','sgn'] and args.pretrained_weight!='':
+
+            logging.info("=> loading pretrained weight '{}'".format(args.pretrained_weight))
+
+            checkpoint = torch.load(args.pretrained_weight,map_location=args.device)
+
+            model.load_state_dict(checkpoint, strict = False)
+
     for epoch in range(begin_epoch, args.max_epochs):
 
         if args.model_name in ['st-gcn','smlp','sgn'] :
@@ -115,15 +125,6 @@ if __name__ == '__main__':
 
     args_parser, args = parse_args()
     args = setup(args_parser, args)
-    # main(args)
+    main(args)
     # import os
     # os.system('/root/upload.sh')
-
-    # inference_with_detector(args=args, img_path=os.path.join('examples','multi-pose.jpg'))
-
-    # inference_with_detector(args=args, img_path=os.path.join('examples','fallen-pose.jpg'))
-    # inference_with_detector(args=args, img_path=os.path.join('examples','stand-pose.jpg'))
-    # inference_with_detector(args=args, img_path=os.path.join('examples','sit-pose.jpg'))
-
-
-    inference_with_tracker(args=args,video_path=os.path.join('examples','video3.mp4'))

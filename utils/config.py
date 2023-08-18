@@ -10,6 +10,8 @@ def parse_args():
         description='Arguments for person pose estimation.')
     
     parser.add_argument('--model_name',type=str, default='sgn')
+
+    parser.add_argument('--dataset_name', type=str, default='fall',choices=['fall','ntu'])
     
     parser.add_argument('--seed', type=int, default=3407, help='Random seed.')
     
@@ -17,8 +19,12 @@ def parse_args():
     parser.add_argument('--skeleton_dataset_xset_val_dir',type=str,default=os.path.join('dataset','ActionData','ntu_xset_val.pkl'))
     parser.add_argument('--skeleton_dataset_xsub_train_dir',type=str,default=os.path.join('dataset','ActionData','ntu_xsub_train.pkl'))
     parser.add_argument('--skeleton_dataset_xsub_val_dir',type=str,default=os.path.join('dataset','ActionData','ntu_xsub_val.pkl'))
-    
-    parser.add_argument('--skeleton_label_dir',type=str,default=os.path.join('dataset','ActionData','labels.txt'))
+
+
+    parser.add_argument('--fall_train_dataset_dir',type=str,default=os.path.join('dataset','FallData','fall_train_dataset.pkl'))
+    parser.add_argument('--fall_train_label_dir',type=str,default=os.path.join('dataset','FallData','fall_train_label.pkl'))
+    parser.add_argument('--fall_val_dataset_dir',type=str,default=os.path.join('dataset','FallData','fall_val_dataset.pkl'))
+    parser.add_argument('--fall_val_label_dir',type=str,default=os.path.join('dataset','FallData','fall_val_label.pkl'))
 
     parser.add_argument('--ckpg_dir',type=str, default='checkpoints')
     parser.add_argument('--inference_dir',type=str,default=os.path.join('output','inference'))
