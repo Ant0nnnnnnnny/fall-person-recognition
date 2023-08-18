@@ -7,7 +7,7 @@ class PicoDetector():
                  args):
 
         self.prob_threshold = args.detector_prob_threshold
-        self.iou_threshold = args.detector_iou_threshold
+
         self.mean = np.array(
             [103.53, 116.28, 123.675], dtype=np.float32).reshape(1, 1, 3)
         self.std = np.array(
@@ -91,7 +91,7 @@ class PicoDetector():
 
         outs = np.array(outs[0])
         
-        expect_boxes = (outs[:, 1] > 0.5) & (outs[:, 0] > -1)
+        expect_boxes = (outs[:, 1] > self.prob_threshold) & (outs[:, 0] > -1)
         np_boxes = outs[expect_boxes, :]
         np_boxes = np.concatenate( [np_boxes[:,2:],np_boxes[:,1].reshape(-1,1),np_boxes[:,0].reshape(-1,1)],axis = 1)
         return np_boxes

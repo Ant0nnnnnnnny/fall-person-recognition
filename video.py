@@ -1,7 +1,7 @@
 import os
 import torch
 
-from tracker.bytetracker  import BYTETracker
+from tracker.ByteTracker import BYTETracker
 from detector.PicoDet import PicoDetector
 from utils.multi_estimator import MultiEstimator
 from ActionRecognition.Classifier import ActionRecognition
@@ -30,7 +30,7 @@ class Pipeline():
     def init_model(self):
         
         self.estimator = MultiEstimator(self.args)
-        self.tracker = BYTETracker()
+        self.tracker = BYTETracker(track_thresh=0.1,track_buffer=30, match_thresh=0.95)
         self.classifier = ActionRecognition(self.args)
         self.detector = PicoDetector(self.args)
 
@@ -80,7 +80,7 @@ class Pipeline():
             for idx in range(len(online_targets)):
                 if len(humans_scaled) == 0:
                     logging.info('No skeleton detected')
-                    continue
+                    break
                 if online_targets[idx][4] in self.frames_buffer.keys():
                     
                     self.frames_buffer[online_targets[idx][4]].append(humans_scaled[idx])
@@ -98,13 +98,13 @@ class Pipeline():
                     probs.append(0)
 
             end = time.time()
-            logging.info('Total {total:.2f}ms/frame\t Detect cost: {det_c:.2f}ms/frame \t Tracker cost: {t_c:.2f}ms/frame \t Pose estimation: {p_c:.2f}ms \t Action recognition: {r_c:.2f}ms'.
-                        format(total = (end -before)*1000, 
-                                det_c =( det_time - before)*1000, 
-                                t_c = (track_time - det_time)*1000, 
-                                p_c = (estimation_time - track_time)*1000,
-                                r_c = (end - estimation_time)*1000),
-                              )
+            # logging.info('Total {total:.2f}ms/frame\t Detect cost: {det_c:.2f}ms/frame \t Tracker cost: {t_c:.2f}ms/frame \t Pose estimation: {p_c:.2f}ms \t Action recognition: {r_c:.2f}ms'.
+            #             format(total = (end -before)*1000, 
+            #                     det_c =( det_time - before)*1000, 
+            #                     t_c = (track_time - det_time)*1000, 
+            #                     p_c = (estimation_time - track_time)*1000,
+            #                     r_c = (end - estimation_time)*1000),
+            #                   )
             
             frame = self.estimator.vis(frame,humans,dets, labels, probs)
             cv2.imshow('video', frame)
@@ -123,7 +123,7 @@ class Pipeline():
         parser.add_argument('--device', type=str, default='cpu')
          
 
-        parser.add_argument('--estimator_onnx_path',type = str, default=os.path.join('checkpoints','mfnet','estimator.onnx'))
+        parser.add_argument('--estimator_onnx_path',type = str, default=os.path.join('checkpoints','mfnet','mfnet-large.onnx'))
         parser.add_argument('--detector_weight_path', type=str, default= os.path.join('checkpoints', 'pico.onnx'))
         parser.add_argument('--classifier_weight_path', type=str, default=os.path.join('checkpoints','sgn','c0833seg30.pth')) #os.path.join('labels.txt')
         parser.add_argument('--labels_path', type=str, default=os.path.join('dataset','ActionData','labels.txt'))
