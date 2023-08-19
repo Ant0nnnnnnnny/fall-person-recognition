@@ -7,7 +7,7 @@ English | [简体中文](README_CN.md)
 
 ## NEWS
 
- 2023.8 —— **Skeleton-Based Fall Detection dataset** are available new. Preprocessed from [UR Fall Dataset](http://fenix.ur.edu.pl/~mkepski/ds/uf.html), containing total 6872 samples.[Google Drive](https://drive.google.com/drive/folders/1Kz85dnCAErvlML9H-7WAhEzKbbWLHPKb?usp=drive_link)
+ 2023.8 —— **Skeleton-Based Fall Detection dataset** are available new, which is reprocessed from [UR Fall Dataset](http://fenix.ur.edu.pl/~mkepski/ds/uf.html), containing total 6872 samples.[Google Drive](https://drive.google.com/drive/folders/1Kz85dnCAErvlML9H-7WAhEzKbbWLHPKb?usp=drive_link)
 
  2023.8 —— Real-time multi-person skeleton-based action recognition are available now. **31FPS** on Apple M1Pro(CPU)。
 
