@@ -20,17 +20,17 @@ class ActionRecognition():
 
             self.labels = f.readlines()
 
-    def infer(self, frames)->str:
+    def infer(self, frames)->[str,float]:
 
         assert len(frames) == self.time_range, "The length of frames should as same as " + str(self.time_range)
         
         frames_preprocessed = self.preprocess(frames = frames)
-        results = torch.nn.functional.softmax(self.model(frames_preprocessed),dim = 1)[0]
-        idx = torch.argmax(results)
+        results = self.model(frames_preprocessed)[0]
+      
+        idx = torch.round(results).int()
         prob = torch.max(results)
-        if idx == 42:
-            print('FALL!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-        return self.labels[idx.item()][:-1], round(prob.item(),2)
+
+        return self.labels[idx.item()], round(prob.item(),2)
 
     def preprocess(self,frames:torch.Tensor):
 

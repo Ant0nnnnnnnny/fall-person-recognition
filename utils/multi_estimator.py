@@ -198,9 +198,7 @@ class MultiEstimator:
 
         return np.array(multi_keypoints), np.array(scaled_keypoints)
 
-    def vis(self, npimg, multi_keypoints, bboxs,labels, probs, imgcopy=False):
-        if imgcopy:
-            npimg = np.copy(npimg)
+    def vis(self, npimg, multi_keypoints, bboxs,labels, probs, vis_skeleton=False):
 
         for i,(box, single_keypoints) in enumerate(zip(bboxs, multi_keypoints)):
 
@@ -212,14 +210,16 @@ class MultiEstimator:
                 box[2]), int(box[3])), (0, 0, 255), 4)
             
             cv2.putText(npimg, labels[i]if probs[i] == 0 else labels[i] +':'+str(probs), (int(box[0]), int(box[1])), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
-            for i in range(17):
-                cv2.circle(npimg, (single_keypoints[i][0], single_keypoints[i][1]),
-                           3, self.keypoint_info[i], thickness=3, lineType=8, shift=0)
-            for i in range(19):
-                cv2.line(npimg,
-                         (single_keypoints[self.skeleton_info[i]['index'][0]][0],
-                          single_keypoints[self.skeleton_info[i]['index'][0]][1]),
-                         (single_keypoints[self.skeleton_info[i]['index'][1]][0],
-                          single_keypoints[self.skeleton_info[i]['index'][1]][1]),
-                         self.skeleton_info[i]['color'], 3)
+
+            if vis_skeleton:
+                for i in range(17):
+                    cv2.circle(npimg, (single_keypoints[i][0], single_keypoints[i][1]),
+                            3, self.keypoint_info[i], thickness=3, lineType=8, shift=0)
+                for i in range(19):
+                    cv2.line(npimg,
+                            (single_keypoints[self.skeleton_info[i]['index'][0]][0],
+                            single_keypoints[self.skeleton_info[i]['index'][0]][1]),
+                            (single_keypoints[self.skeleton_info[i]['index'][1]][0],
+                            single_keypoints[self.skeleton_info[i]['index'][1]][1]),
+                            self.skeleton_info[i]['color'], 3)
         return npimg

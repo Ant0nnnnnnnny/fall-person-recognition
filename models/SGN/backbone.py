@@ -74,7 +74,7 @@ class SGN(nn.Module):
         output = self.maxpool(input)
         output = torch.flatten(output, 1)
         output = self.head(output)
-
+        output = nn.functional.sigmoid(output)
         return output
 
     def one_hot(self, bs, spa, tem):
