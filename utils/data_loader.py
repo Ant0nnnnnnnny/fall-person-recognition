@@ -47,11 +47,11 @@ def get_dataloaders(args, split_mode = 'x-sub'):
     train_dataloader = dataloader_class(train_dataset,
                                         batch_size=args.batch_size,
                                         sampler=train_sampler,
-                                        collate_fn=train_dataset.sgn_transform,
+                                        collate_fn=train_dataset.sgn_transform if args.dataset_name == 'ntu' else None,
                                         drop_last=True)
     val_dataloader = dataloader_class(val_dataset,
                                       batch_size=args.val_batch_size,
-                                        collate_fn=val_dataset.sgn_transform,
+                                       collate_fn=val_dataset.sgn_transform if args.dataset_name == 'ntu' else None,
                                       sampler=val_sampler,
                                       drop_last=True)
     

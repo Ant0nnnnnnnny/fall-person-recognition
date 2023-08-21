@@ -48,7 +48,7 @@ class FallTrainDataset(Dataset):
             new_X = torch.concat([new_X,Xt_sampled],dim = 0)
         
         # 数据增强
-        new_X = _transform(new_X, 0.3)
+        # new_X = _transform(new_X, 0.3)
         fs = {'real_label':[i['real_label'][:-1] for i in feats] }
 
         return [new_X,torch.tensor([*y]),fs]
