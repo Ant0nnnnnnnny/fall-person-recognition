@@ -61,11 +61,12 @@ Link:[Google Drive](https://drive.google.com/drive/folders/1Kz85dnCAErvlML9H-7WA
 
 ### Skeleton-based action recognition model performances
 
-| Model                                             | Accuracy in experiment(%) | Accuracy in paper(%)                                     | latency(ms) | Params(M) |
-| ------------------------------------------------ | ------------- | ------------------------------------------------- | ------------ | --------- |
-| [ST-GCN](https://arxiv.org/pdf/1801.07455v2.pdf) | 85.8          | [88.8(3D)](https://arxiv.org/pdf/1801.07455v2.pdf) | 79.2  ± 4.4  | 3.095     |
-|[SGN](https://arxiv.org/pdf/1904.01189.pdf)|74.6|[79.2(3D)](https://arxiv.org/pdf/1904.01189.pdf)|6.55 ± 0.47|0.721|
-|**TODO** [STID](https://arxiv.org/pdf/2208.05233.pdf)|-|-|-|-|
+| Model                                                 | Accuracy in experiment(%) | Accuracy in paper(%)                               | latency(ms) | Params(M) |
+| ----------------------------------------------------- | ------------------------- | -------------------------------------------------- | ----------- | --------- |
+| [ST-GCN](https://arxiv.org/pdf/1801.07455v2.pdf)      | 85.8                      | [88.8(3D)](https://arxiv.org/pdf/1801.07455v2.pdf) | 79.2  ± 4.4 | 3.095     |
+| [SGN](https://arxiv.org/pdf/1904.01189.pdf)           | 74.6                      | [79.2(3D)](https://arxiv.org/pdf/1904.01189.pdf)   | 6.55 ± 0.47 | 0.721     |
+| SGN+（Ours）                                          | 84.3                      | -                                                  | 12.4 ± 0.35 | 0.662     |
+| **TODO** [STID](https://arxiv.org/pdf/2208.05233.pdf) | -                         | -                                                  | -           | -         |
 
 ### Skeleton-based Fall detection results
 
@@ -81,13 +82,13 @@ Link:[Google Drive](https://drive.google.com/drive/folders/1Kz85dnCAErvlML9H-7WA
 
 ### Model's performances in pipeline 
 
-| Model                                              | FLOPS(G) | Params(M) | Latency(ms/frame)`*` | Info                                                                                           |
-| ------------------------------------------------- | -------- | --------- | ------------------------- | ---------------------------------------------------------------------------------------------- |
-| MFNet                                             | 0.67     | 4.10      | 9.2/Person                     | Pose estimation model.                                                                                   |
-| [PicoDet](https://arxiv.org/pdf/2111.00902.pdf)   | 1.18     | 0.97      | 13.7                      | Human detection model.                                                                         |  |
-| [ByteTrack](https://arxiv.org/pdf/2110.06864.pdf) | -        | -         | 7.3                       | Human tracking model.                                                        |
-| [SGN+](https://arxiv.org/pdf/1904.01189.pdf) | 2.73        | 1.02        |7.52                       | Action recognition model.                                                                        |
-| Total                                              | 4.58     | 6.09      | 37.72                        | [Video](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/video.mov) |
+| Model                                             | FLOPS(G) | Params(M) | Latency(ms/frame)`*` | Info                                                                                        |
+| ------------------------------------------------- | -------- | --------- | -------------------- | ------------------------------------------------------------------------------------------- |
+| MFNet                                             | 0.67     | 4.10      | 9.2/Person           | Pose estimation model.                                                                      |
+| [PicoDet](https://arxiv.org/pdf/2111.00902.pdf)   | 1.18     | 0.97      | 13.7                 | Human detection model.                                                                      |  |
+| [ByteTrack](https://arxiv.org/pdf/2110.06864.pdf) | -        | -         | 7.3                  | Human tracking model.                                                                       |
+| [SGN+](https://arxiv.org/pdf/1904.01189.pdf)      | 2.73     | 0.662     | 12.4                 | Action recognition model.                                                                   |
+| Total                                             | 4.58     | 6.09      | 42.6                 | [Video](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/video.mov) |
 
 `*`Info: Evaluating on M1Pro(8+2)。
 
