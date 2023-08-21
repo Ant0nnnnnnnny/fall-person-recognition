@@ -6,6 +6,7 @@ English | [简体中文](README_CN.md)
 </div>
 
 ## NEWS
+ 2023.8 —— **Real-time Skeleton-Based Fall Detection** is available now.**F1 Score:93.6%**.
 
  2023.8 —— **Skeleton-Based Fall Detection dataset** are available new, which is reprocessed from [UR Fall Dataset](http://fenix.ur.edu.pl/~mkepski/ds/uf.html), containing total 6872 samples.[Google Drive](https://drive.google.com/drive/folders/1Kz85dnCAErvlML9H-7WAhEzKbbWLHPKb?usp=drive_link)
 
@@ -65,6 +66,15 @@ Link:[Google Drive](https://drive.google.com/drive/folders/1Kz85dnCAErvlML9H-7WA
 | [ST-GCN](https://arxiv.org/pdf/1801.07455v2.pdf) | 85.8          | [88.8(3D)](https://arxiv.org/pdf/1801.07455v2.pdf) | 79.2  ± 4.4  | 3.095     |
 |[SGN](https://arxiv.org/pdf/1904.01189.pdf)|74.6|[79.2(3D)](https://arxiv.org/pdf/1904.01189.pdf)|6.55 ± 0.47|0.721|
 |**TODO** [STID](https://arxiv.org/pdf/2208.05233.pdf)|-|-|-|-|
+
+### Skeleton-based Fall detection results
+
+![Gif1](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/Clip1.gif)
+
+![Gif2](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/Clip2.gif)
+
+![Gif3](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/Clip3.gif)
+
 
 ### SGN+
 ![Figure](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/SGN-accuracy.png)

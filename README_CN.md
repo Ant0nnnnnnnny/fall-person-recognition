@@ -6,6 +6,8 @@
 </div>
 
 ## 新内容
+ 2023.8 —— 支持**基于骨骼点的实时跌倒识别**， **F1 Score为93.6%**。
+
  2023.8 —— 支持基于骨骼点的跌倒数据集。由[UR Fall Dataset](http://fenix.ur.edu.pl/~mkepski/ds/uf.html)预处理得到，共6872条数据。[Google Drive](https://drive.google.com/drive/folders/1Kz85dnCAErvlML9H-7WAhEzKbbWLHPKb?usp=drive_link)
 
  2023.8 —— 支持实时多人行为识别，**31FPS** on Apple M1Pro。
@@ -55,6 +57,13 @@ Config→[Config](https://github.com/qhtLucifer/fallen-person-recognize/blob/mai
 下载:[Google Drive](https://drive.google.com/drive/folders/1Kz85dnCAErvlML9H-7WAhEzKbbWLHPKb?usp=drive_link)(主要是不限速) [百度网盘](https://pan.baidu.com/s/1Usden9TvZ1Gw2FDZTdlRdw?pwd=4v7n)
 
 ## 成果
+### 跌倒识别效果展示
+
+![Gif1](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/Clip1.gif)
+
+![Gif2](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/Clip2.gif)
+
+![Gif3](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/Clip3.gif)
 
 ### 基于骨骼的行为识别模型对比
 
