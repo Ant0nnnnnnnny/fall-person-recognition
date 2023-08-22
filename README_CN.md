@@ -42,8 +42,20 @@
 
 ## 使用
 ```{bash}
-python video.py --video_path 视频路径 [-- enable_filter True]
+python video.py --video_path 视频路径 [--enable_filter] [--save_result] [--save_path 结果保存路径，以.mov为结尾] [--verbose] [--skeleton_visible]
 ```
+部分参数使用说明:
+
+`video_path`: 推理的视频路径。
+
+`save_result`: 是否保存推理结果，如果指定的话的话需要指定`save_path`。
+
+`save_path`: 推理结果保存的路径，目前仅支持.mov编码。
+
+`verbose`: 是否打印帧推理耗时。
+
+`skeleton_visible`: 是否将骨架进行可视化。
+
 ## 说明
 Config→[Config](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/docs/config.md)
 

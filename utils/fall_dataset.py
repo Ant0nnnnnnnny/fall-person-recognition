@@ -36,13 +36,7 @@ class FallTrainDataset(Dataset):
         
         for i in range(N):
 
-            Xt = X[0].view(T,V*C)
-
-            idx = torch.all(Xt,dim = 1)
-            
-            Xt_nonzero = Xt[idx,:]
-            # 对于不足seg的0填充
-            Xt_nonzero_pad = torch.nn.functional.pad(Xt_nonzero,(0,0,0,self.seg - Xt_nonzero.shape[0]))# shape: >=seg,V*C
+            Xt_nonzero_pad = torch.nn.functional.pad(new_X[i],(0,0,0,self.seg - new_X[i].shape[0]))# shape: >=seg,V*C
             # 抽帧采样到seg
             Xt_sampled  = torch.nn.functional.interpolate(Xt_nonzero_pad.unsqueeze(0).unsqueeze(0),size = (self.seg, V*C))[0]
             new_X = torch.concat([new_X,Xt_sampled],dim = 0)

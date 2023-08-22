@@ -52,7 +52,7 @@ class Pipeline():
         if self.args.save_result:
             assert self.args.save_path !=None,'Need to specify save path.'
             out = cv2.VideoWriter(os.path.join(self.args.save_path), cv2.VideoWriter_fourcc(*"avc1"), 30, (frame_width, frame_height),True) 
-
+        print(self.args)
         while True:
                 
             ret, frame = capture.read()
@@ -76,7 +76,7 @@ class Pipeline():
             dets = online_targets
 
             humans, humans_scaled = self.estimator.inference(frame,dets)
-            if self.args.enable_filter:
+            if not self.args.disable_filter:
                 for i in range(len(humans)):
                     humans[i] = self.filter.predict(humans[i],1)
                     humans_scaled[i] = self.scaled_filter.predict(humans_scaled[i],1)
@@ -133,7 +133,8 @@ class Pipeline():
                 if self.args.save_result:
                     out.release() 
                 break
-        out.release()
+        if self.args.save_result:
+            out.release()
 
     def initialize_argparser(self) ->None:
 
@@ -158,13 +159,13 @@ class Pipeline():
 
 
 
-        parser.add_argument('--enable_filter', type=bool, default = True)
-        parser.add_argument('--skeleton_visible',type = bool, default= True)
-        parser.add_argument('--verbose',type = bool, default= True)
+        parser.add_argument('--disable_filter', action='store_true')
+        parser.add_argument('--skeleton_visible',action='store_true')
+        parser.add_argument('--verbose',action='store_true')
 
 
         parser.add_argument('--video_path',type=str, required=True)
-        parser.add_argument('--save_result',type=bool, default=False)
+        parser.add_argument('--save_result',action='store_true')
         parser.add_argument('--save_path', type = str, default = None)
 
         self.args = parser.parse_args()

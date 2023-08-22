@@ -42,8 +42,21 @@ English | [简体中文](README_CN.md)
 
 ## Usage
 ```{bash}
-python video.py --video_path YOUR_VIDEO_PATH [-- enable_filter True]
+python video.py --video_path YOUR_VIDEO_PATH [-- disable_filter] [--save_result] [--save_path result.mov] [--skeleton_visible] [--verbose]
 ```
+Arguments:
+
+`video_path`: **REQUIRED**. The target to process frame by frame.
+
+`disable_filter`: Disable the filter used to smooth the skeleton.
+
+`save_result`: Save the inference result. The `save_path` need to by specified if `save_result` was specified.
+
+`save_path`: Specified path inference result saved.
+
+`skeleton_visible`: Draw skeleton in frame real-time.
+
+`verbose`: Print time details in inference.
 
 ## Docs
 Config→[Config](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/docs/config.md)
