@@ -87,7 +87,7 @@ Config→[Config](https://github.com/qhtLucifer/fallen-person-recognize/blob/mai
 | [PicoDet](https://arxiv.org/pdf/2111.00902.pdf)   | 1.18     | 0.97      | 13.7                      | 人体检测模型                                                                                   |  |
 | [ByteTrack](https://arxiv.org/pdf/2110.06864.pdf) | -        | -         | 7.3                       | 目标跟踪模型                                                                                   |
 | [SGN+](https://arxiv.org/pdf/1904.01189.pdf)      | 2.73     | 0.662     | 12.4                      | 行为识别模型                                                                                   |
-| 共计                                              | 4.58     | 6.09      | 42.6                      | [推理视频](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/video.mov) |
+| 共计                                              | 4.58     | 6.09      | 42.6                      |  |
 
 `*`说明: 基于M1Pro(8+2)平台推理。
 

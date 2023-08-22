@@ -88,7 +88,7 @@ Link:[Google Drive](https://drive.google.com/drive/folders/1Kz85dnCAErvlML9H-7WA
 | [PicoDet](https://arxiv.org/pdf/2111.00902.pdf)   | 1.18     | 0.97      | 13.7                 | Human detection model.                                                                      |  |
 | [ByteTrack](https://arxiv.org/pdf/2110.06864.pdf) | -        | -         | 7.3                  | Human tracking model.                                                                       |
 | [SGN+](https://arxiv.org/pdf/1904.01189.pdf)      | 2.73     | 0.662     | 12.4                 | Action recognition model.                                                                   |
-| Total                                             | 4.58     | 6.09      | 42.6                 | [Video](https://github.com/qhtLucifer/fallen-person-recognize/blob/main/examples/video.mov) |
+| Total                                             | 4.58     | 6.09      | 42.6                 |  |
 
 `*`Info: Evaluating on M1Pro(8+2)。
 
