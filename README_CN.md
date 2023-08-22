@@ -45,6 +45,7 @@
 python video.py --video_path 视频路径 [--enable_filter] [--save_result] [--save_path 结果保存路径，以.mov为结尾] [--verbose] [--skeleton_visible]
 ```
 部分参数使用说明:
+
 `disable_filter`: 禁用滤波器。
 
 `video_path`: 推理的视频路径。
