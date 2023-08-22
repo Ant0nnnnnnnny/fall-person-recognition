@@ -154,3 +154,7 @@ Config→[Config](https://github.com/qhtLucifer/fallen-person-recognize/blob/mai
 + [PicoDet](https://arxiv.org/pdf/2111.00902.pdf)
 + [ST-GCN](https://arxiv.org/pdf/1801.07455v2.pdf) 
 + [ByteTrack](https://arxiv.org/pdf/2110.06864.pdf)
++ [OneEuroFilter](https://dl.acm.org/doi/abs/10.1145/2207676.2208639)
++ [SGN](https://arxiv.org/pdf/1904.01189.pdf)
++ [NTU-RGB+D](https://openaccess.thecvf.com/content_cvpr_2016/html/Shahroudy_NTU_RGBD_A_CVPR_2016_paper.html)
++ [URFD](http://fenix.ur.edu.pl/~mkepski/ds/uf.html)

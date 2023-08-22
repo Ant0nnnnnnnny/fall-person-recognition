@@ -6,7 +6,7 @@ English | [简体中文](README_CN.md)
 </div>
 
 ## NEWS
- 2023.8 —— **Real-time Skeleton-Based Fall Detection** is available now.**F1 Score:93.6%**.
+ 2023.8 —— **Real-time Skeleton-Based Fall Detection** is available now. **F1 Score:93.6%**.
 
  2023.8 —— **Skeleton-Based Fall Detection dataset** are available new, which is reprocessed from [UR Fall Dataset](http://fenix.ur.edu.pl/~mkepski/ds/uf.html), containing total 6872 samples.[Google Drive](https://drive.google.com/drive/folders/1Kz85dnCAErvlML9H-7WAhEzKbbWLHPKb?usp=drive_link)
 
@@ -14,7 +14,7 @@ English | [简体中文](README_CN.md)
 
  2023.8 —— Real-time multi-person pose estimation are available now. **33FPS** on Apple M1Pro(CPU)。
 
- 2023.7 —— **Skeleton-Based Action recognition dataset has been added to project**，Which contains over 110000 samples. [Google Drive](https://drive.google.com/drive/folders/1-n0jYog_vLufOdzq5lYgvuI1q_ulrpD8?usp=drive_link)
+ 2023.7 —— **Skeleton-Based Action recognition dataset has been added to project**, Which contains over 110000 samples. [Google Drive](https://drive.google.com/drive/folders/1-n0jYog_vLufOdzq5lYgvuI1q_ulrpD8?usp=drive_link)
 
  2023.7 —— **Multi-pose estimation** are available now.
 
@@ -153,3 +153,7 @@ Deploy models based on `micro-python`,`Django`and `Flutter`. `micro-python` is u
 + [PicoDet](https://arxiv.org/pdf/2111.00902.pdf)
 + [ST-GCN](https://arxiv.org/pdf/1801.07455v2.pdf) 
 + [ByteTrack](https://arxiv.org/pdf/2110.06864.pdf)
++ [OneEuroFilter](https://dl.acm.org/doi/abs/10.1145/2207676.2208639)
++ [SGN](https://arxiv.org/pdf/1904.01189.pdf)
++ [NTU-RGB+D](https://openaccess.thecvf.com/content_cvpr_2016/html/Shahroudy_NTU_RGBD_A_CVPR_2016_paper.html)
++ [URFD](http://fenix.ur.edu.pl/~mkepski/ds/uf.html)
