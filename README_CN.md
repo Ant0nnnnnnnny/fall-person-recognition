@@ -6,7 +6,7 @@
 </div>
 
 ## 新内容
- 2023.8 —— 支持**基于骨骼点的实时跌倒识别**， **F1 Score为93.6%**。
+ 2023.8 —— 支持**基于骨骼点的实时跌倒识别**， **F1 Score为94.3%**。
 
  2023.8 —— 支持基于骨骼点的跌倒数据集。由[UR Fall Dataset](http://fenix.ur.edu.pl/~mkepski/ds/uf.html)预处理得到，共6872条数据。[Google Drive](https://drive.google.com/drive/folders/1Kz85dnCAErvlML9H-7WAhEzKbbWLHPKb?usp=drive_link)
 

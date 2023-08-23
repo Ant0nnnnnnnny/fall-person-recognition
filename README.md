@@ -6,7 +6,7 @@ English | [简体中文](README_CN.md)
 </div>
 
 ## NEWS
- 2023.8 —— **Real-time Skeleton-Based Fall Detection** is available now. **F1 Score:93.6%**.
+ 2023.8 —— **Real-time Skeleton-Based Fall Detection** is available now. **F1 Score:94.3%**.
 
  2023.8 —— **Skeleton-Based Fall Detection dataset** are available new, which is reprocessed from [UR Fall Dataset](http://fenix.ur.edu.pl/~mkepski/ds/uf.html), containing total 6872 samples.[Google Drive](https://drive.google.com/drive/folders/1Kz85dnCAErvlML9H-7WAhEzKbbWLHPKb?usp=drive_link)
 
