@@ -1,4 +1,4 @@
-# fallen-person-recognition
+# fall-person-recognition
 <div align="center">
 
 English | [简体中文](README_CN.md)
