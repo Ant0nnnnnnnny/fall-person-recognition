@@ -52,7 +52,7 @@ class Pipeline():
         if self.args.save_result:
             assert self.args.save_path !=None,'Need to specify save path.'
             out = cv2.VideoWriter(os.path.join(self.args.save_path), cv2.VideoWriter_fourcc(*"avc1"), 30, (frame_width, frame_height),True) 
-        print(self.args)
+     
         while True:
                 
             ret, frame = capture.read()
@@ -146,12 +146,12 @@ class Pipeline():
         parser.add_argument('--device', type=str, default='cpu')
          
 
-        parser.add_argument('--estimator_onnx_path',type = str, default=os.path.join('checkpoints','mfnet','mfnet-large.onnx'))
+        parser.add_argument('--estimator_onnx_path',type = str, default=os.path.join('checkpoints','mfnet','mfnet-small.onnx'))
         parser.add_argument('--detector_weight_path', type=str, default= os.path.join('checkpoints', 'pico.onnx'))
-        parser.add_argument('--classifier_weight_path', type=str, default=os.path.join('checkpoints','sgn','fall_detect936.pth')) #os.path.join('labels.txt')
+        parser.add_argument('--classifier_weight_path', type=str, default=os.path.join('checkpoints','sgn','fall_detect928-DA-SEG30.pth')) #os.path.join('labels.txt')
         parser.add_argument('--labels_path', type=str, default=os.path.join('dataset','FallData','label.txt'))
 
-        parser.add_argument('--seg', type=int, default=50)
+        parser.add_argument('--seg', type=int, default=30)
         parser.add_argument('--num_joint', type=int, default=17)
         parser.add_argument('--num_classes', type=int, default=1)
         parser.add_argument('--channels', type=int, default=2)
