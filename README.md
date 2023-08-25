@@ -8,15 +8,15 @@ English | [简体中文](README_CN.md)
 ## NEWS
  2023.8 —— **Real-time Skeleton-Based Fall Detection** is available now. **F1 Score:94.3%**.
 
- 2023.8 —— **Skeleton-Based Fall Detection dataset** are available new, which is reprocessed from [UR Fall Dataset](http://fenix.ur.edu.pl/~mkepski/ds/uf.html), containing total 6872 samples.[Google Drive](https://drive.google.com/drive/folders/1Kz85dnCAErvlML9H-7WAhEzKbbWLHPKb?usp=drive_link)
+ 2023.8 —— **Skeleton-Based Fall Detection dataset** is available, which is reprocessed from [UR Fall Dataset](http://fenix.ur.edu.pl/~mkepski/ds/uf.html), containing total 6872 samples.[Google Drive](https://drive.google.com/drive/folders/1Kz85dnCAErvlML9H-7WAhEzKbbWLHPKb?usp=drive_link)
 
- 2023.8 —— Real-time multi-person skeleton-based action recognition are available now. **31FPS** on Apple M1Pro(CPU)。
+ 2023.8 —— Real-time multi-person skeleton-based action recognition is available. **31FPS** on Apple M1Pro(CPU)。
 
- 2023.8 —— Real-time multi-person pose estimation are available now. **33FPS** on Apple M1Pro(CPU)。
+ 2023.8 —— Real-time multi-person pose estimation is available. **33FPS** on Apple M1Pro(CPU)。
 
  2023.7 —— **Skeleton-Based Action recognition dataset has been added to project**, Which contains over 110000 samples. [Google Drive](https://drive.google.com/drive/folders/1-n0jYog_vLufOdzq5lYgvuI1q_ulrpD8?usp=drive_link)
 
- 2023.7 —— **Multi-pose estimation** are available now.
+ 2023.7 —— **Multi-pose estimation** is available.
 
  2023.2 —— **Real-time single person pose estimation** is available. 
 
@@ -32,7 +32,7 @@ English | [简体中文](README_CN.md)
   - [x] Constructing on light model.
   - [x] Improve model performance.
 - [ ] Improve model performance.
-  - [x] Skeleton noise filter in video inference.
+  - [x] Skeleton noise filter in video inference.([OneEuro filter](https://dl.acm.org/doi/abs/10.1145/2207676.2208639))
   - [ ] Improve PicoDet.
   - [ ] Improve Pipeline.
   - [ ] Improve Tracker.
