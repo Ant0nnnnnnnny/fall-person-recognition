@@ -1,10 +1,10 @@
 dsntnn==0.5.3
-json_tricks==3.16.1
+json_tricks==3.17.3
 lap==0.4.0
-matplotlib==3.6.2
-numpy==1.24.1
-onnxruntime==1.12.1
-opencv_python==4.7.0.68
-scipy==1.10.1
+matplotlib==3.7.1
+numpy==1.25.2
+onnxruntime==1.15.1
+opencv_contrib_python==4.8.0.76
+scipy==1.11.2
 torch==2.0.1
 torchvision==0.15.2a0
