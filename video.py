@@ -64,60 +64,58 @@ class Pipeline():
 
             det_time = time.time()
 
-            if len(dets) == 0:
-                continue
+            if len(dets) != 0:
+                
 
-            online_targets = self.tracker.update(torch.tensor(np.array(dets)),counter)
-        
-            counter += 1 
-            track_time = time.time() 
-            if len(online_targets) == 0:
-                continue
-            dets = online_targets
-
-            humans, humans_scaled = self.estimator.inference(frame,dets)
-            if not self.args.disable_filter:
-                for i in range(len(humans)):
-                    humans[i] = self.filter.predict(humans[i],1)
-                    humans_scaled[i] = self.scaled_filter.predict(humans_scaled[i],1)
-                    
-            estimation_time = time.time()
+                online_targets = self.tracker.update(torch.tensor(np.array(dets)),counter)
             
-            labels = []
-            probs = []
-            for idx in range(len(online_targets)):
-                if len(humans_scaled) == 0:
-                    logging.info('No skeleton detected')
-                    break
-                if online_targets[idx][4] in self.frames_buffer.keys():
-                    
-                    self.frames_buffer[online_targets[idx][4]].append(humans_scaled[idx])
-                    if len(self.frames_buffer[online_targets[idx][4]]) >= self.args.seg:
-                        self.frames_buffer[online_targets[idx][4]] = self.frames_buffer[online_targets[idx][4]][-self.args.seg:]
-                        label, prob = self.classifier.infer(torch.tensor(self.frames_buffer[online_targets[idx][4]]))
-                        if round(prob)==0:
-                            text_duration = 30
-                        labels.append(label)
-                        probs.append(prob)
-                    else:
+                counter += 1 
+                track_time = time.time() 
+                dets = online_targets
+
+                humans, humans_scaled = self.estimator.inference(frame,dets)
+                if not self.args.disable_filter:
+                    for i in range(len(humans)):
+                        humans[i] = self.filter.predict(humans[i],1)
+                        humans_scaled[i] = self.scaled_filter.predict(humans_scaled[i],1)
+                        
+                estimation_time = time.time()
+                
+                labels = []
+                probs = []
+                for idx in range(len(online_targets)):
+                    if len(humans_scaled) == 0:
+                        logging.info('No skeleton detected')
+                        break
+                    if online_targets[idx][4] in self.frames_buffer.keys():
+                        
+                        self.frames_buffer[online_targets[idx][4]].append(humans_scaled[idx])
+                        if len(self.frames_buffer[online_targets[idx][4]]) >= self.args.seg:
+                            self.frames_buffer[online_targets[idx][4]] = self.frames_buffer[online_targets[idx][4]][-self.args.seg:]
+                            label, prob = self.classifier.infer(torch.tensor(self.frames_buffer[online_targets[idx][4]]))
+                            if round(prob)==0:
+                                text_duration = 30
+                            labels.append(label)
+                            probs.append(prob)
+                        else:
+                            labels.append('Tracking')
+                            probs.append(0)
+                    else :
+                        self.frames_buffer.update({online_targets[idx][4]:[humans_scaled[idx]]})
                         labels.append('Tracking')
                         probs.append(0)
-                else :
-                    self.frames_buffer.update({online_targets[idx][4]:[humans_scaled[idx]]})
-                    labels.append('Tracking')
-                    probs.append(0)
-            
-            end = time.time()
-            if self.args.verbose:
-                logging.info('Total {total:.2f}ms/frame\t Detect cost: {det_c:.2f}ms/frame \t Tracker cost: {t_c:.2f}ms/frame \t Pose estimation: {p_c:.2f}ms \t Action recognition: {r_c:.2f}ms'.
-                            format(total = (end -before)*1000, 
-                                    det_c =( det_time - before)*1000, 
-                                    t_c = (track_time - det_time)*1000, 
-                                    p_c = (estimation_time - track_time)*1000,
-                                    r_c = (end - estimation_time)*1000),
-                                )
-            
-            frame = self.estimator.vis(frame,humans,dets, labels, probs, vis_skeleton = self.args.skeleton_visible)
+                
+                end = time.time()
+                if self.args.verbose:
+                    logging.info('Total {total:.2f}ms/frame\t Detect cost: {det_c:.2f}ms/frame \t Tracker cost: {t_c:.2f}ms/frame \t Pose estimation: {p_c:.2f}ms \t Action recognition: {r_c:.2f}ms'.
+                                format(total = (end -before)*1000, 
+                                        det_c =( det_time - before)*1000, 
+                                        t_c = (track_time - det_time)*1000, 
+                                        p_c = (estimation_time - track_time)*1000,
+                                        r_c = (end - estimation_time)*1000),
+                                    )
+                
+                frame = self.estimator.vis(frame,humans,dets, labels, probs, vis_skeleton = self.args.skeleton_visible)
 
             if text_duration !=0:
 
