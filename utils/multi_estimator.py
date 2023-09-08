@@ -209,7 +209,7 @@ class MultiEstimator:
             cv2.rectangle(npimg, (int(box[0]), int(box[1])), (int(
                 box[2]), int(box[3])), (0, 0, 255), 4)
             
-            cv2.putText(npimg, labels[i]if probs[i] == 0 else labels[i] +':'+str(probs), (int(box[0]), int(box[1])), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+            cv2.putText(npimg, labels[i]if probs[i] == 0 else labels[i] +':'+str(probs[i]), (int(box[0]), int(box[1])), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
 
             if vis_skeleton:
                 for i in range(17):
