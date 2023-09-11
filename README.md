@@ -6,6 +6,8 @@ English | [简体中文](README_CN.md)
 </div>
 
 ## NEWS
+ 2023.9 —— Support **RTMPose**.
+
  2023.8 —— **Real-time Skeleton-Based Fall Detection** is available now. **F1 Score:94.3%**.
 
  2023.8 —— **Skeleton-Based Fall Detection dataset** is available, which is reprocessed from [UR Fall Dataset](http://fenix.ur.edu.pl/~mkepski/ds/uf.html), containing total 6872 samples.[Google Drive](https://drive.google.com/drive/folders/1Kz85dnCAErvlML9H-7WAhEzKbbWLHPKb?usp=drive_link)
@@ -97,7 +99,7 @@ Link:[Google Drive](https://drive.google.com/drive/folders/1Kz85dnCAErvlML9H-7WA
 
 | Model                                             | FLOPS(G) | Params(M) | Latency(ms/frame)`*` | Info                                                                                        |
 | ------------------------------------------------- | -------- | --------- | -------------------- | ------------------------------------------------------------------------------------------- |
-| MFNet                                             | 0.67     | 4.10      | 9.2/Person           | Pose estimation model.                                                                      |
+| [RTMPose](https://doi.org/10.48550/arxiv.2303.07399)                                             | 0.68    |  5.47      | 6.2/Person           | Pose estimation model.                                                                      |
 | [PicoDet](https://arxiv.org/pdf/2111.00902.pdf)   | 1.18     | 0.97      | 13.7                 | Human detection model.                                                                      |  |
 | [ByteTrack](https://arxiv.org/pdf/2110.06864.pdf) | -        | -         | 7.3                  | Human tracking model.                                                                       |
 | [SGN+](https://arxiv.org/pdf/1904.01189.pdf)      | 2.73     | 0.662     | 12.4                 | Action recognition model.                                                                   |
@@ -157,3 +159,4 @@ Deploy models based on `micro-python`,`Django`and `Flutter`. `micro-python` is u
 + [SGN](https://arxiv.org/pdf/1904.01189.pdf)
 + [NTU-RGB+D](https://openaccess.thecvf.com/content_cvpr_2016/html/Shahroudy_NTU_RGBD_A_CVPR_2016_paper.html)
 + [URFD](http://fenix.ur.edu.pl/~mkepski/ds/uf.html)
++ [RTMPose](https://doi.org/10.48550/arxiv.2303.07399)

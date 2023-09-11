@@ -144,7 +144,7 @@ class Pipeline():
         parser.add_argument('--device', type=str, default='cpu')
          
 
-        parser.add_argument('--estimator_onnx_path',type = str, default=os.path.join('checkpoints','mfnet','mfnet-small.onnx'))
+        parser.add_argument('--estimator_onnx_path',type = str, default=os.path.join('checkpoints','rtmpose','rtmpose-large.onnx'))
         parser.add_argument('--detector_weight_path', type=str, default= os.path.join('checkpoints', 'pico.onnx'))
         parser.add_argument('--classifier_weight_path', type=str, default=os.path.join('checkpoints','sgn','fall_detect928-DA-SEG30.pth')) #os.path.join('labels.txt')
         parser.add_argument('--labels_path', type=str, default=os.path.join('dataset','FallData','label.txt'))

@@ -6,6 +6,8 @@
 </div>
 
 ## 新内容
+ 2023.9 —— 支持 **RTMPose**.
+
  2023.8 —— 支持**基于骨骼点的实时跌倒识别**， **F1 Score为94.3%**。
 
  2023.8 —— 支持基于骨骼点的跌倒数据集。由[UR Fall Dataset](http://fenix.ur.edu.pl/~mkepski/ds/uf.html)预处理得到，共6872条数据。[Google Drive](https://drive.google.com/drive/folders/1Kz85dnCAErvlML9H-7WAhEzKbbWLHPKb?usp=drive_link)
@@ -97,7 +99,7 @@ Config→[Config](https://github.com/qhtLucifer/fallen-person-recognize/blob/mai
 
 | 模型                                              | FLOPS(G) | 参数量(M) | 平均推理耗时(ms/frame)`*` | 说明                                                                                           |
 | ------------------------------------------------- | -------- | --------- | ------------------------- | ---------------------------------------------------------------------------------------------- |
-| MFNet                                             | 0.67     | 4.10      | 9.2/人                    | 姿态估计模型                                                                                   |
+| [RTMPose](https://doi.org/10.48550/arxiv.2303.07399)                                             | 0.68    |  5.47      | 6.2/人           |姿态估计模型                                                                                   |
 | [PicoDet](https://arxiv.org/pdf/2111.00902.pdf)   | 1.18     | 0.97      | 13.7                      | 人体检测模型                                                                                   |  |
 | [ByteTrack](https://arxiv.org/pdf/2110.06864.pdf) | -        | -         | 7.3                       | 目标跟踪模型                                                                                   |
 | [SGN+](https://arxiv.org/pdf/1904.01189.pdf)      | 2.73     | 0.662     | 12.4                      | 行为识别模型                                                                                   |
@@ -158,3 +160,4 @@ Config→[Config](https://github.com/qhtLucifer/fallen-person-recognize/blob/mai
 + [SGN](https://arxiv.org/pdf/1904.01189.pdf)
 + [NTU-RGB+D](https://openaccess.thecvf.com/content_cvpr_2016/html/Shahroudy_NTU_RGBD_A_CVPR_2016_paper.html)
 + [URFD](http://fenix.ur.edu.pl/~mkepski/ds/uf.html)
++ [RTMPose](https://doi.org/10.48550/arxiv.2303.07399)
